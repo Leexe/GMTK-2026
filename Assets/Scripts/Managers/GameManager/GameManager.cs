@@ -8,7 +8,7 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public float RunTime;
 	private Sequence _timeSlowSequence;
-	
+
 	[HideInInspector]
 	public Action<bool> OnInteractableEnter;
 
