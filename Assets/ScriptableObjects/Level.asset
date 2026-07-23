@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   <LevelsList>k__BackingField:
   - NpcGuaranteedSpawns: 01000000
-    NpcSpawnRandomRange: {x: 1, y: 2}
+    NpcSpawnRandomRange: {x: 1, y: 1}
   - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 1, y: 3}
-  - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 1, y: 3}
-  - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 2, y: 4}
-  - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 2, y: 4}
-  - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 2, y: 5}
+    NpcSpawnRandomRange: {x: 2, y: 2}
   - NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
   - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 2, y: 5}
+    NpcSpawnRandomRange: {x: 2, y: 3}
   - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 4, y: 5}
+    NpcSpawnRandomRange: {x: 2, y: 4}
   - NpcGuaranteedSpawns: 
-    NpcSpawnRandomRange: {x: 5, y: 6}
+    NpcSpawnRandomRange: {x: 2, y: 3}
+  - NpcGuaranteedSpawns: 
+    NpcSpawnRandomRange: {x: 2, y: 3}
+  - NpcGuaranteedSpawns: 
+    NpcSpawnRandomRange: {x: 2, y: 3}
+  - NpcGuaranteedSpawns: 
+    NpcSpawnRandomRange: {x: 3, y: 4}
+  - NpcGuaranteedSpawns: 
+    NpcSpawnRandomRange: {x: 2, y: 3}

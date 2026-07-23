@@ -37,7 +37,6 @@ public class NpcCountUI : MonoBehaviour
 	private void UpdateUI()
 	{
 		Dictionary<NpcRoles, int> npcCount = GameManager.Instance.NpcCount;
-		Debug.Log(npcCount[NpcRoles.Worker]);
 		_workerCount.text = npcCount[NpcRoles.Worker].ToString();
 		_physCount.text = npcCount[NpcRoles.Psychologist].ToString();
 		_guardCount.text = npcCount[NpcRoles.Guard].ToString();

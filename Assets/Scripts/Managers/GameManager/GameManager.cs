@@ -49,6 +49,8 @@ public class GameManager : MonoSingleton<GameManager>
 	public float RunTime;
 	private Sequence _timeSlowSequence;
 	private int _currentFloor;
+	private bool _gameOver;
+	private bool _openedDoor;
 
 	// Events
 
@@ -103,22 +105,27 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public void ContinueToNextFloor()
 	{
-		if (_currentFloor >= LevelsData.LevelsList.Count - 1)
+		if (_currentFloor >= LevelsData.LevelsList.Count || _gameOver)
 		{
 			return;
 		}
 
 		_currentFloor++;
-		HandleWorkers();
-		EngineDeteriorate();
+		_openedDoor = false;
 		CheckWinCondition();
+		HandleWorkers();
+		if (EngineDeteriorate())
+		{
+			return;
+		}
 		PrintNpcsIdentities();
 	}
 
 	public void AcceptNpcs()
 	{
-		if (_currentFloor < LevelsData.LevelsList.Count)
+		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
 		{
+			_openedDoor = true;
 			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
 			{
 				NpcCount[kvp.Key] += kvp.Value;
@@ -165,71 +172,87 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		int totalKillsNeeded = skinWalkerCount * _skinWalkerKillCount;
-
-		// Kill Guards First
-		int guardsToKill = Mathf.Min(NpcCount[NpcRoles.Guard], totalKillsNeeded);
-		NpcCount[NpcRoles.Guard] -= guardsToKill;
-		int remainingKills = totalKillsNeeded - guardsToKill;
-
-		// Kill Other Npcs
-		while (remainingKills > 0)
+		// Kill Guards If Any
+		if (NpcCount[NpcRoles.Guard] > 0)
 		{
-			var availableVictims = new List<NpcRoles>();
-			foreach (KeyValuePair<NpcRoles, int> kvp in NpcCount)
+			NpcCount[NpcRoles.Guard]--;
+		}
+		// Kill Other Npcs, If No Guard
+		else
+		{
+			int totalKillsNeeded = skinWalkerCount * _skinWalkerKillCount;
+			while (totalKillsNeeded > 0)
 			{
-				if (kvp.Key != NpcRoles.Skinwalker && kvp.Value > 0)
+				var availableVictims = new List<NpcRoles>();
+				foreach (KeyValuePair<NpcRoles, int> kvp in NpcCount)
 				{
-					for (int i = 0; i < kvp.Value; i++)
+					if (kvp.Key != NpcRoles.Skinwalker && kvp.Value > 0)
 					{
-						availableVictims.Add(kvp.Key);
+						for (int i = 0; i < kvp.Value; i++)
+						{
+							availableVictims.Add(kvp.Key);
+						}
 					}
 				}
-			}
 
-			if (availableVictims.Count == 0)
-			{
-				OnGameLose?.Invoke();
-				return;
-			}
+				if (availableVictims.Count == 0)
+				{
+					OnGameLose?.Invoke();
+					Debug.Log("Game Lose");
+					_gameOver = true;
+					return;
+				}
 
-			int randomIndex = UnityEngine.Random.Range(0, availableVictims.Count);
-			NpcRoles victimRole = availableVictims[randomIndex];
-			NpcCount[victimRole]--;
-			remainingKills--;
+				int randomIndex = UnityEngine.Random.Range(0, availableVictims.Count);
+				NpcRoles victimRole = availableVictims[randomIndex];
+				NpcCount[victimRole]--;
+				totalKillsNeeded--;
+			}
 		}
 
 		// Clear Skin Walkers
 		NpcCount[NpcRoles.Skinwalker] = 0;
 	}
 
-	private void EngineDeteriorate()
+	private bool EngineDeteriorate()
 	{
 		float maxDeterioration = _engineMinDeterioration + (_currentFloor * _engineDeteriorateScaling);
 		float minDeterioration = maxDeterioration * _engineDeteriorateVariance;
 		int deteriorateAmount = Mathf.RoundToInt(UnityEngine.Random.Range(minDeterioration, maxDeterioration));
 		Debug.Log($"Engine Damaged -{deteriorateAmount}");
 		EngineIntegrity -= Mathf.Clamp(deteriorateAmount, 0, _maxEngineIntegrity);
-		CheckLoseCondition();
+		if (CheckLoseCondition())
+		{
+			return false;
+		}
 		OnEngineUpdate?.Invoke();
+		return true;
 	}
 
-	private void CheckWinCondition()
+	private bool CheckWinCondition()
 	{
-		if (_currentFloor == LevelsData.LevelsList.Count - 1)
+		if (_currentFloor == LevelsData.LevelsList.Count && !_gameOver)
 		{
 			Debug.Log("Won Game");
 			OnGameWin?.Invoke();
+			_gameOver = true;
+			return true;
 		}
+
+		return false;
 	}
 
-	private void CheckLoseCondition()
+	private bool CheckLoseCondition()
 	{
-		if (EngineIntegrity <= 0)
+		if (EngineIntegrity <= 0 && !_gameOver)
 		{
 			Debug.Log("Lost Game");
 			OnGameLose?.Invoke();
+			_gameOver = true;
+			return true;
 		}
+
+		return false;
 	}
 
 	// Cursor
