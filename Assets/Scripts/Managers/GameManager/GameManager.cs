@@ -112,7 +112,10 @@ public class GameManager : MonoSingleton<GameManager>
 
 		_currentFloor++;
 		_openedDoor = false;
-		CheckWinCondition();
+		if (CheckWinCondition())
+		{
+			return;
+		}
 		HandleWorkers();
 		if (EngineDeteriorate())
 		{
@@ -160,7 +163,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		float workerGain = NpcCount[NpcRoles.Worker] * _workerEngineMult;
 		Debug.Log($"Engine Repaired +{workerGain}");
-		EngineIntegrity += Mathf.Clamp(workerGain, 0, _maxEngineIntegrity);
+		EngineIntegrity = Mathf.Clamp(EngineIntegrity + workerGain, 0, _maxEngineIntegrity);
 		OnEngineUpdate?.Invoke();
 	}
 
@@ -220,13 +223,13 @@ public class GameManager : MonoSingleton<GameManager>
 		float minDeterioration = maxDeterioration * _engineDeteriorateVariance;
 		int deteriorateAmount = Mathf.RoundToInt(UnityEngine.Random.Range(minDeterioration, maxDeterioration));
 		Debug.Log($"Engine Damaged -{deteriorateAmount}");
-		EngineIntegrity -= Mathf.Clamp(deteriorateAmount, 0, _maxEngineIntegrity);
+		EngineIntegrity = Mathf.Clamp(EngineIntegrity - deteriorateAmount, 0, _maxEngineIntegrity);
 		if (CheckLoseCondition())
 		{
-			return false;
+			return true;
 		}
 		OnEngineUpdate?.Invoke();
-		return true;
+		return false;
 	}
 
 	private bool CheckWinCondition()
