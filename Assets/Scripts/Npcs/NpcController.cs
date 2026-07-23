@@ -22,6 +22,9 @@ public class NpcController : MonoBehaviour
 	private float _lerpDuration = 0.5f;
 
 	[SerializeField]
+	private float _lerpDelay = 0.25f;
+
+	[SerializeField]
 	private Ease _lerpEase = Ease.InOutQuad;
 
 	public System.Action<NpcController> OnArrivedAtPosition;
@@ -32,6 +35,7 @@ public class NpcController : MonoBehaviour
 	private NpcRoles _role;
 	private Sequence _bounceSequence;
 	private Tween _lerpTween;
+	private Tween _delayTween;
 	private Vector3 _basePosition;
 
 	public void Initialize(NpcRoles role, Vector3 position)
@@ -52,9 +56,11 @@ public class NpcController : MonoBehaviour
 	{
 		StopBounce();
 		_lerpTween.Stop();
-		StartBounce();
 
-		_lerpTween = Tween.Position(transform, targetPosition, _lerpDuration, _lerpEase);
+		float delay = Random.Range(0f, _lerpDelay);
+		_delayTween = Tween.Delay(this, delay, target => target.StartBounce());
+
+		_lerpTween = Tween.Position(transform, targetPosition, _lerpDuration, _lerpEase, startDelay: delay);
 		_lerpTween.OnComplete(
 			target: this,
 			target =>
@@ -88,7 +94,7 @@ public class NpcController : MonoBehaviour
 
 	private void StartBounce()
 	{
-		StopBounce();
+		_bounceSequence.Stop();
 
 		Transform targetTransform = _visuals != null ? _visuals.transform : transform;
 		float halfDuration = _bounceDuration / 2f;
@@ -104,6 +110,7 @@ public class NpcController : MonoBehaviour
 
 	private void StopBounce()
 	{
+		_delayTween.Stop();
 		_bounceSequence.Stop();
 		_visuals.transform.localPosition = Vector3.zero;
 	}

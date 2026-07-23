@@ -26,9 +26,14 @@ public class NpcSpawner : MonoBehaviour
 	// Events
 	public Action OnAllNpcsArrived;
 
-	private void Start()
+	private void Awake()
 	{
 		InitializePool();
+	}
+
+	private void Start()
+	{
+		HandleNewFloor();
 	}
 
 	private void InitializePool()
@@ -73,7 +78,10 @@ public class NpcSpawner : MonoBehaviour
 		_arrivedNpcCount = 0;
 
 		int currentFloor = GameManager.Instance.CurrentFloor;
-		Dictionary<NpcRoles, int> guaranteedSpawns = GameManager.Instance.LevelInstances[currentFloor].NpcGuaranteedSpawns;
+		Dictionary<NpcRoles, int> guaranteedSpawns = GameManager
+			.Instance
+			.LevelInstances[currentFloor]
+			.NpcGuaranteedSpawns;
 		List<NpcRoles> rolesToSpawn = new();
 		foreach (KeyValuePair<NpcRoles, int> kvp in guaranteedSpawns)
 		{
@@ -95,7 +103,7 @@ public class NpcSpawner : MonoBehaviour
 			int spawnIndex = GetRandomAvailableSpawnIndex();
 			if (spawnIndex < 0)
 			{
-				Debug.LogWarning("No available spawn points")
+				Debug.LogWarning("No available spawn points");
 				spawnIndex = i % _spawnPoints.Count;
 			}
 
