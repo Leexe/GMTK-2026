@@ -17,7 +17,6 @@ public class VisualNovelUI : MonoBehaviour
 	[SerializeField]
 	private DialogueController _dialogueController;
 
-
 	[TitleGroup("References")]
 	[FoldoutGroup("References/Game References")]
 	[SerializeField]
@@ -25,7 +24,7 @@ public class VisualNovelUI : MonoBehaviour
 
 	[FoldoutGroup("References/Game References")]
 	[SerializeField]
-	private VisualNovelDictionarySO _visualNovelDictionary;
+	private DialogueDictionarySO _dialogueDictionary;
 
 	[FoldoutGroup("References/Character Sprite References")]
 	[SerializeField]
@@ -218,7 +217,7 @@ public class VisualNovelUI : MonoBehaviour
 			_backgroundImage.color = Color.clear;
 			return;
 		}
-		if (_visualNovelDictionary.BackgroundSpriteMap.TryGetValue(backgroundKey, out Sprite bgSprite))
+		if (_dialogueDictionary.BackgroundSpriteMap.TryGetValue(backgroundKey, out Sprite bgSprite))
 		{
 			_backgroundImage.color = Color.white;
 			_backgroundImage.sprite = bgSprite;
@@ -307,8 +306,6 @@ public class VisualNovelUI : MonoBehaviour
 	{
 		_typewriter.SkipTypewriter();
 	}
-
-
 
 	#endregion
 
@@ -404,7 +401,7 @@ public class VisualNovelUI : MonoBehaviour
 		// Update Sprite if key provided
 		if (!string.IsNullOrEmpty(spriteKey))
 		{
-			if (_visualNovelDictionary.CharacterSpriteMap.TryGetValue(spriteKey, out Sprite newSprite))
+			if (_dialogueDictionary.CharacterSpriteMap.TryGetValue(spriteKey, out Sprite newSprite))
 			{
 				character.SwitchSprite(newSprite);
 			}

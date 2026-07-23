@@ -19,7 +19,7 @@ public class DialogueSFX : MonoBehaviour
 
 	[FoldoutGroup("References")]
 	[SerializeField]
-	private VisualNovelDictionarySO _vnDictionary;
+	private DialogueDictionarySO _vnDictionary;
 
 	[FoldoutGroup("Voice Fade Out")]
 	[SerializeField]

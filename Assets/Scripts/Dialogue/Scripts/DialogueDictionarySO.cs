@@ -8,7 +8,7 @@ using UnityEngine;
 	menuName = "ScriptableObjects/VisualNovel/VisualNovelDictionary",
 	order = 1
 )]
-public class VisualNovelDictionarySO : SerializedScriptableObject
+public class DialogueDictionarySO : SerializedScriptableObject
 {
 	public Dictionary<string, EventReference> MusicMap = new();
 	public Dictionary<string, EventReference> SFXMap = new();

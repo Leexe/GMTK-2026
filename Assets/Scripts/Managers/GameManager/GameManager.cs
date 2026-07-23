@@ -1,22 +1,40 @@
 using System;
+using System.Collections.Generic;
 using PrimeTween;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+	[Header("References")]
+	[SerializeField]
+	public LevelSO LevelsData;
+
+	[SerializeField]
+	public RolesSO RolesData;
+
+	[Header("Worker Data")]
+	[SerializeField]
+	private float _workerEngineMult = 1.5f;
+
+	[Header("SkinWalker Data")]
+	[SerializeField]
+	private int _skinWalkerKillCount = 2;
+
+	[Header("Engine Data")]
+	[SerializeField]
+	private float _maxEngineIntegrity = 100f;
+
+	[SerializeField]
+	private float _engineMinDeterioration = 5f;
+
+	[SerializeField]
+	private float _engineDeteriorateScaling = 0.5f;
+
+	[SerializeField]
+	[Range(0f, 1f)]
+	private float _engineDeteriorateVariance = 0.9f;
+
 	private static float _effectTimeScale = 1f; // temp effects
-
-	public float RunTime;
-	private Sequence _timeSlowSequence;
-
-	[HideInInspector]
-	public Action<bool> OnInteractableEnter;
-
-	[HideInInspector]
-	public Action OnInteractableExit;
-
-	[HideInInspector]
-	public Action<string> OnItemPickUp;
 
 	public static float BaseTimeScale { get; private set; } = 1f;
 
@@ -24,28 +42,194 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public static bool IsPaused { get; private set; }
 
-	// Unity Functions
+	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
+	public List<LevelInstance> LevelInstances { private set; get; }
+	public float EngineIntegrity { private set; get; }
+	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
+	public float RunTime;
+	private Sequence _timeSlowSequence;
+	private int _currentFloor;
+
+	// Events
+
+	[HideInInspector]
+	public Action OnGameLose;
+
+	[HideInInspector]
+	public Action OnGameWin;
+
+	[HideInInspector]
+	public Action OnNpcUpdate;
+
+	[HideInInspector]
+	public Action OnEngineUpdate;
+
+	// Unity Events
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		InitializeNpcCount();
+		InitializeLevelInstances();
+	}
 
 	private void Start()
 	{
-		LockCursor();
+		EngineIntegrity = _maxEngineIntegrity;
+		PrintNpcsIdentities();
 	}
 
-	// Event Triggers
-
-	public void TriggerOnInteractableEnter(bool isAfterDialogue = false)
+	private void InitializeNpcCount()
 	{
-		OnInteractableEnter?.Invoke(isAfterDialogue);
+		NpcCount = new Dictionary<NpcRoles, int>();
+		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
+		{
+			NpcCount[role] = 0;
+		}
+		OnNpcUpdate?.Invoke();
 	}
 
-	public void TriggerOnInteractableExit()
+	private void InitializeLevelInstances()
 	{
-		OnInteractableExit?.Invoke();
+		LevelInstances = new List<LevelInstance>();
+
+		foreach (Level level in LevelsData.LevelsList)
+		{
+			LevelInstances.Add(new LevelInstance(level, RolesData));
+		}
 	}
 
-	public void TriggerOnItemPickUp(string itemId)
+	// Game Logic
+
+	public void ContinueToNextFloor()
 	{
-		OnItemPickUp?.Invoke(itemId);
+		if (_currentFloor >= LevelsData.LevelsList.Count - 1)
+		{
+			return;
+		}
+
+		_currentFloor++;
+		HandleWorkers();
+		EngineDeteriorate();
+		CheckWinCondition();
+		PrintNpcsIdentities();
+	}
+
+	public void AcceptNpcs()
+	{
+		if (_currentFloor < LevelsData.LevelsList.Count)
+		{
+			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
+			{
+				NpcCount[kvp.Key] += kvp.Value;
+				if (kvp.Value > 0)
+				{
+					Debug.Log($"Accepted NPC Identity: +{kvp.Value} {kvp.Key}");
+				}
+			}
+			HandleSkinWalkers();
+			OnNpcUpdate?.Invoke();
+		}
+	}
+
+	private void PrintNpcsIdentities()
+	{
+		if (_currentFloor < 0 || _currentFloor >= LevelInstances.Count)
+		{
+			return;
+		}
+
+		Debug.Log($"Arriving at Floor {_currentFloor}:");
+		foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
+		{
+			for (int i = 0; i < kvp.Value; i++)
+			{
+				Debug.Log($"NPC Identity: {kvp.Key}");
+			}
+		}
+	}
+
+	private void HandleWorkers()
+	{
+		float workerGain = NpcCount[NpcRoles.Worker] * _workerEngineMult;
+		Debug.Log($"Engine Repaired +{workerGain}");
+		EngineIntegrity += Mathf.Clamp(workerGain, 0, _maxEngineIntegrity);
+		OnEngineUpdate?.Invoke();
+	}
+
+	private void HandleSkinWalkers()
+	{
+		int skinWalkerCount = NpcCount[NpcRoles.Skinwalker];
+		if (skinWalkerCount <= 0)
+		{
+			return;
+		}
+
+		int totalKillsNeeded = skinWalkerCount * _skinWalkerKillCount;
+
+		// Kill Guards First
+		int guardsToKill = Mathf.Min(NpcCount[NpcRoles.Guard], totalKillsNeeded);
+		NpcCount[NpcRoles.Guard] -= guardsToKill;
+		int remainingKills = totalKillsNeeded - guardsToKill;
+
+		// Kill Other Npcs
+		while (remainingKills > 0)
+		{
+			var availableVictims = new List<NpcRoles>();
+			foreach (KeyValuePair<NpcRoles, int> kvp in NpcCount)
+			{
+				if (kvp.Key != NpcRoles.Skinwalker && kvp.Value > 0)
+				{
+					for (int i = 0; i < kvp.Value; i++)
+					{
+						availableVictims.Add(kvp.Key);
+					}
+				}
+			}
+
+			if (availableVictims.Count == 0)
+			{
+				OnGameLose?.Invoke();
+				return;
+			}
+
+			int randomIndex = UnityEngine.Random.Range(0, availableVictims.Count);
+			NpcRoles victimRole = availableVictims[randomIndex];
+			NpcCount[victimRole]--;
+			remainingKills--;
+		}
+
+		// Clear Skin Walkers
+		NpcCount[NpcRoles.Skinwalker] = 0;
+	}
+
+	private void EngineDeteriorate()
+	{
+		float maxDeterioration = _engineMinDeterioration + (_currentFloor * _engineDeteriorateScaling);
+		float minDeterioration = maxDeterioration * _engineDeteriorateVariance;
+		int deteriorateAmount = Mathf.RoundToInt(UnityEngine.Random.Range(minDeterioration, maxDeterioration));
+		Debug.Log($"Engine Damaged -{deteriorateAmount}");
+		EngineIntegrity -= Mathf.Clamp(deteriorateAmount, 0, _maxEngineIntegrity);
+		CheckLoseCondition();
+		OnEngineUpdate?.Invoke();
+	}
+
+	private void CheckWinCondition()
+	{
+		if (_currentFloor == LevelsData.LevelsList.Count - 1)
+		{
+			Debug.Log("Won Game");
+			OnGameWin?.Invoke();
+		}
+	}
+
+	private void CheckLoseCondition()
+	{
+		if (EngineIntegrity <= 0)
+		{
+			Debug.Log("Lost Game");
+			OnGameLose?.Invoke();
+		}
 	}
 
 	// Cursor
@@ -63,51 +247,6 @@ public class GameManager : MonoSingleton<GameManager>
 	}
 
 	// Time
-
-	public void TimeSlow(float targetTimeSlow, float duration)
-	{
-		_timeSlowSequence.Stop();
-		_timeSlowSequence = Sequence
-			.Create(useUnscaledTime: true)
-			.Chain(
-				Tween.Custom(
-					this,
-					_effectTimeScale,
-					targetTimeSlow,
-					duration / 4,
-					(_, timeScale) =>
-					{
-						_effectTimeScale = timeScale;
-						ApplyTime();
-					},
-					Ease.OutQuad
-				)
-			)
-			.Chain(
-				Tween.Custom(
-					this,
-					targetTimeSlow,
-					1f,
-					duration * 3 / 4,
-					(_, timeScale) =>
-					{
-						_effectTimeScale = timeScale;
-						ApplyTime();
-					},
-					Ease.InQuad
-				)
-			);
-	}
-
-	public void CancelTimeSlow()
-	{
-		if (_timeSlowSequence.isAlive)
-		{
-			_timeSlowSequence.Stop();
-			_effectTimeScale = 1f;
-			ApplyTime();
-		}
-	}
 
 	public static void SetPaused(bool val)
 	{
