@@ -42,11 +42,11 @@ public class InterviewPaper : MonoBehaviour
             }
         }
 
-        ZonesVisual.gameObject.SetActive(false);
+        ZoneItem.gameObject.SetActive(false);
 
         if (visited != null)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 Image img = Instantiate(ZoneItem);
                 if (visited.Contains(i))

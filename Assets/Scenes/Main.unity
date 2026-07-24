@@ -1766,9 +1766,25 @@ PrefabInstance:
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1968131264662607650, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235039109787812695, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3909990029513357534, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: m_Name
       value: Interview Sheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745143483244339376, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852247913645273250, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 293.8687
       objectReference: {fileID: 0}
     - target: {fileID: 6663630149126319485, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: m_Pivot.x

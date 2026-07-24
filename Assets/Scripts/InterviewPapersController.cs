@@ -47,8 +47,8 @@ public class InterviewPapersController : MonoBehaviour
         FloorsTheyveBeen = new() { 5 },
         Questions = new()
         {
-            new() { Question = "What is Obama's last name?", Answer = "Barack"},
-            new() { Question = "What day is it?", Answer = "Tuesday probably"},
+            new() { Question = "What is your last name?", Answer = "Wolfeschlegelsteinhausenbergerdorff"},
+            new() { Question = "How are you doing?", Answer = "I'm doing alright-ish. I appreciate you asking!"},
         }
     };
 
