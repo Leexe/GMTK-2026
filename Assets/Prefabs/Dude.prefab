@@ -50,8 +50,11 @@ MonoBehaviour:
   _bounceHeight: 0.15
   _bounceDuration: 0.8
   _bounceEase: 4
+  _idleBounceHeight: 0.05
+  _idleBounceDuration: 1.6
+  _idleBounceEase: 4
   _lerpDuration: 3
-  _lerpDelay: 0.55
+  _lerpDelay: 1
   _lerpEase: 7
 --- !u!136 &1588700897442230823
 CapsuleCollider:

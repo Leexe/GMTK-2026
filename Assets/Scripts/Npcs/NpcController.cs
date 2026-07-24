@@ -7,7 +7,7 @@ public class NpcController : MonoBehaviour
 	[SerializeField]
 	private GameObject _visuals;
 
-	[Header("Bounce Settings")]
+	[Header("Move Bounce Settings")]
 	[SerializeField]
 	private float _bounceHeight = 0.15f;
 
@@ -16,6 +16,16 @@ public class NpcController : MonoBehaviour
 
 	[SerializeField]
 	private Ease _bounceEase = Ease.InOutSine;
+
+	[Header("Idle Bounce Settings")]
+	[SerializeField]
+	private float _idleBounceHeight = 0.05f;
+
+	[SerializeField]
+	private float _idleBounceDuration = 1.6f;
+
+	[SerializeField]
+	private Ease _idleBounceEase = Ease.InOutSine;
 
 	[Header("Lerp Settings")]
 	[SerializeField]
@@ -44,7 +54,6 @@ public class NpcController : MonoBehaviour
 		transform.position = position;
 		_basePosition = position;
 		EnableVisuals();
-		StopBounce();
 	}
 
 	public void SetRole(NpcRoles role)
@@ -58,7 +67,7 @@ public class NpcController : MonoBehaviour
 		_lerpTween.Stop();
 
 		float delay = Random.Range(0f, _lerpDelay);
-		_delayTween = Tween.Delay(this, delay, target => target.StartBounce());
+		_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounce());
 
 		_lerpTween = Tween.Position(transform, targetPosition, _lerpDuration, _lerpEase, startDelay: delay);
 		_lerpTween.OnComplete(
@@ -66,7 +75,7 @@ public class NpcController : MonoBehaviour
 			target =>
 			{
 				target._basePosition = targetPosition;
-				target.StopBounce();
+				target.StartIdleBounce();
 				target.OnArrivedAtPosition?.Invoke(target);
 			}
 		);
@@ -78,7 +87,7 @@ public class NpcController : MonoBehaviour
 		{
 			_visuals.SetActive(true);
 		}
-		StopBounce();
+		StartIdleBounce();
 	}
 
 	public void DisableVisuals()
@@ -92,27 +101,37 @@ public class NpcController : MonoBehaviour
 		}
 	}
 
-	private void StartBounce()
+	public void StartMoveBounce()
+	{
+		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
+	}
+
+	public void StartIdleBounce()
+	{
+		StartBounce(_idleBounceHeight, _idleBounceDuration, _idleBounceEase);
+	}
+
+	private void StartBounce(float height, float duration, Ease ease)
 	{
 		_bounceSequence.Stop();
 
 		Transform targetTransform = _visuals != null ? _visuals.transform : transform;
-		float halfDuration = _bounceDuration / 2f;
-		Vector3 upPosition = Vector3.up * _bounceHeight;
+		float halfDuration = duration / 2f;
+		Vector3 upPosition = Vector3.up * height;
 
 		_bounceSequence = Sequence
 			.Create(-1, Sequence.SequenceCycleMode.Yoyo)
-			.Chain(Tween.LocalPosition(targetTransform, upPosition, halfDuration, _bounceEase))
-			.Chain(Tween.LocalPosition(targetTransform, Vector3.zero, halfDuration, _bounceEase));
+			.Chain(Tween.LocalPosition(targetTransform, upPosition, halfDuration, ease))
+			.Chain(Tween.LocalPosition(targetTransform, Vector3.zero, halfDuration, ease));
 
-		_bounceSequence.elapsedTime = Random.Range(0f, _bounceDuration);
+		_bounceSequence.elapsedTime = Random.Range(0f, duration);
 	}
 
 	private void StopBounce()
 	{
 		_delayTween.Stop();
 		_bounceSequence.Stop();
-		_visuals.transform.localPosition = Vector3.zero;
+			_visuals.transform.localPosition = Vector3.zero;
 	}
 
 	private void OnDisable()
