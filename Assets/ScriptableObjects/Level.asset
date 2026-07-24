@@ -13,23 +13,33 @@ MonoBehaviour:
   m_Name: Level
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   <LevelsList>k__BackingField:
-  - NpcGuaranteedSpawns: 01000000
+  - OnLoadDialogueKnot: FirstLevel
+    NpcGuaranteedSpawns: 01000000
     NpcSpawnRandomRange: {x: 1, y: 1}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 2}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 4}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 3, y: 4}
-  - NpcGuaranteedSpawns: 
+  - OnLoadDialogueKnot: 
+    NpcGuaranteedSpawns: 
     NpcSpawnRandomRange: {x: 2, y: 3}
