@@ -36,6 +36,9 @@ public class GameManager : MonoSingleton<GameManager>
 
 	[Header("Delays")]
 	[SerializeField]
+	private float _elevatorOpenDelay = 2f;
+
+	[SerializeField]
 	private float _elevatorDoorCloseDelay = 1f;
 
 	[SerializeField]
@@ -55,9 +58,10 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
-	public float RunTime;
 
+	private float RunTime;
 	private Sequence _timeSlowSequence;
+	private Sequence _descentSequence;
 	private int _currentFloor;
 	private bool _gameOver;
 	private bool _openedDoor;
@@ -75,6 +79,15 @@ public class GameManager : MonoSingleton<GameManager>
 
 	[HideInInspector]
 	public Action OnNewFloor;
+
+	[HideInInspector]
+	public Action OnStartDoorOpen;
+
+	[HideInInspector]
+	public Action OnFinishedDoorOpen;
+
+	[HideInInspector]
+	public Action OnStartDoorClose;
 
 	[HideInInspector]
 	public Action OnStartDescent;
@@ -96,7 +109,6 @@ public class GameManager : MonoSingleton<GameManager>
 		EngineIntegrity = _maxEngineIntegrity;
 		PrintNpcsIdentities();
 		OnNewFloor?.Invoke();
-		AudioManager.Instance.PlayAmbience("Ambience", FMODEvents.Instance.Ambience_Amb);
 	}
 
 	private void InitializeNpcCount()
@@ -116,6 +128,13 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			LevelInstances.Add(new LevelInstance(level, RolesData));
 		}
+	}
+
+	private void OnEnable() { }
+
+	private void OnDisable()
+	{
+		_descentSequence.Stop();
 	}
 
 	// Game Logic
@@ -138,12 +157,22 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorClose_Sfx);
-		Tween.Delay(
-			_elevatorDescendDelay,
-			() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorDescend_Sfx)
-		);
+		float closeDelay = 0f;
+		if (_openedDoor)
+		{
+			closeDelay = _elevatorDoorCloseDelay;
+			OnStartDoorClose?.Invoke();
+		}
 
+		_descentSequence.Stop();
+		_descentSequence = Sequence
+			.Create()
+			.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()))
+			.Chain(Tween.Delay(_elevatorDescendDelay, () => ArriveAtNextFloor()));
+	}
+
+	private void ArriveAtNextFloor()
+	{
 		_currentFloor++;
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
@@ -164,8 +193,6 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
 		{
-			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorOpen_Sfx);
-
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
 			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
@@ -177,7 +204,13 @@ public class GameManager : MonoSingleton<GameManager>
 				}
 			}
 			HandleSkinWalkers();
-			OnNpcUpdate?.Invoke();
+			OnStartDoorOpen?.Invoke();
+
+			Tween.Delay(_elevatorOpenDelay, () =>
+			{
+				OnFinishedDoorOpen?.Invoke();
+				OnNpcUpdate?.Invoke();
+			});
 		}
 	}
 
