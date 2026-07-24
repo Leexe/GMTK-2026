@@ -9,7 +9,7 @@ using UnityEngine;
 /// <summary>
 ///     Acts as the bridge between Ink narrative scripts and Unity gameplay systems.
 /// </summary>
-public class DialogueController : MonoBehaviour
+public class DialogueManager : MonoSingleton<DialogueManager>
 {
 	[FoldoutGroup("References")]
 	[SerializeField]
@@ -27,10 +27,6 @@ public class DialogueController : MonoBehaviour
 	private bool _storyPlaying;
 	private bool _typewriterPlaying;
 
-	/// <summary>
-	///     The dialogue state instance owned by this controller.
-	///     Other scripts should reference this to subscribe to dialogue events.
-	/// </summary>
 	public DialogueState DialogueState { get; } = new();
 
 	private bool ChoicesAvailable => _story.currentChoices.Count > 0;
@@ -44,8 +40,9 @@ public class DialogueController : MonoBehaviour
 
 	#region Unity Functions
 
-	private void Awake()
+	protected override void OnInitialized()
 	{
+		base.OnInitialized();
 		_story = new Story(_inkJson.text);
 		InitializeTagHandlers();
 
@@ -185,7 +182,7 @@ public class DialogueController : MonoBehaviour
 
 		if (knotName == "")
 		{
-			Debug.LogWarning("[DialogueController] KnotName is Empty");
+			Debug.LogWarning("[DialogueManager] KnotName is Empty");
 		}
 		else
 		{
@@ -379,7 +376,7 @@ public class DialogueController : MonoBehaviour
 			string[] parts = inkTag.Split('_');
 			if (parts.Length < 1)
 			{
-				Debug.LogWarning($"[DialogueController] Empty tag encountered: {inkTag}");
+				Debug.LogWarning($"[DialogueManager] Empty tag encountered: {inkTag}");
 				continue;
 			}
 
@@ -404,7 +401,7 @@ public class DialogueController : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning($"[DialogueController] Unknown tag identifier: '{identifier}' in tag: '{rawTag}'");
+			Debug.LogWarning($"[DialogueManager] Unknown tag identifier: '{identifier}' in tag: '{rawTag}'");
 		}
 	}
 
@@ -516,7 +513,7 @@ public class DialogueController : MonoBehaviour
 		if (args.Length < 2)
 		{
 			Debug.LogWarning(
-				$"[DialogueController] Animation tag requires at least CharacterID and AnimationName (e.g. an_Sera_Shake). Args passed: {string.Join(", ", args)}"
+				$"[DialogueManager] Animation tag requires at least CharacterID and AnimationName (e.g. an_Sera_Shake). Args passed: {string.Join(", ", args)}"
 			);
 			return;
 		}
@@ -554,7 +551,7 @@ public class DialogueController : MonoBehaviour
 	{
 		if (args.Length == 0)
 		{
-			Debug.LogWarning("[DialogueController] Dialogue voice tag requires character name (e.g. #d_sera)");
+			Debug.LogWarning("[DialogueManager] Dialogue voice tag requires character name (e.g. #d_sera)");
 			return;
 		}
 

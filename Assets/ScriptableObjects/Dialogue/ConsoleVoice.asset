@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eef45f99eedf1469081e2abbc89052ce, type: 3}
-  m_Name: VoiceSample
+  m_Name: ConsoleVoice
   m_EditorClassIdentifier: Assembly-CSharp::VoiceSO
   serializationData:
     SerializedFormat: 2
@@ -23,10 +23,10 @@ MonoBehaviour:
     SerializationNodes: []
   Sounds:
   - Guid:
-      Data1: 161282764
-      Data2: 1229754463
-      Data3: 464710307
-      Data4: 1007240553
-    Path: event:/Title Screen/Button Click
+      Data1: -2027182024
+      Data2: 1121936554
+      Data3: -1726554185
+      Data4: 1112198593
+    Path: event:/SFX/UI/Clipboard
   Frequency: 3
-  PitchVariation: {x: 0.80851066, y: 1.1}
+  PitchVariation: {x: 1.7, y: 2}

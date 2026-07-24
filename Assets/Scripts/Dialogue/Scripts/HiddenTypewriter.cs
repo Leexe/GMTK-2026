@@ -4,7 +4,7 @@ using UnityEngine;
 public class HiddenTypewriter : MonoBehaviour
 {
 	[SerializeField]
-	private DialogueController _dialogueController;
+	private DialogueManager _dialogueManager;
 
 	[SerializeField]
 	private TypewriterComponent _hiddenTypewriter;
@@ -13,7 +13,7 @@ public class HiddenTypewriter : MonoBehaviour
 
 	private void OnEnable()
 	{
-		_dialogueState = _dialogueController.DialogueState;
+		_dialogueState = _dialogueManager.DialogueState;
 		_dialogueState.OnDisplayDialogue += ChangeStoryText;
 	}
 

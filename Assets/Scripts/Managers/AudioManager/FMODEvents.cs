@@ -7,51 +7,47 @@ using UnityEngine;
 [SuppressMessage("ReSharper", "Odin.OdinUnknownGroupingPath")]
 public class FMODEvents : MonoSingleton<FMODEvents>
 {
-	#region Music
-
-	// [field: SerializeField]
-	// [field: FoldoutGroup("Music", true)]
-	// public EventReference WindowsXP_Bgm { get; private set; }
-
-	#endregion
-
 	#region Ambience
 
-	// [field: SerializeField]
-	// [field: FoldoutGroup("Ambience", expanded: true)]
-	// public EventReference Ambience_Amb { get; private set; }
+	[field: SerializeField]
+	[field: FoldoutGroup("Ambience", expanded: true)]
+	public EventReference Ambience_Amb { get; private set; }
 
 	#endregion
 
-	#region SFX
+	#region Music
 
 	[field: SerializeField]
-	[field: FoldoutGroup("SFX")]
+	[field: FoldoutGroup("Music", expanded: true)]
+	public EventReference Lose_Bgm { get; private set; }
+
+	#endregion
+
+	#region Sfx
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorOpen_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorClose_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorDescend_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
 	public EventReference Footsteps_Sfx { get; private set; }
 
 	[field: SerializeField]
-	[field: FoldoutGroup("SFX")]
-	public EventReference Sandsteps_Sfx { get; private set; }
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Clipboard_Sfx { get; private set; }
 
 	[field: SerializeField]
-	[field: FoldoutGroup("SFX")]
-	public EventReference Jump_Sfx { get; private set; }
-
-	[field: SerializeField]
-	[field: FoldoutGroup("SFX")]
-	public EventReference ButtonClick_Sfx { get; private set; }
-
-	[field: SerializeField]
-	[field: FoldoutGroup("SFX")]
-	public EventReference Dialogue_Sfx { get; private set; }
-
-	#endregion
-
-	#region Looping SFX
-
-	[field: SerializeField]
-	[field: FoldoutGroup("Loop SFX", true)]
-	public EventReference Falling_LoopSfx { get; private set; }
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Documents_Sfx { get; private set; }
 
 	#endregion
 }

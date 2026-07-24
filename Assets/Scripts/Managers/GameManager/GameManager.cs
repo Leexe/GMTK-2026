@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using PrimeTween;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
 	[Header("References")]
-	[SerializeField]
 	public LevelSO LevelsData;
-
-	[SerializeField]
 	public RolesSO RolesData;
+	public PersonGenInfoSO PersonData;
 
 	[Header("Worker Data")]
 	[SerializeField]
@@ -34,6 +33,16 @@ public class GameManager : MonoSingleton<GameManager>
 	[Range(0f, 1f)]
 	private float _engineDeteriorateVariance = 0.9f;
 
+	[Header("Delays")]
+	[SerializeField]
+	private float _elevatorOpenDelay = 2f;
+
+	[SerializeField]
+	private float _elevatorDoorCloseDelay = 1f;
+
+	[SerializeField]
+	private float _elevatorDescendDelay = 3f;
+
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
@@ -43,14 +52,17 @@ public class GameManager : MonoSingleton<GameManager>
 	public static bool IsPaused { get; private set; }
 
 	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
-	public List<LevelInstance> LevelInstances { private set; get; }
+	// public List<LevelInstance> LevelInstances { private set; get; }
+	public World WorldState {get; private set;} = new();
+
 	public bool NpcsFinishedMoving { get; private set; } = true;
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
-	public float RunTime;
 
+	private float RunTime;
 	private Sequence _timeSlowSequence;
+	private Sequence _descentSequence;
 	private int _currentFloor;
 	private bool _gameOver;
 	private bool _openedDoor;
@@ -70,6 +82,18 @@ public class GameManager : MonoSingleton<GameManager>
 	public Action OnNewFloor;
 
 	[HideInInspector]
+	public Action OnStartDoorOpen;
+
+	[HideInInspector]
+	public Action OnFinishedDoorOpen;
+
+	[HideInInspector]
+	public Action OnStartDoorClose;
+
+	[HideInInspector]
+	public Action OnStartDescent;
+
+	[HideInInspector]
 	public Action OnEngineUpdate;
 
 	// Unity Events
@@ -77,34 +101,31 @@ public class GameManager : MonoSingleton<GameManager>
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		InitializeNpcCount();
-		InitializeLevelInstances();
-	}
-
-	private void Start()
-	{
-		EngineIntegrity = _maxEngineIntegrity;
-		PrintNpcsIdentities();
-		OnNewFloor?.Invoke();
-	}
-
-	private void InitializeNpcCount()
-	{
-		NpcCount = new Dictionary<NpcRoles, int>();
+		InitializeWorld();
+		
+		NpcCount = new();
 		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
 		{
 			NpcCount[role] = 0;
 		}
 	}
 
-	private void InitializeLevelInstances()
+	private void Start()
 	{
-		LevelInstances = new List<LevelInstance>();
+		EngineIntegrity = _maxEngineIntegrity;
+		OnNewFloor?.Invoke();
+	}
 
-		foreach (Level level in LevelsData.LevelsList)
-		{
-			LevelInstances.Add(new LevelInstance(level, RolesData));
-		}
+	private void InitializeWorld()
+	{
+		WorldState.Generate(LevelsData, PersonData, RolesData);
+	}
+
+	private void OnEnable() { }
+
+	private void OnDisable()
+	{
+		_descentSequence.Stop();
 	}
 
 	// Game Logic
@@ -127,6 +148,22 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
+		float closeDelay = 0f;
+		if (_openedDoor)
+		{
+			closeDelay = _elevatorDoorCloseDelay;
+			OnStartDoorClose?.Invoke();
+		}
+
+		_descentSequence.Stop();
+		_descentSequence = Sequence
+			.Create()
+			.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()))
+			.Chain(Tween.Delay(_elevatorDescendDelay, () => ArriveAtNextFloor()));
+	}
+
+	private void ArriveAtNextFloor()
+	{
 		_currentFloor++;
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
@@ -140,7 +177,6 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			return;
 		}
-		PrintNpcsIdentities();
 	}
 
 	public void AcceptNpcs()
@@ -149,35 +185,30 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
-			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
+
+			foreach(Person p in WorldState.Floors[_currentFloor].People)
 			{
-				NpcCount[kvp.Key] += kvp.Value;
-				if (kvp.Value > 0)
+				if (p.IsSkinwalker)
 				{
-					Debug.Log($"Accepted NPC Identity: +{kvp.Value} {kvp.Key}");
+					NpcCount[NpcRoles.Skinwalker] ++;	
+				}
+				else
+				{
+					NpcCount[p.Role] ++;
 				}
 			}
+
 			HandleSkinWalkers();
-			OnNpcUpdate?.Invoke();
-		}
-	}
+			OnStartDoorOpen?.Invoke();
 
-	private void PrintNpcsIdentities()
-	{
-		if (_currentFloor < 0 || _currentFloor >= LevelInstances.Count)
-		{
-			return;
-		}
-
-		Debug.Log($"Arriving at Floor {_currentFloor}:");
-		foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
-		{
-			for (int i = 0; i < kvp.Value; i++)
+			Tween.Delay(_elevatorOpenDelay, () =>
 			{
-				Debug.Log($"NPC Identity: {kvp.Key}");
-			}
+				OnFinishedDoorOpen?.Invoke();
+				OnNpcUpdate?.Invoke();
+			});
 		}
 	}
+
 
 	private void HandleWorkers()
 	{
