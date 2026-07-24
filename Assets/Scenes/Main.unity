@@ -2563,9 +2563,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4496430893499754350, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: _inkJson
+      value: 
+      objectReference: {fileID: 4900000, guid: 063d9962065931a449538f8be18d5231, type: 3}
+    - target: {fileID: 4496430893499754350, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 4496430893499754350, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 6149015882407524222, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
