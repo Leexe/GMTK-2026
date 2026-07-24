@@ -34,6 +34,13 @@ public class GameManager : MonoSingleton<GameManager>
 	[Range(0f, 1f)]
 	private float _engineDeteriorateVariance = 0.9f;
 
+	[Header("Delays")]
+	[SerializeField]
+	private float _elevatorDoorCloseDelay = 1f;
+
+	[SerializeField]
+	private float _elevatorDescendDelay = 3f;
+
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
@@ -70,6 +77,9 @@ public class GameManager : MonoSingleton<GameManager>
 	public Action OnNewFloor;
 
 	[HideInInspector]
+	public Action OnStartDescent;
+
+	[HideInInspector]
 	public Action OnEngineUpdate;
 
 	// Unity Events
@@ -86,6 +96,7 @@ public class GameManager : MonoSingleton<GameManager>
 		EngineIntegrity = _maxEngineIntegrity;
 		PrintNpcsIdentities();
 		OnNewFloor?.Invoke();
+		AudioManager.Instance.PlayAmbience("Ambience", FMODEvents.Instance.Ambience_Amb);
 	}
 
 	private void InitializeNpcCount()
@@ -127,6 +138,12 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorClose_Sfx);
+		Tween.Delay(
+			_elevatorDescendDelay,
+			() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorDescend_Sfx)
+		);
+
 		_currentFloor++;
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
@@ -147,6 +164,8 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
 		{
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorOpen_Sfx);
+
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
 			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
