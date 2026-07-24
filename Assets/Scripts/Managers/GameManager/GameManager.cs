@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using PrimeTween;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
 	[Header("References")]
-	[SerializeField]
 	public LevelSO LevelsData;
-
-	[SerializeField]
 	public RolesSO RolesData;
+	public PersonGenInfoSO PersonData;
 
 	[Header("Worker Data")]
 	[SerializeField]
@@ -53,7 +52,9 @@ public class GameManager : MonoSingleton<GameManager>
 	public static bool IsPaused { get; private set; }
 
 	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
-	public List<LevelInstance> LevelInstances { private set; get; }
+	// public List<LevelInstance> LevelInstances { private set; get; }
+	public World WorldState {get; private set;} = new();
+
 	public bool NpcsFinishedMoving { get; private set; } = true;
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
@@ -100,34 +101,24 @@ public class GameManager : MonoSingleton<GameManager>
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		InitializeNpcCount();
-		InitializeLevelInstances();
-	}
-
-	private void Start()
-	{
-		EngineIntegrity = _maxEngineIntegrity;
-		PrintNpcsIdentities();
-		OnNewFloor?.Invoke();
-	}
-
-	private void InitializeNpcCount()
-	{
-		NpcCount = new Dictionary<NpcRoles, int>();
+		InitializeWorld();
+		
+		NpcCount = new();
 		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
 		{
 			NpcCount[role] = 0;
 		}
 	}
 
-	private void InitializeLevelInstances()
+	private void Start()
 	{
-		LevelInstances = new List<LevelInstance>();
+		EngineIntegrity = _maxEngineIntegrity;
+		OnNewFloor?.Invoke();
+	}
 
-		foreach (Level level in LevelsData.LevelsList)
-		{
-			LevelInstances.Add(new LevelInstance(level, RolesData));
-		}
+	private void InitializeWorld()
+	{
+		WorldState.Generate(LevelsData, PersonData, RolesData);
 	}
 
 	private void OnEnable() { }
@@ -186,7 +177,6 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			return;
 		}
-		PrintNpcsIdentities();
 	}
 
 	public void AcceptNpcs()
@@ -195,14 +185,19 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
-			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
+
+			foreach(Person p in WorldState.Floors[_currentFloor].People)
 			{
-				NpcCount[kvp.Key] += kvp.Value;
-				if (kvp.Value > 0)
+				if (p.IsSkinwalker)
 				{
-					Debug.Log($"Accepted NPC Identity: +{kvp.Value} {kvp.Key}");
+					NpcCount[NpcRoles.Skinwalker] ++;	
+				}
+				else
+				{
+					NpcCount[p.Role] ++;
 				}
 			}
+
 			HandleSkinWalkers();
 			OnStartDoorOpen?.Invoke();
 
@@ -214,22 +209,6 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 	}
 
-	private void PrintNpcsIdentities()
-	{
-		if (_currentFloor < 0 || _currentFloor >= LevelInstances.Count)
-		{
-			return;
-		}
-
-		Debug.Log($"Arriving at Floor {_currentFloor}:");
-		foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
-		{
-			for (int i = 0; i < kvp.Value; i++)
-			{
-				Debug.Log($"NPC Identity: {kvp.Key}");
-			}
-		}
-	}
 
 	private void HandleWorkers()
 	{

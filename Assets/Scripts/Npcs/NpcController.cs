@@ -7,6 +7,9 @@ public class NpcController : MonoBehaviour
 	[SerializeField]
 	private GameObject _visuals;
 
+	[SerializeField]
+	private HoverTarget _hoverTarget;
+
 	[Header("Move Bounce Settings")]
 	[SerializeField]
 	private float _bounceHeight = 0.15f;
@@ -38,30 +41,41 @@ public class NpcController : MonoBehaviour
 	private Ease _lerpEase = Ease.InOutQuad;
 
 	public System.Action<NpcController> OnArrivedAtPosition;
+	public System.Action<NpcController> OnClicked;
 
-	public NpcRoles Role => _role;
+	public Person Person => _person;
+	public NpcRoles Role => _person.Role;
 	public bool IsActive => _visuals != null && _visuals.activeSelf;
 
-	private NpcRoles _role;
+	private Person _person;
 	private Sequence _bounceSequence;
 	private Tween _lerpTween;
 	private Tween _delayTween;
 	private Vector3 _basePosition;
 
-	public void Initialize(NpcRoles role, Vector3 position)
+
+	private bool _hasClickListener = false;
+
+	public void Initialize(Person person, Vector3 position)
 	{
-		_role = role;
+		Debug.Log($"{person.Name} ({person.Role}) Initializing!");
+		_person = person;
 		transform.position = position;
 		_basePosition = position;
 		EnableVisuals();
 	}
 
-	public void SetRole(NpcRoles role)
+	private void HandleClick()
 	{
-		_role = role;
+		OnClicked?.Invoke(this);
 	}
 
-	public void LerpToPosition(Vector3 targetPosition)
+	public void SetPerson(Person person)
+	{
+		_person = person;
+	}
+
+public void LerpToPosition(Vector3 targetPosition)
 	{
 		StopBounce();
 		_lerpTween.Stop();
@@ -86,6 +100,11 @@ public class NpcController : MonoBehaviour
 		if (_visuals != null)
 		{
 			_visuals.SetActive(true);
+			if (!_hasClickListener)
+			{
+				_hoverTarget.OnClick += HandleClick;
+				_hasClickListener = true;
+			}
 		}
 		StartIdleBounce();
 	}
@@ -98,6 +117,11 @@ public class NpcController : MonoBehaviour
 		if (_visuals != null)
 		{
 			_visuals.SetActive(false);
+			if (_hasClickListener)
+			{
+				_hoverTarget.OnClick -= HandleClick;	
+				_hasClickListener = false;
+			}
 		}
 	}
 

@@ -24,7 +24,6 @@ public class Clipboard : MonoBehaviour
     public float HideReturnDuration;
 
     private Sequence _sequence;
-    private bool _pulledOut = false;
 
     private void OnEnable()
     {
@@ -43,6 +42,7 @@ public class Clipboard : MonoBehaviour
 
     private void Update()
     {
+        // if not doing the number-update animation, exp lerp to the right position.
         if (!_sequence.isAlive)
         {
             Vector2 targetPos = HoverTarget.Hovered ? OutPosition : DefaultPosition;

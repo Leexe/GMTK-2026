@@ -9,7 +9,7 @@ public class LevelSO : ScriptableObject
 	public List<Level> LevelsList { private set; get; } = new();
 }
 
-[System.Serializable]
+[Serializable]
 public class Level
 {
 	[Tooltip("Guaranteed Spawns")]
@@ -17,41 +17,36 @@ public class Level
 
 	[Tooltip("Range of Npcs to Spawn Randomly")]
 	public Vector2Int NpcSpawnRandomRange;
-}
 
-public class LevelInstance
-{
-	[Tooltip("Guaranteed Spawns")]
-	public Dictionary<NpcRoles, int> NpcGuaranteedSpawns;
+	//
 
-	public LevelInstance()
+	// come up with a number for how many of each role should spawn (which is partially random)
+	public Dictionary<NpcRoles, int> GenerateSpawnCounts(RolesSO rolesData = null)
 	{
-		NpcGuaranteedSpawns = new Dictionary<NpcRoles, int>();
+		Dictionary<NpcRoles, int> spawnCounts = new();
 		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
 		{
-			NpcGuaranteedSpawns[role] = 0;
+			spawnCounts[role] = 0;
 		}
-	}
 
-	public LevelInstance(Level level, RolesSO rolesData = null)
-		: this()
-	{
-		if (level?.NpcGuaranteedSpawns != null)
+		if (NpcGuaranteedSpawns != null)
 		{
-			foreach (NpcRoles role in level.NpcGuaranteedSpawns)
+			foreach (NpcRoles role in NpcGuaranteedSpawns)
 			{
-				NpcGuaranteedSpawns[role]++;
+				spawnCounts[role]++;
 			}
 		}
 
-		if (rolesData != null && level.NpcSpawnRandomRange != Vector2Int.zero)
+		if (rolesData != null && NpcSpawnRandomRange != Vector2Int.zero)
 		{
-			int randomCount = UnityEngine.Random.Range(level.NpcSpawnRandomRange.x, level.NpcSpawnRandomRange.y + 1);
+			int randomCount = UnityEngine.Random.Range(NpcSpawnRandomRange.x, NpcSpawnRandomRange.y + 1);
 			for (int i = 0; i < randomCount; i++)
 			{
 				NpcRoles randomRole = rolesData.GetRandomRole();
-				NpcGuaranteedSpawns[randomRole]++;
+				spawnCounts[randomRole]++;
 			}
 		}
+
+		return spawnCounts;
 	}
 }

@@ -54,6 +54,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: WorldState
+      Entry: 6
+      Data: 
     - Name: OnGameLose
       Entry: 6
       Data: 
@@ -83,6 +86,7 @@ MonoBehaviour:
       Data: 
   LevelsData: {fileID: 11400000, guid: f8446cfda45e64c39b1859d2a671c1b0, type: 2}
   RolesData: {fileID: 11400000, guid: 491fccccc106648c2868161fa57ee4e8, type: 2}
+  PersonData: {fileID: 11400000, guid: 02de626cc2611e3439163be0e491262b, type: 2}
   _workerEngineMult: 2
   _skinWalkerKillCount: 2
   _maxEngineIntegrity: 100

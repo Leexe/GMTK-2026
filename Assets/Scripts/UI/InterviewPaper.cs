@@ -19,12 +19,12 @@ public class InterviewPaper : MonoBehaviour
 
     /** Public Methods **/
 
-    public void SetInfo(InterviewResults info)
+    public void SetInfo(InterviewResponses info)
     {
         NameText.text = info.Name;
         RoleText.text = info.Role.ToString();
         HeightText.text = InchesToString(info.HeightInches);
-        NotesText.text = QuestionsToString(info.Questions);
+        NotesText.text = QuestionsToString(info.QnA);
         BuildZoneList(info.FloorsTheyveBeen);
     }
 
@@ -53,7 +53,7 @@ public class InterviewPaper : MonoBehaviour
                 {
                     img.color = Color.red;
                 }
-                img.transform.parent = ZonesVisual;
+                img.transform.SetParent(ZonesVisual);
                 img.transform.GetChild(0).GetComponent<TMP_Text>().text = i.ToString();
                 img.gameObject.SetActive(true);
             }
@@ -65,24 +65,8 @@ public class InterviewPaper : MonoBehaviour
         return $"{inches / 12}' {inches % 12}\"";
     }
 
-    private static string QuestionsToString(List<InterviewQuestion> questions)
+    private static string QuestionsToString(List<QnA> questions)
     {
-        return string.Join("\n\n\n",questions.Select(q => $"Q: {q.Question}\n\nA: {q.Answer}"));
+        return string.Join("\n\n\n", questions.Select(q => $"Q: {q.Question}\n\nA: {q.Response}"));
     }
-}
-
-public class InterviewResults
-{
-    public string Name;
-    public NpcRoles Role;
-    public int HeightInches;
-
-    public List<int> FloorsTheyveBeen;
-    public List<InterviewQuestion> Questions;
-}
-
-public struct InterviewQuestion
-{
-    public string Question;
-    public string Answer;
 }

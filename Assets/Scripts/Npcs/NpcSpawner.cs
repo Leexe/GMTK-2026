@@ -25,15 +25,11 @@ public class NpcSpawner : MonoBehaviour
 
 	// Events
 	public Action OnAllNpcsArrived;
+	public event Action<NpcController> OnNpcClicked;
 
 	private void Awake()
 	{
 		InitializePool();
-	}
-
-	private void Start()
-	{
-		HandleNewFloor();
 	}
 
 	private void InitializePool()
@@ -77,28 +73,15 @@ public class NpcSpawner : MonoBehaviour
 		_occupiedSpawnIndices.Clear();
 		_arrivedNpcCount = 0;
 
-		int currentFloor = GameManager.Instance.CurrentFloor;
-		Dictionary<NpcRoles, int> guaranteedSpawns = GameManager
-			.Instance
-			.LevelInstances[currentFloor]
-			.NpcGuaranteedSpawns;
-		List<NpcRoles> rolesToSpawn = new();
-		foreach (KeyValuePair<NpcRoles, int> kvp in guaranteedSpawns)
-		{
-			for (int i = 0; i < kvp.Value; i++)
-			{
-				rolesToSpawn.Add(kvp.Key);
-			}
-		}
 
-		int spawnCount = Mathf.Min(rolesToSpawn.Count, _npcPool.Count, _spawnPoints.Count);
-		if (spawnCount == 0)
+		int currentFloor = GameManager.Instance.CurrentFloor;
+		if (currentFloor >= GameManager.Instance.WorldState.Floors.Count)
 		{
-			HandleAllNpcsArrived();
 			return;
 		}
+		List<Person> people = GameManager.Instance.WorldState.Floors[currentFloor].People;
 
-		for (int i = 0; i < spawnCount; i++)
+		for (int i = 0; i < people.Count; i++)
 		{
 			int spawnIndex = GetRandomAvailableSpawnIndex();
 			if (spawnIndex < 0)
@@ -110,7 +93,8 @@ public class NpcSpawner : MonoBehaviour
 			NpcController npc = _npcPool[i];
 			Vector3 spawnPos = _spawnPoints[spawnIndex].position;
 
-			npc.Initialize(rolesToSpawn[i], spawnPos);
+			npc.Initialize(people[i], spawnPos);
+			npc.OnClicked += HandleNpcClicked;
 			npc.OnArrivedAtPosition += HandleNpcArrived;
 			_activeNpcs.Add(npc);
 
@@ -161,6 +145,7 @@ public class NpcSpawner : MonoBehaviour
 	{
 		foreach (NpcController npc in _activeNpcs)
 		{
+			npc.OnClicked -= HandleNpcClicked;
 			npc.OnArrivedAtPosition -= HandleNpcArrived;
 		}
 	}
@@ -213,5 +198,10 @@ public class NpcSpawner : MonoBehaviour
 			return;
 		}
 		_activeNpcs[npcIndex].LerpToPosition(_goalPoints[goalPointIndex].position);
+	}
+
+	private void HandleNpcClicked(NpcController npc)
+	{
+		OnNpcClicked?.Invoke(npc);
 	}
 }
