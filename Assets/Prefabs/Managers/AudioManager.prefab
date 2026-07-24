@@ -60,6 +60,13 @@ MonoBehaviour:
       Data3: -212682604
       Data4: -676787614
     Path: event:/AMB/Ambience
+  <Lose_Bgm>k__BackingField:
+    Guid:
+      Data1: 362284433
+      Data2: 1271281148
+      Data3: -871533397
+      Data4: 1176622104
+    Path: event:/BGM/Lose
   <ElevatorOpen_Sfx>k__BackingField:
     Guid:
       Data1: 172047849
@@ -81,6 +88,27 @@ MonoBehaviour:
       Data3: 32739717
       Data4: 1404055180
     Path: event:/SFX/Elevator Noises/Descend
+  <Footsteps_Sfx>k__BackingField:
+    Guid:
+      Data1: 250139012
+      Data2: 1294573911
+      Data3: -1361565274
+      Data4: -544590496
+    Path: event:/SFX/NPCs/Footsteps
+  <Clipboard_Sfx>k__BackingField:
+    Guid:
+      Data1: -2027182024
+      Data2: 1121936554
+      Data3: -1726554185
+      Data4: 1112198593
+    Path: event:/SFX/UI/Clipboard
+  <Documents_Sfx>k__BackingField:
+    Guid:
+      Data1: -408153239
+      Data2: 1166121534
+      Data3: 1996926399
+      Data4: 8658484
+    Path: event:/SFX/UI/Documents
 --- !u!1 &3472308070409565324
 GameObject:
   m_ObjectHideFlags: 0

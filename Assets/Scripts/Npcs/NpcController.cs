@@ -40,6 +40,10 @@ public class NpcController : MonoBehaviour
 	[SerializeField]
 	private Ease _lerpEase = Ease.InOutQuad;
 
+	[Header("Footstep Settings")]
+	[SerializeField]
+	private float _stepInterval = 0.4f;
+
 	public System.Action<NpcController> OnArrivedAtPosition;
 	public System.Action<NpcController> OnClicked;
 
@@ -49,6 +53,7 @@ public class NpcController : MonoBehaviour
 
 	private Person _person;
 	private Sequence _bounceSequence;
+	private Sequence _footstepSequence;
 	private Tween _lerpTween;
 	private Tween _delayTween;
 	private Vector3 _basePosition;
@@ -128,6 +133,7 @@ public void LerpToPosition(Vector3 targetPosition)
 	public void StartMoveBounce()
 	{
 		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
+		StartFootsteps();
 	}
 
 	public void StartIdleBounce()
@@ -135,9 +141,25 @@ public void LerpToPosition(Vector3 targetPosition)
 		StartBounce(_idleBounceHeight, _idleBounceDuration, _idleBounceEase);
 	}
 
+	private void StartFootsteps()
+	{
+		_footstepSequence.Stop();
+
+		_footstepSequence = Sequence
+			.Create(-1)
+			.ChainCallback(this, target => target.PlayFootstepSound())
+			.Chain(Tween.Delay(_stepInterval));
+	}
+
+	private void PlayFootstepSound()
+	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Footsteps_Sfx, gameObject);
+	}
+
 	private void StartBounce(float height, float duration, Ease ease)
 	{
 		_bounceSequence.Stop();
+		_footstepSequence.Stop();
 
 		Transform targetTransform = _visuals != null ? _visuals.transform : transform;
 		float halfDuration = duration / 2f;
@@ -155,7 +177,8 @@ public void LerpToPosition(Vector3 targetPosition)
 	{
 		_delayTween.Stop();
 		_bounceSequence.Stop();
-			_visuals.transform.localPosition = Vector3.zero;
+		_footstepSequence.Stop();
+		_visuals.transform.localPosition = Vector3.zero;
 	}
 
 	private void OnDisable()

@@ -56,8 +56,9 @@ MonoBehaviour:
   _idleBounceDuration: 1.6
   _idleBounceEase: 4
   _lerpDuration: 3
-  _lerpDelay: 1
+  _lerpDelay: 2
   _lerpEase: 7
+  _stepInterval: 0.4
 --- !u!136 &1588700897442230823
 CapsuleCollider:
   m_ObjectHideFlags: 0

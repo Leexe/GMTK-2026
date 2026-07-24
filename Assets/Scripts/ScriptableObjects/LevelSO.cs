@@ -12,6 +12,9 @@ public class LevelSO : ScriptableObject
 [Serializable]
 public class Level
 {
+	[Tooltip("Optional Ink dialogue knot to play when arriving at this level")]
+	public string OnLoadDialogueKnot;
+	
 	[Tooltip("Guaranteed Spawns")]
 	public List<NpcRoles> NpcGuaranteedSpawns;
 

@@ -17,13 +17,13 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 
 	#region Music
 
-	// [field: SerializeField]
-	// [field: FoldoutGroup("Music", expanded: true)]
-	// public EventReference Bgm { get; private set; }
+	[field: SerializeField]
+	[field: FoldoutGroup("Music", expanded: true)]
+	public EventReference Lose_Bgm { get; private set; }
 
 	#endregion
 
-	#region Elevator Noises
+	#region Sfx
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
@@ -37,13 +37,17 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
 	public EventReference ElevatorDescend_Sfx { get; private set; }
 
-	#endregion
+	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
+	public EventReference Footsteps_Sfx { get; private set; }
 
-	#region Looping SFX
+	[field: SerializeField]
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Clipboard_Sfx { get; private set; }
 
-	// [field: SerializeField]
-	// [field: FoldoutGroup("Loop SFX", true)]
-	// public EventReference Falling_LoopSfx { get; private set; }
+	[field: SerializeField]
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Documents_Sfx { get; private set; }
 
 	#endregion
 }
