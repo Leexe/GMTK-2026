@@ -44,9 +44,12 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
 	public List<LevelInstance> LevelInstances { private set; get; }
+	public bool NpcsFinishedMoving { get; private set; } = true;
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
+	public int CurrentFloor => _currentFloor;
 	public float RunTime;
+
 	private Sequence _timeSlowSequence;
 	private int _currentFloor;
 	private bool _gameOver;
@@ -64,6 +67,9 @@ public class GameManager : MonoSingleton<GameManager>
 	public Action OnNpcUpdate;
 
 	[HideInInspector]
+	public Action OnNewFloor;
+
+	[HideInInspector]
 	public Action OnEngineUpdate;
 
 	// Unity Events
@@ -79,6 +85,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		EngineIntegrity = _maxEngineIntegrity;
 		PrintNpcsIdentities();
+		OnNewFloor?.Invoke();
 	}
 
 	private void InitializeNpcCount()
@@ -88,7 +95,6 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			NpcCount[role] = 0;
 		}
-		OnNpcUpdate?.Invoke();
 	}
 
 	private void InitializeLevelInstances()
@@ -103,6 +109,11 @@ public class GameManager : MonoSingleton<GameManager>
 
 	// Game Logic
 
+	public void SetNpcsFinishedMoving(bool value)
+	{
+		NpcsFinishedMoving = value;
+	}
+
 	public void ContinueToNextFloor()
 	{
 		if (_currentFloor >= LevelsData.LevelsList.Count || _gameOver)
@@ -110,8 +121,16 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
+		if (_openedDoor && !NpcsFinishedMoving)
+		{
+			Debug.Log("Cannot descend: NPCs are still moving into position.");
+			return;
+		}
+
 		_currentFloor++;
 		_openedDoor = false;
+		NpcsFinishedMoving = true;
+		OnNewFloor?.Invoke();
 		if (CheckWinCondition())
 		{
 			return;
@@ -129,6 +148,7 @@ public class GameManager : MonoSingleton<GameManager>
 		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
 		{
 			_openedDoor = true;
+			NpcsFinishedMoving = false;
 			foreach (KeyValuePair<NpcRoles, int> kvp in LevelInstances[_currentFloor].NpcGuaranteedSpawns)
 			{
 				NpcCount[kvp.Key] += kvp.Value;
