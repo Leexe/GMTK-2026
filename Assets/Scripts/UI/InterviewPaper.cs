@@ -51,10 +51,9 @@ public class InterviewPaper : MonoBehaviour
                 Image img = Instantiate(ZoneItem);
                 if (visited.Contains(i))
                 {
-                    img.color = Color.red;
+                    img.color = Color.white;
                 }
                 img.transform.SetParent(ZonesVisual);
-                img.transform.GetChild(0).GetComponent<TMP_Text>().text = i.ToString();
                 img.gameObject.SetActive(true);
             }
         }
