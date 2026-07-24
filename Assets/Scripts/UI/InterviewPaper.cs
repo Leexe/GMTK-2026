@@ -17,10 +17,15 @@ public class InterviewPaper : MonoBehaviour
     public RectTransform ZonesVisual;
     public Image ZoneItem; // will be disabled and then cloned.
 
+    private InterviewResponses _storedInfo;
+    public InterviewResponses StoredInfo => _storedInfo;
+
     /** Public Methods **/
 
     public void SetInfo(InterviewResponses info)
     {
+        _storedInfo = info;
+
         NameText.text = info.Name;
         RoleText.text = info.Role.ToString();
         HeightText.text = InchesToString(info.HeightInches);

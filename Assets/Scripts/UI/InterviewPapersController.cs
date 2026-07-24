@@ -48,50 +48,20 @@ public class InterviewPapersController : MonoBehaviour
 		_activeSequence.Stop();
 	}
 
-	private readonly InterviewResponses _a = new()
-	{
-		Name = "Victor Wembanyama",
-		Role = NpcRoles.Psychologist,
-		HeightInches = 90,
-		FloorsTheyveBeen = new() { 10, 11 },
-		QnA = new()
-		{
-			new() { Question = "What is Obama's last name?", Response = "Barack" },
-			new() { Question = "What day is it?", Response = "Tuesday probably" },
-		},
-	};
-
-	private readonly InterviewResponses _b = new()
-	{
-		Name = "Bob Wolfeschlegelsteinhausenbergerdorff",
-		Role = NpcRoles.Worker,
-		HeightInches = 67,
-		FloorsTheyveBeen = new() { 5 },
-		QnA = new()
-		{
-			new() { Question = "What is your last name?", Response = "Wolfeschlegelsteinhausenbergerdorff" },
-			new() { Question = "How are you doing?", Response = "I'm doing alright-ish. I appreciate you asking!" },
-		},
-	};
-
-	[Button]
-	public void ShowA() => ShowInfo(_a);
-
-	[Button]
-	public void ShowB() => ShowInfo(_b);
-
-	[Button]
-	public void Clear() => HideInfo();
-
 	/** Public Methods **/
 
 	public void ShowInfo(InterviewResponses info)
 	{
 		_infoToShow = info;
+
 		if (!_activeSequence.isAlive)
 		{
 			Sync();
 		}
+        else if (Paper.StoredInfo == info && _currentShownInfo == null)
+        {
+            ReturnTween();
+        }
 	}
 
 	public void HideInfo()
@@ -140,7 +110,7 @@ public class InterviewPapersController : MonoBehaviour
 		}
 	}
 
-	private void ShowTween(InterviewResponses info)
+	private void ShowTween(InterviewResponses info, bool fromCurrentPos = false)
 	{
 		// set all info - just text for now
 		Paper.SetInfo(info);
@@ -148,11 +118,13 @@ public class InterviewPapersController : MonoBehaviour
 
 		float rot = Random.Range(-2f, 2f);
 
+        RectTransform rt = Paper.GetComponent<RectTransform>();
+
 		_activeSequence = Sequence
 			.Create()
 			.Chain(
 				Tween.UIAnchoredPosition(
-					Paper.GetComponent<RectTransform>(),
+					rt,
 					HiddenPosition,
 					ShownPosition,
 					AnimDuration,
@@ -160,6 +132,28 @@ public class InterviewPapersController : MonoBehaviour
 				)
 			)
 			.Group(Tween.Rotation(Paper.transform, Quaternion.identity, Quaternion.Euler(0f, 0f, rot), AnimDuration))
+			.ChainCallback(Sync);
+	}
+
+    private void ReturnTween()
+	{
+		float rot = Random.Range(-2f, 2f);
+		_currentShownInfo = Paper.StoredInfo;
+
+        RectTransform rt = Paper.GetComponent<RectTransform>();
+
+        _activeSequence.Stop();
+		_activeSequence = Sequence
+			.Create()
+			.Chain(
+				Tween.UIAnchoredPosition(
+					rt,
+					ShownPosition,
+					AnimDuration,
+					Ease.OutCubic
+				)
+			)
+			.Group(Tween.Rotation(Paper.transform, Quaternion.Euler(0f, 0f, rot), AnimDuration))
 			.ChainCallback(Sync);
 	}
 
