@@ -7,7 +7,7 @@ public class BacklogController : MonoBehaviour
 {
 	[Header("References")]
 	[SerializeField]
-	private DialogueController _dialogueController;
+	private DialogueManager _dialogueManager;
 
 	[SerializeField]
 	private TextMeshProUGUI _backlogText;
@@ -31,7 +31,7 @@ public class BacklogController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		_dialogueState = _dialogueController.DialogueState;
+		_dialogueState = _dialogueManager.DialogueState;
 		_dialogueState.OnDisplayDialogue += AddToBacklog;
 		_dialogueState.AddBlockingCondition(() => IsOpen);
 		InputManager.Instance.OnBacklogPerformed += ToggleBacklog;

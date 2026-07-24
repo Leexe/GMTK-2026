@@ -15,7 +15,7 @@ public class VisualNovelUI : MonoBehaviour
 {
 	[FoldoutGroup("References/Game References")]
 	[SerializeField]
-	private DialogueController _dialogueController;
+	private DialogueManager _dialogueManager;
 
 	[TitleGroup("References")]
 	[FoldoutGroup("References/Game References")]
@@ -105,7 +105,7 @@ public class VisualNovelUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		_dialogueState = _dialogueController.DialogueState;
+		_dialogueState = _dialogueManager.DialogueState;
 		_dialogueState.OnStartStory += EnableStoryPanel;
 		_dialogueState.OnDisplayDialogue += ChangeStoryText;
 		_dialogueState.OnCharacterUpdate += UpdateCharacter;

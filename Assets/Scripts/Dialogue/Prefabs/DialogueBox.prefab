@@ -298,7 +298,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6035618117870836334}
-  - component: {fileID: -501033246996581376}
   m_Layer: 0
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -322,22 +321,6 @@ Transform:
   - {fileID: 9062591401055008289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-501033246996581376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7783613828031848447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb234ac2ed1d456b90b60fbe90df270, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueBox
-  _canvas: {fileID: 6059891784976620106}
-  _typewriter: {fileID: 3780984704617357045}
-  _characterID: 
-  _fadeDuration: 0.25
 --- !u!1 &8127165743840546862
 GameObject:
   m_ObjectHideFlags: 0

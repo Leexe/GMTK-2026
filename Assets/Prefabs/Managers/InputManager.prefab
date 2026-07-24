@@ -44,31 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e74b898a714b93b79f3398433b4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  OnMovement:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMovement2:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPunchPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnKickPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGrabPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnContinueStoryPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEscapePerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBacklogPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAnyInputPerformed:
-    m_PersistentCalls:
-      m_Calls: []
