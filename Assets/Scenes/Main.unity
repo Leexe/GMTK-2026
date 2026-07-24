@@ -1808,10 +1808,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca30052219c6802448635fdf9898ac1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersonInfoController
+  PaperPrefab: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
   Paper: {fileID: 284950662}
   NpcSpawner: {fileID: 1137429302}
   ShownPosition: {x: 0, y: 150}
   HiddenPosition: {x: 0, y: -450}
+  Spacing: 450
   AnimDuration: 0.6
   FastAnimDuration: 0.4
 --- !u!1 &1571750326
@@ -2640,6 +2642,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3311,14 +3329,6 @@ PrefabInstance:
     - target: {fileID: 6663630149126319485, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: m_SizeDelta.y
       value: 880
-      objectReference: {fileID: 0}
-    - target: {fileID: 6663630149126319485, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6663630149126319485, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6663630149126319485, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: m_LocalPosition.x

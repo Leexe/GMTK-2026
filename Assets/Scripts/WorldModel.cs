@@ -109,6 +109,7 @@ public class Skinwalker : Person
 
 public class InterviewResponses
 {
+    public Person Source;
 	public string Name;
 	public NpcRoles Role;
 	public int HeightInches;
@@ -122,6 +123,7 @@ public class InterviewResponses
 	{
 		InterviewResponses responses = new()
 		{
+            Source = person,
 			Name = person.Name,
 			Role = person.Role,
 			HeightInches = person.HeightInches,

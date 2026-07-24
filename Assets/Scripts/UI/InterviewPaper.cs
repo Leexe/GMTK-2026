@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class InterviewPaper : MonoBehaviour
 {
+    public RectTransform OwnTransform;
+
     public TMP_Text NameText;
     public TMP_Text RoleText;
     public TMP_Text HeightText;

@@ -72,6 +72,7 @@ public class NpcController : MonoBehaviour
 
 	private void HandleClick()
 	{
+		Debug.Log($"{transform.GetSiblingIndex()} received click");
 		OnClicked?.Invoke(this);
 	}
 
@@ -109,6 +110,7 @@ public void LerpToPosition(Vector3 targetPosition)
 			{
 				_hoverTarget.OnClick += HandleClick;
 				_hasClickListener = true;
+				Debug.Log($"{transform.GetSiblingIndex()} added listener");
 			}
 		}
 		StartIdleBounce();
@@ -119,6 +121,8 @@ public void LerpToPosition(Vector3 targetPosition)
 		StopBounce();
 		_lerpTween.Stop();
 
+		_person = null;
+
 		if (_visuals != null)
 		{
 			_visuals.SetActive(false);
@@ -126,6 +130,7 @@ public void LerpToPosition(Vector3 targetPosition)
 			{
 				_hoverTarget.OnClick -= HandleClick;	
 				_hasClickListener = false;
+				Debug.Log($"{transform.GetSiblingIndex()} removed listener");
 			}
 		}
 	}
