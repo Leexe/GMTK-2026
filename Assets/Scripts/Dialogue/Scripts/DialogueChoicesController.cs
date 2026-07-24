@@ -4,7 +4,7 @@ using UnityEngine;
 public class DialogueChoicesController : MonoBehaviour
 {
 	[SerializeField]
-	private DialogueController _dialogueController;
+	private DialogueManager _dialogueManager;
 
 	[SerializeField]
 	private GameObject _dialogueBoxPrefab;
@@ -13,18 +13,18 @@ public class DialogueChoicesController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		_dialogueController.DialogueState.OnDisplayChoices += DisplayChoices;
-		_dialogueController.DialogueState.OnChoiceSelect += HideChoices;
-		_dialogueController.DialogueState.OnStartStory += HideChoices;
+		_dialogueManager.DialogueState.OnDisplayChoices += DisplayChoices;
+		_dialogueManager.DialogueState.OnChoiceSelect += HideChoices;
+		_dialogueManager.DialogueState.OnStartStory += HideChoices;
 	}
 
 	private void OnDisable()
 	{
-		if (_dialogueController)
+		if (_dialogueManager)
 		{
-			_dialogueController.DialogueState.OnDisplayChoices -= DisplayChoices;
-			_dialogueController.DialogueState.OnChoiceSelect -= HideChoices;
-			_dialogueController.DialogueState.OnStartStory -= HideChoices;
+			_dialogueManager.DialogueState.OnDisplayChoices -= DisplayChoices;
+			_dialogueManager.DialogueState.OnChoiceSelect -= HideChoices;
+			_dialogueManager.DialogueState.OnStartStory -= HideChoices;
 		}
 	}
 

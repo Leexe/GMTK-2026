@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogueChoiceBox : MonoBehaviour
 {
 	[SerializeField]
-	private DialogueController _dialogueController;
+	private DialogueManager _dialogueManager;
 
 	[SerializeField]
 	private TextMeshProUGUI _choiceBoxText;
@@ -33,6 +33,6 @@ public class DialogueChoiceBox : MonoBehaviour
 			AudioManager.Instance.PlayOneShot(_clickSfx);
 		}
 
-		_dialogueController.DialogueState.OnChoiceSelect?.Invoke(_choiceIndex);
+		_dialogueManager.DialogueState.OnChoiceSelect?.Invoke(_choiceIndex);
 	}
 }
