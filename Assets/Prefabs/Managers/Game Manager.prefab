@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6235297930472088742}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -53,13 +53,27 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: OnInteractableEnter
+    - Name: OnGameLose
       Entry: 6
       Data: 
-    - Name: OnInteractableExit
+    - Name: OnGameWin
       Entry: 6
       Data: 
-    - Name: OnItemPickUp
+    - Name: OnNpcUpdate
       Entry: 6
       Data: 
+    - Name: OnNewFloor
+      Entry: 6
+      Data: 
+    - Name: OnEngineUpdate
+      Entry: 6
+      Data: 
+  LevelsData: {fileID: 11400000, guid: f8446cfda45e64c39b1859d2a671c1b0, type: 2}
+  RolesData: {fileID: 11400000, guid: 491fccccc106648c2868161fa57ee4e8, type: 2}
+  _workerEngineMult: 2
+  _skinWalkerKillCount: 2
+  _maxEngineIntegrity: 100
+  _engineMinDeterioration: 15
+  _engineDeteriorateScaling: 1
+  _engineDeteriorateVariance: 0.9
   RunTime: 0

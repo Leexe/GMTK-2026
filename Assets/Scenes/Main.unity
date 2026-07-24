@@ -1686,33 +1686,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: RolesData
-      value: 
-      objectReference: {fileID: 11400000, guid: 491fccccc106648c2868161fa57ee4e8, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: LevelsData
-      value: 
-      objectReference: {fileID: 11400000, guid: f8446cfda45e64c39b1859d2a671c1b0, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _workerEngineMult
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _engineMinDeterioration
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _engineDeteriorateScaling
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _engineDeteriorateVariance
-      value: 0.9
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
     - target: {fileID: 6235297930472088742, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: m_Name
       value: Game Manager

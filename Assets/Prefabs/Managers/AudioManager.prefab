@@ -53,48 +53,34 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  <Footsteps_Sfx>k__BackingField:
+  <Ambience_Amb>k__BackingField:
     Guid:
-      Data1: -509962723
-      Data2: 1269375412
-      Data3: -1956337279
-      Data4: -1309143252
-    Path: event:/SFX/Gameplay/Footsteps/Footsteps
-  <Sandsteps_Sfx>k__BackingField:
+      Data1: 875515558
+      Data2: 1105652169
+      Data3: -212682604
+      Data4: -676787614
+    Path: event:/AMB/Ambience
+  <ElevatorOpen_Sfx>k__BackingField:
     Guid:
-      Data1: -1797788036
-      Data2: 1313166635
-      Data3: 474156948
-      Data4: -1382136649
-    Path: event:/SFX/Gameplay/Footsteps/Sandsteps
-  <Jump_Sfx>k__BackingField:
+      Data1: 172047849
+      Data2: 1251253116
+      Data3: -1463713139
+      Data4: -230906607
+    Path: event:/SFX/Elevator Noises/Open
+  <ElevatorClose_Sfx>k__BackingField:
     Guid:
-      Data1: 2044512272
-      Data2: 1282485448
-      Data3: -981366595
-      Data4: -1806114300
-    Path: event:/SFX/Gameplay/Jump
-  <ButtonClick_Sfx>k__BackingField:
+      Data1: -1184095822
+      Data2: 1313346619
+      Data3: -1412578113
+      Data4: -255488713
+    Path: event:/SFX/Elevator Noises/Close
+  <ElevatorDescend_Sfx>k__BackingField:
     Guid:
-      Data1: -699829950
-      Data2: 1128432670
-      Data3: 1674792868
-      Data4: -1289976302
-    Path: event:/SFX/NPCs/Menu UI/Button Click
-  <Dialogue_Sfx>k__BackingField:
-    Guid:
-      Data1: -1389824704
-      Data2: 1240722527
-      Data3: 1215965068
-      Data4: 928654138
-    Path: event:/SFX/NPCs/Dialogue
-  <Falling_LoopSfx>k__BackingField:
-    Guid:
-      Data1: -1477203512
-      Data2: 1136147767
-      Data3: -367710067
-      Data4: 569867649
-    Path: event:/SFX/Gameplay/Falling
+      Data1: -2078798034
+      Data2: 1138247222
+      Data3: 32739717
+      Data4: 1404055180
+    Path: event:/SFX/Elevator Noises/Descend
 --- !u!1 &3472308070409565324
 GameObject:
   m_ObjectHideFlags: 0
