@@ -1140,6 +1140,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059641278}
   m_CullTransparentMesh: 1
+--- !u!1 &1133815381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5088861235264370165, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+  m_PrefabInstance: {fileID: 2006831421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1133815383
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133815381}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1136058951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1491,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393071149}
   m_CullTransparentMesh: 1
+--- !u!1 &1400069700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9111708403173695419, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+  m_PrefabInstance: {fileID: 2006831421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1400069702
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400069700}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1514091683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,6 +1815,23 @@ MonoBehaviour:
   HiddenPosition: {x: 0, y: -450}
   AnimDuration: 0.6
   FastAnimDuration: 0.4
+--- !u!1 &1556810200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1302117976395324505, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+  m_PrefabInstance: {fileID: 2006831421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1556810202
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556810200}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1571750326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,10 +2642,35 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9111708403173695419, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1400069702}
+    - targetCorrespondingSourceObject: {fileID: 5088861235264370165, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1133815383}
+    - targetCorrespondingSourceObject: {fileID: 1302117976395324505, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1556810202}
   m_SourcePrefab: {fileID: 100100000, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
 --- !u!1001 &609830562180598626
 PrefabInstance:
