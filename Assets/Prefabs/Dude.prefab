@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7798347566970457673}
   - component: {fileID: 1588700897442230823}
   - component: {fileID: 3353710241338067789}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Dude
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3854316992164479126}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 7006486541146270171}
   - component: {fileID: 4175443512234257235}
   - component: {fileID: 9187582862484565301}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
