@@ -116,13 +116,21 @@ public class NpcController : MonoBehaviour
 		_person = person;
 	}
 
-	public void LerpToPosition(Vector3 targetPosition)
+	public void LerpToPosition(Vector3 targetPosition, bool playFootsteps = false)
 	{
 		StopBounce();
 		_lerpTween.Stop();
 
 		float delay = Random.Range(0f, _lerpDelay);
-		_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounce());
+
+		if (playFootsteps)
+		{
+			_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounce());
+		}
+		else
+		{
+			_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounceNoSound());
+		}
 
 		_lerpTween = Tween.Position(transform, targetPosition, _lerpDuration, _lerpEase, startDelay: delay);
 		_lerpTween.OnComplete(
@@ -271,6 +279,11 @@ public class NpcController : MonoBehaviour
 	{
 		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
 		StartFootsteps();
+	}
+
+	public void StartMoveBounceNoSound()
+	{
+		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
 	}
 
 	public void StartIdleBounce()

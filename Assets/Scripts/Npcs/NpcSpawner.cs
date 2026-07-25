@@ -121,7 +121,7 @@ public class NpcSpawner : MonoBehaviour
 			NpcController npc = _activeNpcs[i];
 			int goalIndex = availableGoalIndices[i % availableGoalIndices.Count];
 			Vector3 goalPos = _goalPoints[goalIndex].position;
-			npc.LerpToPosition(goalPos);
+			npc.LerpToPosition(goalPos, playFootsteps: true);
 		}
 	}
 
@@ -194,7 +194,7 @@ public class NpcSpawner : MonoBehaviour
 		{
 			return;
 		}
-		_activeNpcs[npcIndex].LerpToPosition(_goalPoints[goalPointIndex].position);
+		_activeNpcs[npcIndex].LerpToPosition(_goalPoints[goalPointIndex].position, playFootsteps: true);
 	}
 
 	private void HandleNpcClicked(NpcController npc)
