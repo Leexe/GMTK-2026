@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DirectionalBillboard
+  m_Name: MB_Psychologist
   m_Shader: {fileID: 4800000, guid: 8b996691a693748dbace0e17fa3ed14b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,9 +24,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 712950cbb7cdf48eab5e1a436e9e1769, type: 3}
+        m_Texture: {fileID: 2800000, guid: 80957437195023b4ea1fb04228a9bae1, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: -1}
+        m_Offset: {x: 0, y: 0}
     m_Ints:
     - _Columns: 2
     - _Rows: 2
