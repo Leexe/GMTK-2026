@@ -53,10 +53,13 @@ public class NpcSpawner : MonoBehaviour
 
 	private void OnDisable()
 	{
-		GameManager.Instance.OnNpcUpdate -= HandleNpcUpdate;
-		GameManager.Instance.OnNewFloor -= HandleNewFloor;
-		GameManager.Instance.OnStartDoorOpen -= HandleDoorOpenDialogue;
-		GameManager.Instance.OnStartDescent -= HandleDescentDialogue;
+		if (GameManager.Instance != null)
+		{
+			GameManager.Instance.OnNpcUpdate -= HandleNpcUpdate;
+			GameManager.Instance.OnNewFloor -= HandleNewFloor;
+			GameManager.Instance.OnStartDoorOpen -= HandleDoorOpenDialogue;
+			GameManager.Instance.OnStartDescent -= HandleDescentDialogue;
+		}
 		OnAllNpcsArrived -= HandleGreetingDialogue;
 		UnsubscribeFromActiveNpcs();
 	}
