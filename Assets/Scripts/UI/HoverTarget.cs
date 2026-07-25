@@ -25,6 +25,6 @@ public class HoverTarget : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	public void OnPointerExit(PointerEventData eventData)
 	{
         _hovered = false;
-        OnHover?.Invoke();
+        OnUnhover?.Invoke();
 	}
 }

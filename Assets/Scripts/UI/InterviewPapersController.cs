@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using PrimeTween;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 // handles showing/hiding of interview paper

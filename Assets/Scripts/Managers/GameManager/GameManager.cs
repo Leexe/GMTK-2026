@@ -108,6 +108,9 @@ public class GameManager : MonoSingleton<GameManager>
 
 	[HideInInspector]
 	public Action OnSkinWalkersAct;
+	
+	[HideInInspector]
+	public Action OnNpcsArrived;
 
 	// Unity Events
 
@@ -121,11 +124,12 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			NpcCount[role] = 0;
 		}
+
+		EngineIntegrity = _maxEngineIntegrity;
 	}
 
 	private void Start()
 	{
-		EngineIntegrity = _maxEngineIntegrity;
 		PrimeTweenConfig.warnZeroDuration = false;
 		OnNewFloor?.Invoke();
 	}
@@ -145,6 +149,10 @@ public class GameManager : MonoSingleton<GameManager>
 	public void SetNpcsFinishedMoving(bool value)
 	{
 		NpcsFinishedMoving = value;
+		if (value)
+		{
+			OnNpcsArrived?.Invoke();
+		}
 	}
 
 	public void ContinueToNextFloor()
