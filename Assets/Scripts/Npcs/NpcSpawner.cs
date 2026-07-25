@@ -46,6 +46,9 @@ public class NpcSpawner : MonoBehaviour
 	{
 		GameManager.Instance.OnNpcUpdate += HandleNpcUpdate;
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
+		GameManager.Instance.OnStartDoorOpen += HandleDoorOpenDialogue;
+		GameManager.Instance.OnStartDescent += HandleDescentDialogue;
+		OnAllNpcsArrived += HandleGreetingDialogue;
 	}
 
 	private void OnDisable()
@@ -54,8 +57,10 @@ public class NpcSpawner : MonoBehaviour
 		{
 			GameManager.Instance.OnNpcUpdate -= HandleNpcUpdate;
 			GameManager.Instance.OnNewFloor -= HandleNewFloor;
+			GameManager.Instance.OnStartDoorOpen -= HandleDoorOpenDialogue;
+			GameManager.Instance.OnStartDescent -= HandleDescentDialogue;
 		}
-
+		OnAllNpcsArrived -= HandleGreetingDialogue;
 		UnsubscribeFromActiveNpcs();
 	}
 
@@ -70,7 +75,6 @@ public class NpcSpawner : MonoBehaviour
 		}
 		_activeNpcs.Clear();
 		_arrivedNpcCount = 0;
-
 
 		int currentFloor = GameManager.Instance.CurrentFloor;
 		if (currentFloor >= GameManager.Instance.WorldState.Floors.Count)
@@ -117,7 +121,7 @@ public class NpcSpawner : MonoBehaviour
 			NpcController npc = _activeNpcs[i];
 			int goalIndex = availableGoalIndices[i % availableGoalIndices.Count];
 			Vector3 goalPos = _goalPoints[goalIndex].position;
-			npc.LerpToPosition(goalPos);
+			npc.LerpToPosition(goalPos, playFootsteps: true);
 		}
 	}
 
@@ -133,10 +137,7 @@ public class NpcSpawner : MonoBehaviour
 	private void HandleAllNpcsArrived()
 	{
 		Debug.Log("All active NPCs arrived at their position.");
-		if (GameManager.Instance != null)
-		{
-			GameManager.Instance.SetNpcsFinishedMoving(true);
-		}
+		GameManager.Instance.SetNpcsFinishedMoving(true);
 		OnAllNpcsArrived?.Invoke();
 	}
 
@@ -193,11 +194,56 @@ public class NpcSpawner : MonoBehaviour
 		{
 			return;
 		}
-		_activeNpcs[npcIndex].LerpToPosition(_goalPoints[goalPointIndex].position);
+		_activeNpcs[npcIndex].LerpToPosition(_goalPoints[goalPointIndex].position, playFootsteps: true);
 	}
 
 	private void HandleNpcClicked(NpcController npc)
 	{
 		OnNpcClicked?.Invoke(npc);
+	}
+
+	private void HandleGreetingDialogue()
+	{
+		TriggerGroupDialogue(n => n.TrySayGreetingDialogue(), n => n.SayMeetDialogue());
+	}
+
+	private void HandleDoorOpenDialogue()
+	{
+		TriggerGroupDialogue(n => n.TrySayAcceptDialogue(), n => n.SayAcceptDialogue());
+	}
+
+	private void HandleDescentDialogue()
+	{
+		if (GameManager.Instance.OpenedDoor)
+		{
+			return;
+		}
+		TriggerGroupDialogue(n => n.TrySayRejectDialogue(), n => n.SayRejectDialogue());
+	}
+
+	private void TriggerGroupDialogue(
+		System.Func<NpcController, bool> trySpeak,
+		System.Action<NpcController> forceSpeak
+	)
+	{
+		List<NpcController> active = _activeNpcs.FindAll(n => n.IsActive);
+		if (active.Count == 0)
+		{
+			return;
+		}
+
+		bool anySpoke = false;
+		foreach (NpcController npc in active)
+		{
+			if (trySpeak(npc))
+			{
+				anySpoke = true;
+			}
+		}
+
+		if (!anySpoke)
+		{
+			forceSpeak(active[Random.Range(0, active.Count)]);
+		}
 	}
 }

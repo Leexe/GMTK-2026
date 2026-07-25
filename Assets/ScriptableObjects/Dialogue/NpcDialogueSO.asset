@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecba408d05f40b68f07429a1adb4599, type: 3}
+  m_Name: NpcDialogueSO
+  m_EditorClassIdentifier: Assembly-CSharp::NpcDialogueSO
+  _meetText:
+  - Shift's over. Got my ore quota. Let me return home.
+  - It's freezing up here. My lamp burned out a few hours ago...
+  - I finished my haul. My... family is waiting for me in the lower bunker.
+  - Don't just stand there staring! Open the elevator.
+  - Greetings, operator. I have completed the assigned surface mining duties.
+  - We got separated in Shaft B. The others... didn't make it. Just open up.
+  - Check my identification if you want, just pull the lever! Something was following
+    me.
+  _acceptText:
+  - Thank God... I thought I was going to freeze out here.
+  - Appreciate it. I need some rest.
+  - Step aside, I need to drop this haul.
+  - Safe at last.
+  - Thank you.
+  - 'You made the right choice. '
+  _rejectText:
+  - I have a family, you can't leave me here!
+  - No! Wait! Check my ID again! That scratch on my mask isn't from them!
+  - You're locking me out?! The surface frost will kill me in five minutes!
+  - I'm human! Look at me! Look into my eyes! I'm NOT one of them!
+  - Please... my daughter is waiting for me... don't do this to me!
+  - OPEN THE DOOR! THEY'RE RIGHT BEHIND ME! OPEN THE DAMN DOOR!
+  - You coward! I'll crawl my way down there, I'm coming for you!
+  - I HAVE A FAMILY I HAVE A FAMILY I HAVE A FAMILY--
