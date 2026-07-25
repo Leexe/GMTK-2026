@@ -69,10 +69,8 @@ public class Clipboard : MonoBehaviour
 
     private void SetNumbers()
     {
-		Dictionary<NpcRoles, int> counts = GameManager.Instance.NpcCount;
-
-        WorkersText.text = counts[NpcRoles.Worker].ToString("D2");
-        PsychologistsText.text = counts[NpcRoles.Psychologist].ToString("D2");
-        GuardsText.text = counts[NpcRoles.Guard].ToString("D2");
+        WorkersText.text = GameManager.Instance.CountNPCs(NpcRoles.Worker).ToString("D2");
+        PsychologistsText.text = GameManager.Instance.CountNPCs(NpcRoles.Psychologist).ToString("D2");
+        GuardsText.text = GameManager.Instance.CountNPCs(NpcRoles.Guard).ToString("D2");
     }
 }

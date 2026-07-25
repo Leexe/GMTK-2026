@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
+using System.Linq;
 using PrimeTween;
 using UnityEngine;
 
@@ -54,14 +54,10 @@ public class GameManager : MonoSingleton<GameManager>
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
-
 	public static float SimulationTimeScale { get; private set; } = 1f;
-
 	public static bool IsPaused { get; private set; }
 
-	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
-
-	// public List<LevelInstance> LevelInstances { private set; get; }
+	public List<Person> PeopleOnElevator {get; private set;} = new();
 	public World WorldState { get; private set; } = new();
 
 	public bool NpcsFinishedMoving { get; private set; } = true;
@@ -119,12 +115,7 @@ public class GameManager : MonoSingleton<GameManager>
 		base.OnInitialized();
 		InitializeWorld();
 
-		NpcCount = new();
-		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
-		{
-			NpcCount[role] = 0;
-		}
-
+		PeopleOnElevator = new();
 		EngineIntegrity = _maxEngineIntegrity;
 	}
 
@@ -142,6 +133,42 @@ public class GameManager : MonoSingleton<GameManager>
 	private void OnDisable()
 	{
 		_descentSequence.Stop();
+	}
+
+	public int CountNPCs(NpcRoles? role = null, bool includeSkinwalkers = true)
+	{
+		if (role == NpcRoles.Skinwalker)
+		{
+			return PeopleOnElevator.Count(p => p.IsSkinwalker && includeSkinwalkers);
+		}
+		return PeopleOnElevator.Count(p => (!p.IsSkinwalker || includeSkinwalkers) && (!role.HasValue || p.Role == role.Value));
+	}
+
+	public int KillRandomNpcs(int amount, NpcRoles? role = null, bool includeSkinwalkers = true)
+	{
+		List<Person> pool;
+
+		if (role == NpcRoles.Skinwalker)
+		{
+			pool = PeopleOnElevator.Where(p => p.IsSkinwalker && includeSkinwalkers).ToList();
+		}
+		else
+		{
+			pool = PeopleOnElevator.Where(p => (!p.IsSkinwalker || includeSkinwalkers) && (!role.HasValue || p.Role == role.Value)).ToList();
+		}
+			
+		for (int i = 0; i < amount; i++)
+		{
+			if (pool.Count == 0)
+			{
+				return i;
+			}
+			Person selection = pool[UnityEngine.Random.Range(0, pool.Count)];
+			pool.Remove(selection);
+			PeopleOnElevator.Remove(selection);
+		}
+
+		return amount;
 	}
 
 	// Game Logic
@@ -192,7 +219,8 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 
 		// Workers Repair Engine
-		if (NpcCount[NpcRoles.Worker] > 0)
+		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
+		if (workerCount > 0)
 		{
 			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => HandleWorkers()));
 		}
@@ -227,17 +255,7 @@ public class GameManager : MonoSingleton<GameManager>
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
 
-			foreach (Person p in WorldState.Floors[_currentFloor].People)
-			{
-				if (p.IsSkinwalker)
-				{
-					NpcCount[NpcRoles.Skinwalker]++;
-				}
-				else
-				{
-					NpcCount[p.Role]++;
-				}
-			}
+			PeopleOnElevator.AddRange(WorldState.Floors[_currentFloor].People);
 
 			OnStartDoorOpen?.Invoke();
 
@@ -254,7 +272,8 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private void HandleWorkers()
 	{
-		float workerGain = NpcCount[NpcRoles.Worker] * _workerEngineMult;
+		int realWorkerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
+		float workerGain = realWorkerCount * _workerEngineMult;
 		Debug.Log($"Engine Repaired +{workerGain}");
 		EngineIntegrity = Mathf.Clamp(EngineIntegrity + workerGain, 0, _maxEngineIntegrity);
 		OnEngineUpdate?.Invoke();
@@ -262,61 +281,37 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private bool DoesSkinWalkerAct()
 	{
-		int skinWalkerCount = NpcCount[NpcRoles.Skinwalker];
+		int skinWalkerCount = CountNPCs(NpcRoles.Skinwalker);
 		float actChance = _skinWalkerActChance * skinWalkerCount;
 		return UnityEngine.Random.value <= actChance;
 	}
 
 	private void SkinWalkersActs()
 	{
-		int skinWalkerCount = NpcCount[NpcRoles.Skinwalker];
-		if (skinWalkerCount <= 0)
+		if (CountNPCs(NpcRoles.Skinwalker) <= 0)
 		{
 			return;
 		}
 
-		// Kill Guards If Any
-		if (NpcCount[NpcRoles.Guard] > 0)
+		// skinwalkers kill one guard if there is one
+		int guardsKilled = KillRandomNpcs(1, NpcRoles.Guard, includeSkinwalkers: false);
+		
+		// if there was no guard, a lot of people die...
+		if (guardsKilled == 0)
 		{
-			NpcCount[NpcRoles.Guard]--;
-			Debug.Log("Killed Guard");
-		}
-		// Kill Other Npcs, If No Guard
-		else
-		{
-			int totalKillsNeeded = skinWalkerCount * _skinWalkerKillCount;
-			while (totalKillsNeeded > 0)
+			int skinWalkers = KillRandomNpcs(67, NpcRoles.Skinwalker); // remove all skinwalkers
+			int peopleKills = skinWalkers * _skinWalkerKillCount;
+
+			KillRandomNpcs(peopleKills);
+
+			if (PeopleOnElevator.Count == 0)
 			{
-				var availableVictims = new List<NpcRoles>();
-				foreach (KeyValuePair<NpcRoles, int> kvp in NpcCount)
-				{
-					if (kvp.Key != NpcRoles.Skinwalker && kvp.Value > 0)
-					{
-						for (int i = 0; i < kvp.Value; i++)
-						{
-							availableVictims.Add(kvp.Key);
-						}
-					}
-				}
-
-				if (availableVictims.Count == 0)
-				{
-					OnGameLose?.Invoke();
-					Debug.Log("Game Lose");
-					_gameOver = true;
-					return;
-				}
-
-				int randomIndex = UnityEngine.Random.Range(0, availableVictims.Count);
-				NpcRoles victimRole = availableVictims[randomIndex];
-				Debug.Log($"Killed {victimRole}");
-				NpcCount[victimRole]--;
-				totalKillsNeeded--;
+				OnGameLose?.Invoke();
+				Debug.Log("Game Lose");
+				_gameOver = true;
+				return;
 			}
 		}
-
-		// Clear Skin Walkers
-		NpcCount[NpcRoles.Skinwalker] = 0;
 
 		OnNpcUpdate?.Invoke();
 		OnSkinWalkersAct?.Invoke();

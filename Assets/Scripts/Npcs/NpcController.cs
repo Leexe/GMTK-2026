@@ -98,7 +98,8 @@ public class NpcController : MonoBehaviour
 
 	public void Initialize(Person person, Vector3 position)
 	{
-		Debug.Log($"{person.Name} ({person.Role}) Initializing!");
+		string warningText = person.IsSkinwalker ? " (SKINWALKER!)" : "";
+		Debug.Log($"{person.Name} ({person.Role}) Initializing!" + warningText);
 		_person = person;
 		transform.position = position;
 		_basePosition = position;
