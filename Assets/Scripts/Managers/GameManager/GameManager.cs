@@ -9,6 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
 	[Header("References")]
 	public LevelSO LevelsData;
 	public RolesSO RolesData;
+	public NpcDialogueSO NpcDialogueData;
 	public PersonGenInfoSO PersonData;
 
 	[Header("Worker Data")]
@@ -67,6 +68,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
+	public bool OpenedDoor => _openedDoor;
 
 	private float _runTime;
 	private Sequence _timeSlowSequence;

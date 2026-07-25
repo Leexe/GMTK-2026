@@ -1060,8 +1060,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0041fc8d18a17454f970b58d46b3fdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _loseCanvasGroup: {fileID: 6412779415230564537}
-  _winCanvasGroup: {fileID: 1494918514366819293}
+  _loseCanvasGroup: {fileID: 1494918514366819293}
+  _winCanvasGroup: {fileID: 6412779415230564537}
+  _tweenDuration: 1.5
 --- !u!1 &2921244683125808486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,7 +1838,7 @@ GameObject:
   - component: {fileID: 4913826112861887774}
   - component: {fileID: 6412779415230564537}
   m_Layer: 5
-  m_Name: Lose
+  m_Name: Win
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1874,8 +1875,8 @@ CanvasGroup:
   m_GameObject: {fileID: 5307211188871099371}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &5802043607269198868
 GameObject:
@@ -2021,7 +2022,7 @@ GameObject:
   - component: {fileID: 2499860286962882215}
   - component: {fileID: 1494918514366819293}
   m_Layer: 5
-  m_Name: Win
+  m_Name: Lose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2058,8 +2059,8 @@ CanvasGroup:
   m_GameObject: {fileID: 6511319971021448110}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &6680216276912389395
 GameObject:
