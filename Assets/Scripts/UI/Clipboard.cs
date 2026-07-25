@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PrimeTween;
 using TMPro;
@@ -29,7 +30,7 @@ public class Clipboard : MonoBehaviour
     {
         GameManager.Instance.OnNpcUpdate += UpdateInfo;
     }
-    
+
     private void OnDisable()
     {
         if (GameManager.Instance != null)
@@ -69,9 +70,9 @@ public class Clipboard : MonoBehaviour
     private void SetNumbers()
     {
 		Dictionary<NpcRoles, int> counts = GameManager.Instance.NpcCount;
-        
-        WorkersText.text = counts[NpcRoles.Worker].ToString();
-        PsychologistsText.text = counts[NpcRoles.Psychologist].ToString();
-        GuardsText.text = counts[NpcRoles.Guard].ToString();
+
+        WorkersText.text = counts[NpcRoles.Worker].ToString("D2");
+        PsychologistsText.text = counts[NpcRoles.Psychologist].ToString("D2");
+        GuardsText.text = counts[NpcRoles.Guard].ToString("D2");
     }
 }
