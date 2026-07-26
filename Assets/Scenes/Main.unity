@@ -974,6 +974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 0
+  OutlineTarget: {fileID: 0}
 --- !u!114 &921290309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6862,6 +6864,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454455644333759050, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8855045124149514172, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
