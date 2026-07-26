@@ -69,6 +69,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private int _currentFloor;
 	private bool _gameOver;
 	private bool _openedDoor;
+	private bool _descendButtonPressed;
 
 	// Events
 
@@ -104,6 +105,12 @@ public class GameManager : MonoSingleton<GameManager>
 
 	[HideInInspector]
 	public Action OnNpcsArrived;
+
+	[HideInInspector]
+	public Action OnEngineFix;
+
+	[HideInInspector]
+	public Action OnEngineDamage;
 
 	// Unity Events
 
@@ -196,13 +203,19 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		if (_openedDoor && !NpcsFinishedMoving)
+		if (_openedDoor && !NpcsFinishedMoving && !_descendButtonPressed)
 		{
 			Debug.Log("Cannot descend: NPCs are still moving into position.");
 			return;
 		}
 
+		if (_descendButtonPressed)
+		{
+			return;
+		}
+
 		float closeDelay = 0f;
+		_descendButtonPressed = true;
 		if (_openedDoor)
 		{
 			closeDelay = _elevatorDoorCloseDelay;
@@ -212,7 +225,7 @@ public class GameManager : MonoSingleton<GameManager>
 		_descentSequence.Stop();
 		_descentSequence = Sequence.Create();
 
-		// Door close Sfx
+		// Trigger Start Descent Event
 		_descentSequence.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()));
 
 		// Skinwalker Acts
@@ -249,6 +262,7 @@ public class GameManager : MonoSingleton<GameManager>
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
 		OnNewFloor?.Invoke();
+		_descendButtonPressed = false;
 	}
 
 	public void AcceptNpcs()
@@ -279,6 +293,7 @@ public class GameManager : MonoSingleton<GameManager>
 		float workerGain = realWorkerCount * _workerEngineMult;
 		Debug.Log($"Engine Repaired +{workerGain}");
 		EngineIntegrity = Mathf.Clamp(EngineIntegrity + workerGain, 0, _maxEngineIntegrity);
+		OnEngineFix?.Invoke();
 		OnEngineUpdate?.Invoke();
 	}
 
@@ -299,7 +314,7 @@ public class GameManager : MonoSingleton<GameManager>
 		// skinwalkers kill one guard if there is one
 		int guardsKilled = KillRandomNpcs(1, NpcRoles.Guard, includeSkinwalkers: false);
 
-		// if there was no guard, a lot of people die...
+		// if there was no guard, more people die
 		if (guardsKilled == 0)
 		{
 			int skinWalkers = KillRandomNpcs(67, NpcRoles.Skinwalker); // remove all skinwalkers
@@ -327,11 +342,12 @@ public class GameManager : MonoSingleton<GameManager>
 		int deteriorateAmount = Mathf.RoundToInt(UnityEngine.Random.Range(minDeterioration, maxDeterioration));
 		Debug.Log($"Engine Damaged -{deteriorateAmount}");
 		EngineIntegrity = Mathf.Clamp(EngineIntegrity - deteriorateAmount, 0, _maxEngineIntegrity);
+		OnEngineDamage?.Invoke();
+		OnEngineUpdate?.Invoke();
 		if (CheckLoseCondition())
 		{
 			return true;
 		}
-		OnEngineUpdate?.Invoke();
 		return false;
 	}
 

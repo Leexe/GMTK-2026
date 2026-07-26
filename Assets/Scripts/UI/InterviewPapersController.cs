@@ -57,10 +57,10 @@ public class InterviewPapersController : MonoBehaviour
 		{
 			Sync();
 		}
-        else if (Paper.StoredInfo == info && _currentShownInfo == null)
-        {
-            ReturnTween();
-        }
+		else if (Paper.StoredInfo == info && _currentShownInfo == null)
+		{
+			ReturnTween();
+		}
 	}
 
 	public void HideInfo()
@@ -113,47 +113,36 @@ public class InterviewPapersController : MonoBehaviour
 
 	private void ShowTween(InterviewResponses info, bool fromCurrentPos = false)
 	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Documents_Sfx);
+
 		// set all info - just text for now
 		Paper.SetInfo(info);
 		_currentShownInfo = info;
 
 		float rot = Random.Range(-2f, 2f);
 
-        RectTransform rt = Paper.GetComponent<RectTransform>();
+		RectTransform rt = Paper.GetComponent<RectTransform>();
 
 		_activeSequence = Sequence
 			.Create()
-			.Chain(
-				Tween.UIAnchoredPosition(
-					rt,
-					HiddenPosition,
-					ShownPosition,
-					AnimDuration,
-					Ease.OutCubic
-				)
-			)
+			.Chain(Tween.UIAnchoredPosition(rt, HiddenPosition, ShownPosition, AnimDuration, Ease.OutCubic))
 			.Group(Tween.Rotation(Paper.transform, Quaternion.identity, Quaternion.Euler(0f, 0f, rot), AnimDuration))
 			.ChainCallback(Sync);
 	}
 
-    private void ReturnTween()
+	private void ReturnTween()
 	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Documents_Sfx);
+
 		float rot = Random.Range(-2f, 2f);
 		_currentShownInfo = Paper.StoredInfo;
 
-        RectTransform rt = Paper.GetComponent<RectTransform>();
+		RectTransform rt = Paper.GetComponent<RectTransform>();
 
-        _activeSequence.Stop();
+		_activeSequence.Stop();
 		_activeSequence = Sequence
 			.Create()
-			.Chain(
-				Tween.UIAnchoredPosition(
-					rt,
-					ShownPosition,
-					AnimDuration,
-					Ease.OutCubic
-				)
-			)
+			.Chain(Tween.UIAnchoredPosition(rt, ShownPosition, AnimDuration, Ease.OutCubic))
 			.Group(Tween.Rotation(Paper.transform, Quaternion.Euler(0f, 0f, rot), AnimDuration))
 			.ChainCallback(Sync);
 	}

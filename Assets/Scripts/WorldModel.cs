@@ -79,6 +79,7 @@ public class Person
 public class Skinwalker : Person
 {
 	public override bool IsSkinwalker => true;
+	public NpcRoles FakeRole = NpcRoles.Worker;
 	public List<Person> Victims;
 
 	//
@@ -88,12 +89,17 @@ public class Skinwalker : Person
 	// - smarter mangling, based on context abt floors and stuff
 	public static Skinwalker FromPerson(Person person)
 	{
+		NpcRoles fakeRole = person.Role == NpcRoles.Skinwalker
+			? (NpcRoles)Random.Range(0, 3)
+			: person.Role;
+
 		return new()
 		{
 			// TODO: mangle
 			Name = person.Name,
 			// TODO: mangle
-			Role = person.Role,
+			Role = fakeRole,
+			FakeRole = fakeRole,
 			// skinwalkers are always a bit taller than their victims
 			HeightInches = person.HeightInches + Random.Range(1, 4),
 			// sometimes skinwalkers say a random floor

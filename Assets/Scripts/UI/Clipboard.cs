@@ -32,6 +32,8 @@ public class Clipboard : MonoBehaviour
 		GameManager.Instance.OnNpcUpdate += UpdateInfo;
 		GameManager.Instance.OnStartDescent += StartSway;
 		GameManager.Instance.OnNewFloor += StopSway;
+		
+		HoverTarget.OnHover += HandleHover;
 	}
 
 	private void OnDisable()
@@ -44,6 +46,13 @@ public class Clipboard : MonoBehaviour
 
 			_sequence.Stop();
 		}
+
+		HoverTarget.OnHover -= HandleHover;
+	}
+
+	private void HandleHover()
+	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Clipboard_Sfx);
 	}
 
 	private void StartSway() => SwayingUI.StartTween();

@@ -67,13 +67,20 @@ MonoBehaviour:
       Data3: -871533397
       Data4: 1176622104
     Path: event:/BGM/Lose
-  <ElevatorOpen_Sfx>k__BackingField:
+  <ElevatorArrive_Sfx>k__BackingField:
     Guid:
-      Data1: 172047849
-      Data2: 1251253116
-      Data3: -1463713139
-      Data4: -230906607
-    Path: event:/SFX/Elevator Noises/Open
+      Data1: -899586024
+      Data2: 1263752789
+      Data3: -945813620
+      Data4: -850288571
+    Path: event:/SFX/Elevator Noises/Arrive
+  <ElevatorBeep_Sfx>k__BackingField:
+    Guid:
+      Data1: -448220559
+      Data2: 1076033573
+      Data3: 966804389
+      Data4: 1586538059
+    Path: event:/SFX/Elevator Noises/Beep
   <ElevatorClose_Sfx>k__BackingField:
     Guid:
       Data1: -1184095822
@@ -81,13 +88,55 @@ MonoBehaviour:
       Data3: -1412578113
       Data4: -255488713
     Path: event:/SFX/Elevator Noises/Close
-  <ElevatorDescend_Sfx>k__BackingField:
+  <SkinwalkerEncounter_Sfx>k__BackingField:
     Guid:
-      Data1: -2078798034
-      Data2: 1138247222
-      Data3: 32739717
-      Data4: 1404055180
-    Path: event:/SFX/Elevator Noises/Descend
+      Data1: 602053571
+      Data2: 1290062707
+      Data3: -436704327
+      Data4: -861953066
+    Path: event:/SFX/Elevator Noises/Encounter
+  <ElevatorFalling_Sfx>k__BackingField:
+    Guid:
+      Data1: 1275855403
+      Data2: 1094209305
+      Data3: -1267194722
+      Data4: 1918795599
+    Path: event:/SFX/Elevator Noises/Falling
+  <ElevatorLightsOut_Sfx>k__BackingField:
+    Guid:
+      Data1: 271304507
+      Data2: 1337717875
+      Data3: 2067132574
+      Data4: 2048048248
+    Path: event:/SFX/Elevator Noises/Lights Out
+  <ElevatorOpen_Sfx>k__BackingField:
+    Guid:
+      Data1: 172047849
+      Data2: 1251253116
+      Data3: -1463713139
+      Data4: -230906607
+    Path: event:/SFX/Elevator Noises/Open
+  <EngineDamage_Sfx>k__BackingField:
+    Guid:
+      Data1: -2071472512
+      Data2: 1317297635
+      Data3: 1747568040
+      Data4: 1391108976
+    Path: event:/SFX/Generator/Engine Damage
+  <EngineExplode_Sfx>k__BackingField:
+    Guid:
+      Data1: 1090587764
+      Data2: 1204761822
+      Data3: -1768808520
+      Data4: -1742241034
+    Path: event:/SFX/Generator/Engine Explode
+  <EngineFix_Sfx>k__BackingField:
+    Guid:
+      Data1: 1078706402
+      Data2: 1178981252
+      Data3: -1526483016
+      Data4: 2033733552
+    Path: event:/SFX/Generator/Engine Fix
   <Footsteps_Sfx>k__BackingField:
     Guid:
       Data1: 250139012
@@ -95,20 +144,62 @@ MonoBehaviour:
       Data3: -1361565274
       Data4: -544590496
     Path: event:/SFX/NPCs/Footsteps
+  <NpcDeath_Sfx>k__BackingField:
+    Guid:
+      Data1: -295289372
+      Data2: 1141492915
+      Data3: -636014683
+      Data4: -1590235876
+    Path: event:/SFX/NPCs/NPC Death
+  <SoldierShot_Sfx>k__BackingField:
+    Guid:
+      Data1: -1186021571
+      Data2: 1299629019
+      Data3: -1960233816
+      Data4: 1932915896
+    Path: event:/SFX/NPCs/Soldier Shot
   <Clipboard_Sfx>k__BackingField:
     Guid:
       Data1: -2027182024
       Data2: 1121936554
       Data3: -1726554185
       Data4: 1112198593
-    Path: event:/SFX/UI/Clipboard
+    Path: event:/SFX/UI_Player/Clipboard
+  <Death_Sfx>k__BackingField:
+    Guid:
+      Data1: -1027355736
+      Data2: 1095464102
+      Data3: 167890315
+      Data4: 362582704
+    Path: event:/SFX/UI_Player/Death
   <Documents_Sfx>k__BackingField:
     Guid:
       Data1: -408153239
       Data2: 1166121534
       Data3: 1996926399
       Data4: 8658484
-    Path: event:/SFX/UI/Documents
+    Path: event:/SFX/UI_Player/Documents
+  <ElevatorDescend_LoopSfx>k__BackingField:
+    Guid:
+      Data1: -2078798034
+      Data2: 1138247222
+      Data3: 32739717
+      Data4: 1404055180
+    Path: event:/SFX/Elevator Noises/Descend
+  <EngineLow_LoopSfx>k__BackingField:
+    Guid:
+      Data1: -326961388
+      Data2: 1086054366
+      Data3: -800231028
+      Data4: -2071279241
+    Path: event:/SFX/Generator/Engine Low
+  <EngineRunning_LoopSfx>k__BackingField:
+    Guid:
+      Data1: -1148672320
+      Data2: 1202837261
+      Data3: 586597297
+      Data4: 1428720929
+    Path: event:/SFX/Generator/Engine Running
 --- !u!1 &3472308070409565324
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3932040433655832496}
   - component: {fileID: 4209121169465835826}
+  - component: {fileID: 1907550822993673619}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -164,3 +256,17 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _initVisualization: 1
+--- !u!114 &1907550822993673619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3472308070409565324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5815e6a9740f400b9a4bda14e4a86a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _engineLowThreshold: 0.25
+  _elevatorBeepDelay: 2

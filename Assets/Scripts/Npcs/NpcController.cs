@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
@@ -70,6 +71,13 @@ public class NpcController : MonoBehaviour
 	[SerializeField]
 	private float _stepInterval = 0.4f;
 
+	[Header("Material Animation Settings")]
+	[SerializeField]
+	private NpcMaterialMapSO _materialMap;
+
+	[SerializeField]
+	private float _walkMaterialInterval = 0.15f;
+
 	public System.Action<NpcController> OnArrivedAtPosition;
 	public System.Action<NpcController> OnClicked;
 
@@ -81,6 +89,9 @@ public class NpcController : MonoBehaviour
 	private Sequence _bounceSequence;
 	private Sequence _footstepSequence;
 	private Sequence _dialogueSequence;
+	private Sequence _materialSequence;
+	private Renderer _meshRenderer;
+	private int _currentWalkFrameIndex;
 	private Tween _lerpTween;
 	private Tween _delayTween;
 	private Vector3 _basePosition;
@@ -88,6 +99,8 @@ public class NpcController : MonoBehaviour
 	private bool _hasClickListener = false;
 	private bool _isSelected = false;
 	private bool _isMoving = false;
+
+	private Renderer MeshRenderer => _meshRenderer ??= _meshGameObject.GetComponent<Renderer>();
 
 	private void OnEnable()
 	{
@@ -99,6 +112,7 @@ public class NpcController : MonoBehaviour
 		StopBounce();
 		_lerpTween.Stop();
 		_dialogueSequence.Stop();
+		StopWalkMaterialAnim();
 	}
 
 	public void Initialize(Person person, Vector3 position)
@@ -111,6 +125,7 @@ public class NpcController : MonoBehaviour
 		HideDialogue();
 		EnableVisuals();
 		SetSelected(false);
+		SetIdleMaterial();
 	}
 
 	public void SetSelected(bool selected)
@@ -307,16 +322,19 @@ public class NpcController : MonoBehaviour
 	{
 		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
 		StartFootsteps();
+		StartWalkMaterialAnim();
 	}
 
 	public void StartMoveBounceNoSound()
 	{
 		StartBounce(_bounceHeight, _bounceDuration, _bounceEase);
+		StartWalkMaterialAnim();
 	}
 
 	public void StartIdleBounce()
 	{
 		StartBounce(_idleBounceHeight, _idleBounceDuration, _idleBounceEase);
+		SetIdleMaterial();
 	}
 
 	private void StartFootsteps()
@@ -356,6 +374,69 @@ public class NpcController : MonoBehaviour
 		_delayTween.Stop();
 		_bounceSequence.Stop();
 		_footstepSequence.Stop();
+		StopWalkMaterialAnim();
 		_visuals.transform.localPosition = Vector3.zero;
+	}
+
+	private List<Material> GetMaterialsForCurrentRole()
+	{
+		if (_person == null)
+		{
+			return null;
+		}
+
+		NpcRoles role = _person.Role;
+		if (role == NpcRoles.Skinwalker)
+		{
+			role = _person is Skinwalker skinwalker ? skinwalker.FakeRole : NpcRoles.Worker;
+		}
+		return _materialMap.GetMaterialsForRole(role);
+	}
+
+	public void SetIdleMaterial()
+	{
+		StopWalkMaterialAnim();
+		List<Material> materials = GetMaterialsForCurrentRole();
+		if (materials == null)
+		{
+			return;
+		}
+
+		MeshRenderer.sharedMaterial = materials[2]; // Index 2 is the idle
+	}
+
+	public void StartWalkMaterialAnim()
+	{
+		_materialSequence.Stop();
+		List<Material> materials = GetMaterialsForCurrentRole();
+		if (materials == null)
+		{
+			return;
+		}
+
+		_currentWalkFrameIndex = 0;
+		MeshRenderer.sharedMaterial = materials[_currentWalkFrameIndex];
+
+		_materialSequence = Sequence
+			.Create(-1)
+			.Chain(Tween.Delay(_walkMaterialInterval))
+			.ChainCallback(this, target => target.AdvanceWalkMaterialFrame());
+	}
+
+	private void AdvanceWalkMaterialFrame()
+	{
+		List<Material> materials = GetMaterialsForCurrentRole();
+		if (materials == null)
+		{
+			return;
+		}
+
+		_currentWalkFrameIndex = (_currentWalkFrameIndex + 1) % materials.Count;
+		MeshRenderer.sharedMaterial = materials[_currentWalkFrameIndex];
+	}
+
+	public void StopWalkMaterialAnim()
+	{
+		_materialSequence.Stop();
 	}
 }

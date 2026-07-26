@@ -20,7 +20,7 @@ MonoBehaviour:
     NpcGuaranteedSpawns: 00000000
     NpcSpawnRandomRange: {x: 0, y: 1}
   - OnLoadDialogueKnot: 
-    NpcGuaranteedSpawns: 
+    NpcGuaranteedSpawns: 03000000
     NpcSpawnRandomRange: {x: 2, y: 3}
   - OnLoadDialogueKnot: 
     NpcGuaranteedSpawns: 
