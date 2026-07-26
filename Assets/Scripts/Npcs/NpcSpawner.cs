@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using PrimeTween;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,9 +20,13 @@ public class NpcSpawner : MonoBehaviour
 	[SerializeField]
 	private List<Transform> _goalPoints;
 
+	[SerializeField]
+	private List<Transform> _repairPoints;
+
 	private List<NpcController> _npcPool = new();
 	private List<NpcController> _activeNpcs = new();
 	private int _arrivedNpcCount;
+	private Tween _repairDelayTween;
 
 	// Events
 	public Action OnAllNpcsArrived;
@@ -47,7 +53,9 @@ public class NpcSpawner : MonoBehaviour
 		GameManager.Instance.OnNpcUpdate += HandleNpcUpdate;
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
 		GameManager.Instance.OnStartDoorOpen += HandleDoorOpenDialogue;
-		GameManager.Instance.OnStartDescent += HandleDescentDialogue;
+		GameManager.Instance.OnStartDescent += HandleStartDescent;
+		GameManager.Instance.OnEngineDamage += HandleWorkerRepair;
+		GameManager.Instance.OnEngineFix += HandleEngineRepair;
 		OnAllNpcsArrived += HandleGreetingDialogue;
 	}
 
@@ -58,9 +66,12 @@ public class NpcSpawner : MonoBehaviour
 			GameManager.Instance.OnNpcUpdate -= HandleNpcUpdate;
 			GameManager.Instance.OnNewFloor -= HandleNewFloor;
 			GameManager.Instance.OnStartDoorOpen -= HandleDoorOpenDialogue;
-			GameManager.Instance.OnStartDescent -= HandleDescentDialogue;
+			GameManager.Instance.OnEngineFix -= HandleEngineRepair;
+			GameManager.Instance.OnStartDescent -= HandleStartDescent;
+			GameManager.Instance.OnEngineDamage -= HandleWorkerRepair;
 		}
 		OnAllNpcsArrived -= HandleGreetingDialogue;
+		_repairDelayTween.Stop();
 		UnsubscribeFromActiveNpcs();
 	}
 
@@ -76,13 +87,7 @@ public class NpcSpawner : MonoBehaviour
 	private void HandleNewFloor()
 	{
 		// Clean Up
-		UnsubscribeFromActiveNpcs();
-		foreach (NpcController npc in _activeNpcs)
-		{
-			npc.DisableVisuals();
-		}
-		_activeNpcs.Clear();
-		_arrivedNpcCount = 0;
+		ResetNpcs();
 
 		int currentFloor = GameManager.Instance.CurrentFloor;
 		if (currentFloor >= GameManager.Instance.WorldState.Floors.Count)
@@ -112,6 +117,18 @@ public class NpcSpawner : MonoBehaviour
 		}
 	}
 
+	private void ResetNpcs()
+	{
+		_repairDelayTween.Complete();
+		UnsubscribeFromActiveNpcs();
+		foreach (NpcController npc in _activeNpcs)
+		{
+			npc.DisableVisuals();
+		}
+		_activeNpcs.Clear();
+		_arrivedNpcCount = 0;
+	}
+
 	// Called when door open button is pressed (OnNpcUpdate), moves active NPCs from rest points to goal points
 	private void HandleNpcUpdate()
 	{
@@ -132,6 +149,8 @@ public class NpcSpawner : MonoBehaviour
 			npc.LerpToPosition(goalPos, playFootsteps: true);
 		}
 	}
+
+	private void HandleEngineRepair() { }
 
 	private void HandleNpcArrived(NpcController npc)
 	{
@@ -220,6 +239,54 @@ public class NpcSpawner : MonoBehaviour
 		TriggerGroupDialogue(n => n.TrySayAcceptDialogue(), n => n.SayAcceptDialogue());
 	}
 
+	private void HandleStartDescent()
+	{
+		HandleDescentDialogue();
+	}
+
+	private void HandleWorkerRepair()
+	{
+		ResetNpcs();
+
+		var workers = GameManager.Instance.PeopleOnElevator.Where(npc => npc.Role == NpcRoles.Worker).ToList();
+		int workersCount = Mathf.Clamp(workers.Count, 0, _repairPoints.Count);
+
+		List<int> availableSpawnIndices = GetShuffledIndices(_goalPoints.Count);
+		for (int i = 0; i < workersCount; i++)
+		{
+			NpcController npc = _npcPool[i];
+			int spawnIndex = availableSpawnIndices[i % availableSpawnIndices.Count];
+			Vector3 spawnPos = _goalPoints[spawnIndex].position;
+			npc.Initialize(workers[i], spawnPos);
+		}
+
+		List<int> shuffledRepairIndices = GetShuffledIndices(_repairPoints.Count);
+		List<(NpcController npc, Vector3 originalPos)> repairAssignments = new();
+		float engineRepairDelay = GameManager.Instance.EngineRepairDelay;
+		for (int i = 0; i < workersCount; i++)
+		{
+			NpcController worker = _npcPool[i];
+			Vector3 originalPos = worker.transform.position;
+			repairAssignments.Add((worker, originalPos));
+
+			Vector3 repairPos = _repairPoints[shuffledRepairIndices[i]].position;
+			worker.LerpToPosition(repairPos, engineRepairDelay - 1, playFootsteps: true);
+		}
+
+		_repairDelayTween.Stop();
+		_repairDelayTween = Tween.Delay(
+			this,
+			engineRepairDelay,
+			_ =>
+			{
+				foreach (var (npc, originalPos) in repairAssignments)
+				{
+					npc.LerpToPosition(originalPos, engineRepairDelay / 2, playFootsteps: true);
+				}
+			}
+		);
+	}
+
 	private void HandleDescentDialogue()
 	{
 		if (GameManager.Instance.OpenedDoor)
@@ -229,10 +296,7 @@ public class NpcSpawner : MonoBehaviour
 		TriggerGroupDialogue(n => n.TrySayRejectDialogue(), n => n.SayRejectDialogue());
 	}
 
-	private void TriggerGroupDialogue(
-		System.Func<NpcController, bool> trySpeak,
-		System.Action<NpcController> forceSpeak
-	)
+	private void TriggerGroupDialogue(Func<NpcController, bool> trySpeak, Action<NpcController> forceSpeak)
 	{
 		List<NpcController> active = _activeNpcs.FindAll(n => n.IsActive);
 		if (active.Count == 0)

@@ -96,13 +96,20 @@ MonoBehaviour:
   RolesData: {fileID: 11400000, guid: 491fccccc106648c2868161fa57ee4e8, type: 2}
   NpcDialogueData: {fileID: 11400000, guid: 1592615baf3ff42dd83363582a33423d, type: 2}
   PersonData: {fileID: 11400000, guid: 02de626cc2611e3439163be0e491262b, type: 2}
-  _workerEngineMult: 2
+  _workerEngineMult: 8
   _skinWalkerKillCount: 5
   _skinWalkerActChance: 0.5
   _maxEngineIntegrity: 100
   _engineMinDeterioration: 15
-  _engineDeteriorateScaling: 1
+  _engineDeteriorateScaling: 3
   _engineDeteriorateVariance: 0.9
   _elevatorOpenDelay: 2
   _elevatorDoorCloseDelay: 1
-  _transitionDelay: 3
+  _transitionDelay: 4
+  _engineRepairDelay: 5
+  _grateAnimancer: {fileID: 0}
+  _elevatorAnimancer: {fileID: 0}
+  _grateOpenAnim: {fileID: 7400000, guid: 132d649ec7c0abb499ff492c23605836, type: 2}
+  _grateCloseAnim: {fileID: 7400000, guid: 5c0099e36e36bf54fbe5be3bb009bd7f, type: 2}
+  _doorOpenAnim: {fileID: 7400000, guid: bc982b3256f5b0c4eb53620177c1190e, type: 2}
+  _doorCloseAnim: {fileID: 7400000, guid: e2bce531202d53c49a86a31e0fa47c5f, type: 2}
