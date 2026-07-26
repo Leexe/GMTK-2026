@@ -105,7 +105,7 @@ public class SwayingUI : MonoBehaviour
 	private Sequence _scaleTween;
 
 	private RectTransform _rectTransform;
-	private Vector2 _initialPosition;
+	private Vector2 _initialRectPosition;
 	private Vector2 _endPosition;
 	private Vector3 _initialLocalPosition;
 	private Vector3 _initialRotation;
@@ -114,15 +114,18 @@ public class SwayingUI : MonoBehaviour
 	private void Awake()
 	{
 		_rectTransform = GetComponent<RectTransform>();
-		_initialPosition = _rectTransform.anchoredPosition;
-		_initialLocalPosition = transform.localPosition;
-		_endPosition = _initialPosition + (Vector2)_positionStrength;
-		_initialRotation = transform.localEulerAngles;
-		_initialScale = transform.localScale;
 	}
 
 	private void Start()
 	{
+		Canvas.ForceUpdateCanvases();
+
+		_initialRectPosition = _rectTransform.anchoredPosition;
+		_initialLocalPosition = transform.localPosition;
+		_endPosition = _initialRectPosition + (Vector2)_positionStrength;
+		_initialRotation = transform.localEulerAngles;
+		_initialScale = transform.localScale;
+
 		StartTween();
 	}
 
@@ -134,7 +137,7 @@ public class SwayingUI : MonoBehaviour
 
 		if (_positionTweenType == PositionTweenType.Shake)
 		{
-			// Reset localPosition (not anchoredPosition) since ShakeLocalPosition operates on localPosition
+			_rectTransform.anchoredPosition = _initialRectPosition;
 			transform.localPosition = _initialLocalPosition;
 
 			_positionTween = Sequence
@@ -153,7 +156,7 @@ public class SwayingUI : MonoBehaviour
 
 		if (_positionTweenType == PositionTweenType.Smooth)
 		{
-			_rectTransform.anchoredPosition = _initialPosition;
+			_rectTransform.anchoredPosition = _initialRectPosition;
 
 			_positionTween = Sequence
 				.Create(-1, useUnscaledTime: _useUnscaledTime, cycleMode: Sequence.SequenceCycleMode.Yoyo)
@@ -220,7 +223,7 @@ public class SwayingUI : MonoBehaviour
 		}
 		else if (_positionTweenType == PositionTweenType.Smooth)
 		{
-			Tween.UIAnchoredPosition(_rectTransform, _initialPosition, tweenDuration, _positionEase);
+			Tween.UIAnchoredPosition(_rectTransform, _initialRectPosition, tweenDuration, _positionEase);
 		}
 
 		if (_rotationTweenEnable)
