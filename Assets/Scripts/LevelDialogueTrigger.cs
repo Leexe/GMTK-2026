@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class LevelDialogueTrigger : MonoBehaviour
 {
+	private void Start()
+	{
+		HandleNewFloor();
+	}
+
 	private void OnEnable()
 	{
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
