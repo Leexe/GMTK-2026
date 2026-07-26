@@ -45,7 +45,7 @@ MonoBehaviour:
     Jayson Emilio Mauricio Nikolas Dean Javon Rodney Kolby Leo Skylar Abel Davis
     Orlando Ezekiel Jon Mateo Kody Roger Kai Justice Maurice Ali Tyrese Conor Zackery
     Chris Rodrigo Eddie Felix Craig Kade Keaton Billy Demetrius Ahmad Zachariah Jarod
-    Bobby Shaun Amir Quinton Reese Brendon Jaxon Duke Tuan Julian Ryanne Nazar
+    Bobby Shaun Amir Quinton Reese Brendon Jaxon Duke Tuan Julian Ryanne Nazar Toby
   LastNameSourceList: Smith Johnson Williams Brown Jones Garcia Miller Davis Rodriguez
     Martinez Hernandez Lopez Gonzalez Wilson Anderson Thomas Taylor Moore Jackson
     Martin Lee Perez Thompson White Harris Sanchez Clark Ramirez Lewis Robinson Walker
@@ -63,7 +63,7 @@ MonoBehaviour:
     Porter Hunter Gordon Mendez Silva Shaw Snyder Mason Dixon Munoz Hunt Hicks Holmes
     Palmer Wagner Black Robertson Boyd Rose Stone Salazar Fox Warren Mills Meyer
     Rice Schmidt Garza Daniels Ferguson Nichols Stephens Soto Weaver Ryan Gardner
-    Payne Grant Dunn Kelley Spencer Hawkins Pork Dennis White
+    Payne Grant Dunn Kelley Spencer Hawkins Pork Dennis White Fox
   HeightAverage: 70
   HeightDeviation: 3
   QNASourceList: 'All
@@ -75,7 +75,7 @@ MonoBehaviour:
     B:
     July 20|July 20|July 21|July 22|July 23|June 25|June 19|July 13|March 19
 
-    
+
 
     All
 
@@ -87,7 +87,7 @@ MonoBehaviour:
 
     B: Rocks|Vulture|Granola Bars/granola stew|High pressure water|Light
 
-    
+
 
     All
 
@@ -99,7 +99,7 @@ MonoBehaviour:
     B:
     79|?|Requested clarification|53|100|113|125|121|117|Understood "87 and 33"
 
-    
+
 
     All
 
@@ -111,75 +111,74 @@ MonoBehaviour:
     B: Water|Bright|Yellow
     ("like stone")|Dark
 
-    
+
 
     All
 
     Q: Birthday
 
-    A: Jul 22|Jul 10|June
-    1|Feb 13|Nov 19|Apr 8|Apr 1|Dec 19|Dec 10|Mar 30|Mar 14|Mar 7
+    A: Jul 22|Jul 10|June 1|Feb
+    13|Nov 19|Apr 8|Apr 1|Dec 19|Dec 10|Mar 30|Mar 14|Mar 7
 
-    B: Feb 40|Jul
-    32|Feb 30|N/A|Declined to answer|?
+    B: Feb 40|Jul 32|Feb
+    30|N/A|Declined to answer|?
 
-    
+
 
     All
 
-    Q: What is 14 times
-    negative 6?
+    Q: What is 14 times negative 6?
 
-    A: -84|-84|-84|-84|-84|-64|-84|-82
+    A:
+    -84|-84|-84|-84|-84|-64|-84|-82
 
-    B: 79|32|113|-146|121|-6|Declined
-    to answer|Repeated "times"
+    B: 79|32|113|-146|121|-6|Declined to answer|Repeated
+    "times"
 
-    
+
 
     All
 
     Q: Where are we headed
 
-    A:
-    Vespera|Vespera|Back to Vespera|Back to city
+    A: Vespera|Vespera|Back to
+    Vespera|Back to city
 
-    B: To lower level|Sector 2
-    for further mining|Home|To lower level|Into "this room"
+    B: To lower level|Sector 2 for further mining|Home|To
+    lower level|Into "this room"
 
-    
+
 
     W
 
-    Q:
-    What did you do today?
+    Q: What did you do today?
 
-    A: Equipment Repairs|Heavy drilling|Oversaw drilling
+    A:
+    Equipment Repairs|Heavy drilling|Oversaw drilling
 
-    B:
-    Guarded Quadrant A|Patrols|Interrogations|Questioning|"Most of them"
+    B: Guarded Quadrant A|Patrols|Interrogations|Questioning|"Most
+    of them"
 
-    
+
 
     P
 
-    Q:
-    What did you do today?
+    Q: What did you do today?
 
     A: Interrogations|Questioning
 
-    B: Guarded Quadrant
-    A|Escorted drilling team|Patrols|Equipment Repairs|Heavy drilling|Oversaw drilling|Examined
-    Rocks
+    B:
+    Guarded Quadrant A|Escorted drilling team|Patrols|Equipment Repairs|Heavy drilling|Oversaw
+    drilling|Examined Rocks
 
-    
+
 
     G
 
     Q: What did you do today?
 
-    A: Guarded Quadrant
-    A|Escorted drilling team|Patrols
+    A: Guarded
+    Quadrant A|Escorted drilling team|Patrols
 
     B: Equipment Repairs|Heavy drilling|Oversaw
     drilling|Interrogations|Questioning'

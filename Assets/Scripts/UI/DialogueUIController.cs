@@ -65,7 +65,6 @@ public class DialogueUIController : MonoBehaviour
 			return;
 		}
 
-		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Tablet_Sfx);
 		Vector2 targetPos = _startPosition + new Vector2(0, _activeYOffset);
 		AnimateTo(targetPos, _endRotation);
 	}
