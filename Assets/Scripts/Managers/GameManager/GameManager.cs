@@ -60,6 +60,10 @@ public class GameManager : MonoSingleton<GameManager>
 
 	[Header("Elevator")]
 
+
+	[SerializeField]
+	private HoverTarget[] _forceHovers;
+
 	[SerializeField]
 	private AnimancerComponent _grateAnimancer;
 
@@ -170,6 +174,10 @@ public class GameManager : MonoSingleton<GameManager>
 		OnNewFloor?.Invoke();
 		_elevatorAnimancer.Play(_doorOpenAnim);
 
+		foreach(HoverTarget t in _forceHovers)
+		{
+			t.SetForceHovered(true);
+		}
 	}
 
 	private void InitializeWorld()
@@ -254,6 +262,12 @@ public class GameManager : MonoSingleton<GameManager>
 		if (_descendButtonPressed)
 		{
 			return;
+		}
+
+		// un-force-hover
+		foreach(HoverTarget t in _forceHovers)
+		{
+			t.SetForceHovered(false);
 		}
 
 		float closeDelay = 0f;

@@ -328,7 +328,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0, b: 0, a: 1}
   Brightness: 0
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1 &197347633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,7 +1636,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0, b: 0, a: 1}
   Brightness: 0
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1 &801858878
 GameObject:
   m_ObjectHideFlags: 0
@@ -7007,7 +7007,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0, b: 0, a: 1}
   Brightness: 0
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1001 &1069909705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7529,7 +7529,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0, b: 0, a: 1}
   Brightness: 0
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1 &1274403143
 GameObject:
   m_ObjectHideFlags: 0
@@ -13566,7 +13566,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0, b: 0, a: 1}
   Brightness: 0
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1001 &2089663810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14172,7 +14172,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0.40851706, b: 0, a: 1}
   Brightness: 1
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!65 &2089663832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14228,7 +14228,7 @@ MonoBehaviour:
   BaseColor: {r: 1, g: 0.40851706, b: 0, a: 1}
   Brightness: 1
   OffIntensity: -3
-  OnIntensity: 1
+  OnIntensity: 2
 --- !u!1001 &609830562180598626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14481,9 +14481,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1484553289}
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      propertyPath: _forceHovers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      propertyPath: '_forceHovers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2089663833}
+    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      propertyPath: '_forceHovers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2089663830}
+    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      propertyPath: '_forceHovers.Array.data[2]'
+      value: 
+      objectReference: {fileID: 855073899}
     - target: {fileID: 6235297930472088742, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: m_Name
       value: Game Manager
