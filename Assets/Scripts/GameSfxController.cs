@@ -1,16 +1,20 @@
 using FMOD.Studio;
 using FMODUnity;
+using PrimeTween;
 using UnityEngine;
-using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class GameSfxController : MonoBehaviour
 {
 	[SerializeField]
 	private float _engineLowThreshold = 0.25f;
 
+	[SerializeField]
+	private float _elevatorBeepDelay = 0.5f;
+
 	private EventInstance _elevatorDescendInstance;
 	private EventInstance _engineRunningInstance;
 	private EventInstance _engineLowInstance;
+	private Tween _elevatorBeepDelayTween;
 
 	private void Start()
 	{
@@ -27,6 +31,8 @@ public class GameSfxController : MonoBehaviour
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
 		GameManager.Instance.OnEngineUpdate += HandleEngineUpdate;
 		GameManager.Instance.OnSkinWalkersAct += HandleSkinWalkersAct;
+		GameManager.Instance.OnEngineFix += HandleEngineFix;
+		GameManager.Instance.OnEngineDamage += HandleEngineDamage;
 	}
 
 	private void OnDisable()
@@ -39,14 +45,11 @@ public class GameSfxController : MonoBehaviour
 			GameManager.Instance.OnNewFloor -= HandleNewFloor;
 			GameManager.Instance.OnEngineUpdate -= HandleEngineUpdate;
 			GameManager.Instance.OnSkinWalkersAct -= HandleSkinWalkersAct;
+			GameManager.Instance.OnEngineFix -= HandleEngineFix;
+			GameManager.Instance.OnEngineDamage -= HandleEngineDamage;
 		}
 
 		StopLoopInstances();
-	}
-
-	private void OnDestroy()
-	{
-		CleanUpLoopInstances();
 	}
 
 	private void InitLoopInstances()
@@ -62,18 +65,13 @@ public class GameSfxController : MonoBehaviour
 
 		if (health <= _engineLowThreshold && health > 0f)
 		{
-			StopInstance(ref _engineRunningInstance);
-			PlayInstance(ref _engineLowInstance);
-		}
-		else if (health > _engineLowThreshold)
-		{
-			StopInstance(ref _engineLowInstance);
-			PlayInstance(ref _engineRunningInstance);
+			AudioManager.Instance.PlayInstance(_engineLowInstance);
+			// AudioManager.Instance.StopInstance(_engineRunningInstance);
 		}
 		else
 		{
-			StopInstance(ref _engineRunningInstance);
-			StopInstance(ref _engineLowInstance);
+			AudioManager.Instance.StopInstance(_engineLowInstance);
+			// AudioManager.Instance.PlayInstance(_engineRunningInstance);
 		}
 	}
 
@@ -84,18 +82,25 @@ public class GameSfxController : MonoBehaviour
 
 	private void HandleStartDescent()
 	{
-		PlayInstance(ref _elevatorDescendInstance);
+		AudioManager.Instance.PlayInstance(_elevatorDescendInstance);
 	}
 
 	private void HandleNewFloor()
 	{
-		StopInstance(ref _elevatorDescendInstance);
+		AudioManager.Instance.StopInstance(_elevatorDescendInstance);
 		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorArrive_Sfx);
+
+		_elevatorBeepDelayTween.Stop();
+		_elevatorBeepDelayTween = Tween.Delay(
+			this,
+			_elevatorBeepDelay,
+			_ => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorBeep_Sfx)
+		);
 	}
 
 	private void HandleStartDoorOpen()
 	{
-		StopInstance(ref _elevatorDescendInstance);
+		AudioManager.Instance.StopInstance(_elevatorDescendInstance);
 		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorOpen_Sfx);
 	}
 
@@ -104,48 +109,23 @@ public class GameSfxController : MonoBehaviour
 		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SkinwalkerEncounter_Sfx);
 	}
 
-	private void PlayInstance(ref EventInstance instance)
+	private void HandleEngineFix()
 	{
-		if (!instance.isValid()) return;
-
-		instance.getPlaybackState(out PLAYBACK_STATE state);
-		if (state == PLAYBACK_STATE.STOPPED || state == PLAYBACK_STATE.STOPPING)
-		{
-			instance.start();
-		}
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.EngineFix_Sfx);
 	}
 
-	private void StopInstance(ref EventInstance instance, bool allowFadeOut = true)
+	private void HandleEngineDamage()
 	{
-		if (!instance.isValid()) return;
-
-		instance.getPlaybackState(out PLAYBACK_STATE state);
-		if (state != PLAYBACK_STATE.STOPPED && state != PLAYBACK_STATE.STOPPING)
-		{
-			instance.stop(allowFadeOut ? STOP_MODE.ALLOWFADEOUT : STOP_MODE.IMMEDIATE);
-		}
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.EngineDamage_Sfx);
 	}
 
 	private void StopLoopInstances()
 	{
-		StopInstance(ref _elevatorDescendInstance);
-		StopInstance(ref _engineRunningInstance);
-		StopInstance(ref _engineLowInstance);
-	}
-
-	private void CleanUpLoopInstances()
-	{
-		DestroyInstance(ref _elevatorDescendInstance);
-		DestroyInstance(ref _engineRunningInstance);
-		DestroyInstance(ref _engineLowInstance);
-	}
-
-	private void DestroyInstance(ref EventInstance instance)
-	{
-		if (!instance.isValid()) return;
-
-		instance.stop(STOP_MODE.IMMEDIATE);
-		instance.release();
-		instance = default;
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.StopInstance(_elevatorDescendInstance);
+			AudioManager.Instance.StopInstance(_engineRunningInstance);
+			AudioManager.Instance.StopInstance(_engineLowInstance);
+		}
 	}
 }

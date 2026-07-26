@@ -1207,6 +1207,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1907550822993673619, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
+      propertyPath: _elevatorBeepDelay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3472308070409565324, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -1259,294 +1263,6 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Death_Sfx>k__BackingField.Path
-      value: event:/SFX/UI_Player/Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <NpcDeath_Sfx>k__BackingField.Path
-      value: event:/SFX/NPCs/NPC Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Clipboard_Sfx>k__BackingField.Path
-      value: event:/SFX/UI_Player/Clipboard
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Documents_Sfx>k__BackingField.Path
-      value: event:/SFX/UI_Player/Documents
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineFix_Sfx>k__BackingField.Path
-      value: event:/SFX/Generator/Engine Fix
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Death_Sfx>k__BackingField.Guid.Data1
-      value: -1027355736
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Death_Sfx>k__BackingField.Guid.Data2
-      value: 1095464102
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Death_Sfx>k__BackingField.Guid.Data3
-      value: 167890315
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <Death_Sfx>k__BackingField.Guid.Data4
-      value: 362582704
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SoldierShot_Sfx>k__BackingField.Path
-      value: event:/SFX/NPCs/Soldier Shot
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorBeep_Sfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Beep
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineDamage_Sfx>k__BackingField.Path
-      value: event:/SFX/Generator/Engine Damage
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineExplode_Sfx>k__BackingField.Path
-      value: event:/SFX/Generator/Engine Explode
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineLow_LoopSfx>k__BackingField.Path
-      value: event:/SFX/Generator/Engine Low
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorArrive_Sfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Arrive
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <NpcDeath_Sfx>k__BackingField.Guid.Data1
-      value: -295289372
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <NpcDeath_Sfx>k__BackingField.Guid.Data2
-      value: 1141492915
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <NpcDeath_Sfx>k__BackingField.Guid.Data3
-      value: -636014683
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <NpcDeath_Sfx>k__BackingField.Guid.Data4
-      value: -1590235876
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorFalling_Sfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Falling
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineFix_Sfx>k__BackingField.Guid.Data1
-      value: 1078706402
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineFix_Sfx>k__BackingField.Guid.Data2
-      value: 1178981252
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineFix_Sfx>k__BackingField.Guid.Data3
-      value: -1526483016
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineFix_Sfx>k__BackingField.Guid.Data4
-      value: 2033733552
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorLightsOut_Sfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Lights Out
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineRunning_LoopSfx>k__BackingField.Path
-      value: event:/SFX/Generator/Engine Running
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SoldierShot_Sfx>k__BackingField.Guid.Data1
-      value: -1186021571
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SoldierShot_Sfx>k__BackingField.Guid.Data2
-      value: 1299629019
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SoldierShot_Sfx>k__BackingField.Guid.Data3
-      value: -1960233816
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SoldierShot_Sfx>k__BackingField.Guid.Data4
-      value: 1932915896
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorBeep_Sfx>k__BackingField.Guid.Data1
-      value: -448220559
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorBeep_Sfx>k__BackingField.Guid.Data2
-      value: 1076033573
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorBeep_Sfx>k__BackingField.Guid.Data3
-      value: 966804389
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorBeep_Sfx>k__BackingField.Guid.Data4
-      value: 1586538059
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineDamage_Sfx>k__BackingField.Guid.Data1
-      value: -2071472512
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineDamage_Sfx>k__BackingField.Guid.Data2
-      value: 1317297635
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineDamage_Sfx>k__BackingField.Guid.Data3
-      value: 1747568040
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineDamage_Sfx>k__BackingField.Guid.Data4
-      value: 1391108976
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorDescend_LoopSfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Descend
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineExplode_Sfx>k__BackingField.Guid.Data1
-      value: 1090587764
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineExplode_Sfx>k__BackingField.Guid.Data2
-      value: 1204761822
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineExplode_Sfx>k__BackingField.Guid.Data3
-      value: -1768808520
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineExplode_Sfx>k__BackingField.Guid.Data4
-      value: -1742241034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineLow_LoopSfx>k__BackingField.Guid.Data1
-      value: -326961388
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineLow_LoopSfx>k__BackingField.Guid.Data2
-      value: 1086054366
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineLow_LoopSfx>k__BackingField.Guid.Data3
-      value: -800231028
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineLow_LoopSfx>k__BackingField.Guid.Data4
-      value: -2071279241
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SkinwalkerEncounter_Sfx>k__BackingField.Path
-      value: event:/SFX/Elevator Noises/Encounter
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorArrive_Sfx>k__BackingField.Guid.Data1
-      value: -899586024
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorArrive_Sfx>k__BackingField.Guid.Data2
-      value: 1263752789
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorArrive_Sfx>k__BackingField.Guid.Data3
-      value: -945813620
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorArrive_Sfx>k__BackingField.Guid.Data4
-      value: -850288571
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorFalling_Sfx>k__BackingField.Guid.Data1
-      value: 1275855403
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorFalling_Sfx>k__BackingField.Guid.Data2
-      value: 1094209305
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorFalling_Sfx>k__BackingField.Guid.Data3
-      value: -1267194722
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorFalling_Sfx>k__BackingField.Guid.Data4
-      value: 1918795599
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorLightsOut_Sfx>k__BackingField.Guid.Data1
-      value: 271304507
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorLightsOut_Sfx>k__BackingField.Guid.Data2
-      value: 1337717875
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorLightsOut_Sfx>k__BackingField.Guid.Data3
-      value: 2067132574
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorLightsOut_Sfx>k__BackingField.Guid.Data4
-      value: 2048048248
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineRunning_LoopSfx>k__BackingField.Guid.Data1
-      value: -1148672320
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineRunning_LoopSfx>k__BackingField.Guid.Data2
-      value: 1202837261
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineRunning_LoopSfx>k__BackingField.Guid.Data3
-      value: 586597297
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <EngineRunning_LoopSfx>k__BackingField.Guid.Data4
-      value: 1428720929
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorDescend_LoopSfx>k__BackingField.Guid.Data1
-      value: -2078798034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorDescend_LoopSfx>k__BackingField.Guid.Data2
-      value: 1138247222
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorDescend_LoopSfx>k__BackingField.Guid.Data3
-      value: 32739717
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <ElevatorDescend_LoopSfx>k__BackingField.Guid.Data4
-      value: 1404055180
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SkinwalkerEncounter_Sfx>k__BackingField.Guid.Data1
-      value: 602053571
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SkinwalkerEncounter_Sfx>k__BackingField.Guid.Data2
-      value: 1290062707
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SkinwalkerEncounter_Sfx>k__BackingField.Guid.Data3
-      value: -436704327
-      objectReference: {fileID: 0}
-    - target: {fileID: 5182606521294095668, guid: 60c86fe6f35aa4af488742b834381bb7, type: 3}
-      propertyPath: <SkinwalkerEncounter_Sfx>k__BackingField.Guid.Data4
-      value: -861953066
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6949,6 +6665,11 @@ MonoBehaviour:
   _scaleDuration: 5
   _activateOnStart: 1
   _useUnscaledTime: 0
+--- !u!225 &1881436395 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 7200784179023166239, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+  m_PrefabInstance: {fileID: 2006831421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2002839125
 GameObject:
   m_ObjectHideFlags: 0
@@ -6996,6 +6717,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.000061035156
       objectReference: {fileID: 0}
+    - target: {fileID: 767677626231906416, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
+      propertyPath: _canvasGroup
+      value: 
+      objectReference: {fileID: 1881436395}
     - target: {fileID: 2382799599912282527, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.94811
