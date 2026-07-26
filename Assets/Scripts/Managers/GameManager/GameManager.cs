@@ -69,6 +69,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private int _currentFloor;
 	private bool _gameOver;
 	private bool _openedDoor;
+	private bool _descendButtonPressed;
 
 	// Events
 
@@ -202,13 +203,20 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		if (_openedDoor && !NpcsFinishedMoving)
+		if (_openedDoor && !NpcsFinishedMoving && !_descendButtonPressed)
 		{
 			Debug.Log("Cannot descend: NPCs are still moving into position.");
 			return;
 		}
 
+		if (_descendButtonPressed)
+		{
+			Debug.Log("Descend Button Already Pressed.");
+			return;
+		}
+
 		float closeDelay = 0f;
+		_descendButtonPressed = true;
 		if (_openedDoor)
 		{
 			closeDelay = _elevatorDoorCloseDelay;
@@ -255,6 +263,7 @@ public class GameManager : MonoSingleton<GameManager>
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
 		OnNewFloor?.Invoke();
+		_descendButtonPressed = false;
 	}
 
 	public void AcceptNpcs()

@@ -97,7 +97,7 @@ MonoBehaviour:
   NpcDialogueData: {fileID: 11400000, guid: 1592615baf3ff42dd83363582a33423d, type: 2}
   PersonData: {fileID: 11400000, guid: 02de626cc2611e3439163be0e491262b, type: 2}
   _workerEngineMult: 2
-  _skinWalkerKillCount: 2
+  _skinWalkerKillCount: 5
   _skinWalkerActChance: 0.5
   _maxEngineIntegrity: 100
   _engineMinDeterioration: 15
