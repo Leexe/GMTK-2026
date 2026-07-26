@@ -78,6 +78,11 @@ public class InterviewPapersController : MonoBehaviour
 
 	private void HandleNpcClicked(NpcController npc)
 	{
+		if (npc.IsMoving || GameManager.Instance.OpenedDoor)
+		{
+			return;
+		}
+
 		if (!_interviewResponses.ContainsKey(npc.Person))
 		{
 			int numPsychologists = GameManager.Instance.CountNPCs(NpcRoles.Psychologist, includeSkinwalkers: false);

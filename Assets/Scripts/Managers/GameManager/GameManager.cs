@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Animancer;
 using PrimeTween;
 using UnityEngine;
 
@@ -51,6 +52,25 @@ public class GameManager : MonoSingleton<GameManager>
 	[SerializeField]
 	private float _engineRepairDelay = 5f;
 
+	[Header("Elevator")]
+	[SerializeField]
+	private AnimancerComponent _grateAnimancer;
+
+	[SerializeField]
+	private AnimancerComponent _elevatorAnimancer;
+
+	[SerializeField]
+	private AnimationClip _grateOpenAnim;
+
+	[SerializeField]
+	private AnimationClip _grateCloseAnim;
+
+	[SerializeField]
+	private AnimationClip _doorOpenAnim;
+
+	[SerializeField]
+	private AnimationClip _doorCloseAnim;
+
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
@@ -65,14 +85,14 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
 	public float EngineRepairDelay => _engineRepairDelay;
-	public bool OpenedDoor => _openedDoor;
+	public bool OpenedGrate => _openedGrate;
 
 	private float _runTime;
 	private Sequence _timeSlowSequence;
 	private Sequence _descentSequence;
 	private int _currentFloor;
 	private bool _gameOver;
-	private bool _openedDoor;
+	private bool _openedGrate;
 	private bool _descendButtonPressed;
 
 	// Events
@@ -132,6 +152,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		PrimeTweenConfig.warnZeroDuration = false;
 		OnNewFloor?.Invoke();
+		_elevatorAnimancer.Play(_doorOpenAnim);
 	}
 
 	private void InitializeWorld()
@@ -207,7 +228,7 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		if (_openedDoor && !NpcsFinishedMoving && !_descendButtonPressed)
+		if (_openedGrate && !NpcsFinishedMoving && !_descendButtonPressed)
 		{
 			Debug.Log("Cannot descend: NPCs are still moving into position.");
 			return;
@@ -220,7 +241,7 @@ public class GameManager : MonoSingleton<GameManager>
 
 		float closeDelay = 0f;
 		_descendButtonPressed = true;
-		if (_openedDoor)
+		if (_openedGrate)
 		{
 			closeDelay = _elevatorDoorCloseDelay;
 			OnStartDoorClose?.Invoke();
@@ -230,6 +251,14 @@ public class GameManager : MonoSingleton<GameManager>
 		_descentSequence = Sequence.Create();
 
 		// Trigger Start Descent Event
+		if (_openedGrate)
+		{
+			_descentSequence.ChainCallback(() => _grateAnimancer.Play(_grateCloseAnim));
+			// _descentSequence.ChainDelay(_grateCloseAnim.length + 0.2f);
+		}
+
+		_descentSequence.ChainCallback(() => _elevatorAnimancer.Play(_doorCloseAnim));
+		_descentSequence.ChainDelay(_doorCloseAnim.length + 0.2f);
 		_descentSequence.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()));
 
 		// Workers Repair Engine
@@ -263,23 +292,26 @@ public class GameManager : MonoSingleton<GameManager>
 	private void ArriveAtNextFloor()
 	{
 		_currentFloor++;
-		_openedDoor = false;
+		_openedGrate = false;
 		NpcsFinishedMoving = true;
 		OnNewFloor?.Invoke();
 		_descendButtonPressed = false;
+
+		_elevatorAnimancer.Play(_doorOpenAnim);
 	}
 
 	public void AcceptNpcs()
 	{
-		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
+		if (_currentFloor < LevelsData.LevelsList.Count && !_openedGrate)
 		{
-			_openedDoor = true;
+			_openedGrate = true;
 			NpcsFinishedMoving = false;
 
 			PeopleOnElevator.AddRange(WorldState.Floors[_currentFloor].People);
 
 			OnStartDoorOpen?.Invoke();
 
+			_grateAnimancer.Play(_grateOpenAnim);
 			Tween.Delay(
 				_elevatorOpenDelay,
 				() =>
