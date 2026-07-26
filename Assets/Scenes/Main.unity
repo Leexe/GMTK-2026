@@ -6631,45 +6631,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1742417211 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6873413251739985224, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-  m_PrefabInstance: {fileID: 2006831421}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1742417214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742417211}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f34f8490a314df5848a4d866a50374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwayingUI
-  _positionTweenType: 1
-  _positionStrength: {x: 1, y: 1, z: 0}
-  _positionFrequency: 3
-  _positionEase: 1
-  _positionDuration: 10
-  _rotationTweenEnable: 0
-  _rotationStrength: {x: 0, y: 0, z: 5}
-  _rotationEase: 4
-  _rotationRandomStart: 0
-  _rotationDuration: 5
-  _scaleTweenEnable: 0
-  _scaleStrength: 1.1
-  _scaleEase: 4
-  _scaleRandomStart: 0
-  _scaleDuration: 5
-  _activateOnStart: 1
-  _useUnscaledTime: 0
---- !u!225 &1881436395 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 7200784179023166239, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-  m_PrefabInstance: {fileID: 2006831421}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2002839125
 GameObject:
   m_ObjectHideFlags: 0
@@ -6715,12 +6676,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 424157165012558962, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000061035156
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 767677626231906416, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: _canvasGroup
-      value: 
-      objectReference: {fileID: 1881436395}
     - target: {fileID: 2382799599912282527, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.94811
@@ -6813,41 +6770,10 @@ PrefabInstance:
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7444483899877558571, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7444483899877558571, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7444483899877558571, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8380477627787446806, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6873413251739985224, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1742417214}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
 --- !u!1001 &2083370930
 PrefabInstance:

@@ -7,9 +7,15 @@ public class DialogueUIController : MonoBehaviour
 	[SerializeField]
 	private RectTransform _dialogueBoxTransform;
 
+	[SerializeField]
+	private HoverTarget _hoverTarget;
+
 	[Header("Tween Data")]
 	[SerializeField]
 	private float _yOffset = 100;
+
+	[SerializeField]
+	private float _activeYOffset = 100;
 
 	[SerializeField]
 	private float _tweenDuration;
@@ -19,11 +25,12 @@ public class DialogueUIController : MonoBehaviour
 	private Vector2 _endPosition;
 	private Quaternion _startRotation;
 	private Quaternion _endRotation;
+	private bool _isActive;
 
 	private void Start()
 	{
 		_startPosition = _dialogueBoxTransform.anchoredPosition;
-		_endPosition = _dialogueBoxTransform.anchoredPosition - new Vector2(0, _yOffset);
+		_endPosition = _dialogueBoxTransform.anchoredPosition + new Vector2(0, _yOffset);
 		_startRotation = Quaternion.Euler(_dialogueBoxTransform.eulerAngles);
 		_endRotation = Quaternion.Euler(Vector3.zero);
 		OnUIOpen();
@@ -33,44 +40,62 @@ public class DialogueUIController : MonoBehaviour
 	{
 		DialogueManager.Instance.DialogueState.OnStartDialogue += OnUIOpen;
 		DialogueManager.Instance.DialogueState.OnEndStory += OnUIClose;
+		_hoverTarget.OnHover += OnHover;
+		_hoverTarget.OnUnhover += OnUnhover;
 	}
 
 	private void OnDisable()
 	{
 		if (DialogueManager.Instance != null)
 		{
-			DialogueManager.Instance.DialogueState.OnStartDialogue += OnUIOpen;
-			DialogueManager.Instance.DialogueState.OnEndStory += OnUIClose;
+			DialogueManager.Instance.DialogueState.OnStartDialogue -= OnUIOpen;
+			DialogueManager.Instance.DialogueState.OnEndStory -= OnUIClose;
 		}
+
+		_hoverTarget.OnHover -= OnHover;
+		_hoverTarget.OnUnhover -= OnUnhover;
+	}
+
+	private void OnHover()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		Vector2 targetPos = _startPosition + new Vector2(0, _activeYOffset);
+		AnimateTo(targetPos, _endRotation);
+	}
+
+	private void OnUnhover()
+	{
+		if (!_isActive)
+		{
+			return;
+		}
+
+		AnimateTo(_startPosition, _startRotation);
 	}
 
 	private void OnUIOpen()
 	{
-		_sequence.Stop();
-		_sequence = Sequence.Create();
-		if (_dialogueBoxTransform.anchoredPosition != _startPosition)
-		{
-			_sequence.Chain(Tween.UIAnchoredPosition(_dialogueBoxTransform, _startPosition, _tweenDuration));
-		}
-
-		if (_dialogueBoxTransform.rotation != _startRotation)
-		{
-			_sequence.Group(Tween.Rotation(_dialogueBoxTransform, _startRotation, _tweenDuration));
-		}
+		_isActive = true;
+		Vector2 targetPos = _hoverTarget.Hovered ? _startPosition + new Vector2(0, _activeYOffset) : _startPosition;
+		AnimateTo(targetPos, _startRotation);
 	}
 
 	private void OnUIClose()
 	{
-		_sequence.Stop();
-		_sequence = Sequence.Create();
-		if (_dialogueBoxTransform.anchoredPosition != _endPosition)
-		{
-			_sequence.Chain(Tween.UIAnchoredPosition(_dialogueBoxTransform, _endPosition, _tweenDuration));
-		}
+		_isActive = false;
+		AnimateTo(_endPosition, _endRotation);
+	}
 
-		if (_dialogueBoxTransform.rotation != _endRotation)
-		{
-			_sequence.Group(Tween.Rotation(_dialogueBoxTransform, _endRotation, _tweenDuration));
-		}
+	private void AnimateTo(Vector2 targetPosition, Quaternion targetRotation)
+	{
+		_sequence.Stop();
+		_sequence = Sequence
+			.Create()
+			.Chain(Tween.UIAnchoredPosition(_dialogueBoxTransform, targetPosition, _tweenDuration))
+			.Group(Tween.Rotation(_dialogueBoxTransform, targetRotation, _tweenDuration));
 	}
 }

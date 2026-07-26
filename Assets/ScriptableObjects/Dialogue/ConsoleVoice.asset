@@ -27,6 +27,6 @@ MonoBehaviour:
       Data2: 1121936554
       Data3: -1726554185
       Data4: 1112198593
-    Path: event:/SFX/UI/Clipboard
+    Path: event:/SFX/UI_Player/Clipboard
   Frequency: 3
   PitchVariation: {x: 1.7, y: 2}

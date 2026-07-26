@@ -211,7 +211,6 @@ public class GameManager : MonoSingleton<GameManager>
 
 		if (_descendButtonPressed)
 		{
-			Debug.Log("Descend Button Already Pressed.");
 			return;
 		}
 
