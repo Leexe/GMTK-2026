@@ -187,7 +187,7 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 	/// <summary>
 	///     Advances the story to the next line or handles player interaction.
 	/// </summary>
-	private void ContinueStory()
+	public void ContinueStory()
 	{
 		// Check global blocking conditions (Pause, Backlog, etc.)
 		if (!DialogueState.CanAdvanceStory)

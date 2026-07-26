@@ -117,6 +117,7 @@ public class GameManager : MonoSingleton<GameManager>
 		InitializeWorld();
 
 		NpcCount = new();
+		PrimeTweenConfig.warnEndValueEqualsCurrent = false;
 		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
 		{
 			NpcCount[role] = 0;
