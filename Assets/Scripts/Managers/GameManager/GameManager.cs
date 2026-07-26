@@ -399,8 +399,6 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private bool CheckLoseCondition()
 	{
-		Debug.Log(EngineIntegrity);
-		Debug.Log(_gameOver);
 		if (EngineIntegrity <= 0 && !_gameOver)
 		{
 			_gameOver = true;
