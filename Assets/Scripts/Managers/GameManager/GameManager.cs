@@ -147,6 +147,9 @@ public class GameManager : MonoSingleton<GameManager>
 	public Action OnSkinWalkersActEnd;
 
 	[HideInInspector]
+	public Action OnGunShot;
+
+	[HideInInspector]
 	public Action OnNpcsArrived;
 
 	[HideInInspector]
@@ -542,5 +545,11 @@ public class GameManager : MonoSingleton<GameManager>
 	private void TriggerSkinWalkerEnd()
 	{
 		OnSkinWalkersActEnd?.Invoke();
+	}
+
+	[Button]
+	private void TriggerGunShot()
+	{
+		OnGunShot?.Invoke();
 	}
 }

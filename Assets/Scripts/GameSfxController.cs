@@ -125,8 +125,10 @@ public class GameSfxController : MonoBehaviour
 		if (GameManager.Instance.CountNPCs(NpcRoles.Guard) > 0)
 		{
 			_skinWalkerActSequence.ChainCallback(() =>
-				AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SoldierShot_Sfx)
-			);
+			{
+				AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SoldierShot_Sfx);
+				GameManager.Instance.OnGunShot?.Invoke();
+			});
 		}
 	}
 
