@@ -44,6 +44,6 @@ public class LevelDialogueTrigger : MonoBehaviour
 
 	private void HandleStartDescent()
 	{
-		DialogueManager.Instance.DialogueState.EndStory();
+		DialogueManager.Instance.ExitStory();
 	}
 }

@@ -250,7 +250,7 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 	/// <summary>
 	///     Ends the current story and cleans up state.
 	/// </summary>
-	private void ExitStory()
+	public void ExitStory()
 	{
 		_storyPlaying = false;
 		_typewriterPlaying = false;

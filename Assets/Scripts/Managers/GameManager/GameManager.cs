@@ -59,8 +59,6 @@ public class GameManager : MonoSingleton<GameManager>
 	private float _skinWalkerDelay = 5f;
 
 	[Header("Elevator")]
-
-
 	[SerializeField]
 	private HoverTarget[] _forceHovers;
 
@@ -174,7 +172,7 @@ public class GameManager : MonoSingleton<GameManager>
 		OnNewFloor?.Invoke();
 		_elevatorAnimancer.Play(_doorOpenAnim);
 
-		foreach(HoverTarget t in _forceHovers)
+		foreach (HoverTarget t in _forceHovers)
 		{
 			t.SetForceHovered(true);
 		}
@@ -265,7 +263,7 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 
 		// un-force-hover
-		foreach(HoverTarget t in _forceHovers)
+		foreach (HoverTarget t in _forceHovers)
 		{
 			t.SetForceHovered(false);
 		}
@@ -307,7 +305,9 @@ public class GameManager : MonoSingleton<GameManager>
 		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
 		if (workerCount > 0)
 		{
-			_descentSequence.Chain(Tween.Delay(_engineRepairDelay, () => HandleWorkers()));
+			_descentSequence.Chain(Tween.Delay(_engineRepairDelay / 2));
+			_descentSequence.ChainCallback(() => HandleWorkers());
+			_descentSequence.ChainDelay(_engineRepairDelay / 2);
 		}
 
 		// Guards Move
@@ -315,11 +315,13 @@ public class GameManager : MonoSingleton<GameManager>
 		int guardCount = CountNPCs(NpcRoles.Guard, includeSkinwalkers: false);
 		if (guardCount > 0 && doesSkinWalkerAct)
 		{
-			_descentSequence.Chain(Tween.Delay(_guardDelay / 2, () => HandleGuards(true)));
+			_descentSequence.ChainCallback(() => HandleGuards(true));
+			_descentSequence.ChainDelay(_guardDelay / 2);
 		}
 		else if (guardCount > 0 && !doesSkinWalkerAct)
 		{
-			_descentSequence.Chain(Tween.Delay(_guardDelay, () => HandleGuards(false)));
+			_descentSequence.ChainCallback(() => HandleGuards(false));
+			_descentSequence.ChainDelay(_guardDelay);
 		}
 
 		// Skinwalker Acts

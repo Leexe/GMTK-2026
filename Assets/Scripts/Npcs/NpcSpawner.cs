@@ -31,6 +31,7 @@ public class NpcSpawner : MonoBehaviour
 	private int _arrivedNpcCount;
 	private Tween _repairDelayTween;
 	private Tween _guardDelayTween;
+	private bool _hasGreeted;
 
 	// Events
 	public Action OnAllNpcsArrived;
@@ -125,8 +126,9 @@ public class NpcSpawner : MonoBehaviour
 
 	private void ResetNpcs()
 	{
-		_repairDelayTween.Stop();
-		_guardDelayTween.Stop();
+		_hasGreeted = false;
+		_repairDelayTween.Complete();
+		_guardDelayTween.Complete();
 		UnsubscribeFromActiveNpcs();
 		foreach (NpcController npc in _activeNpcs)
 		{
@@ -170,7 +172,6 @@ public class NpcSpawner : MonoBehaviour
 
 	private void HandleAllNpcsArrived()
 	{
-		Debug.Log("All active NPCs arrived at their position.");
 		GameManager.Instance.SetNpcsFinishedMoving(true);
 		OnAllNpcsArrived?.Invoke();
 	}
@@ -239,6 +240,7 @@ public class NpcSpawner : MonoBehaviour
 	private void HandleGreetingDialogue()
 	{
 		TriggerGroupDialogue(n => n.TrySayGreetingDialogue(), n => n.SayMeetDialogue());
+		_hasGreeted = true;
 	}
 
 	private void HandleDoorOpenDialogue()
@@ -253,8 +255,6 @@ public class NpcSpawner : MonoBehaviour
 
 	private void HandleWorkerRepair()
 	{
-		ResetNpcs();
-
 		var workers = GameManager.Instance.PeopleOnElevator.Where(npc => npc.Role == NpcRoles.Worker).ToList();
 		int workersCount = Mathf.Clamp(workers.Count, 0, _repairPoints.Count);
 
@@ -277,13 +277,13 @@ public class NpcSpawner : MonoBehaviour
 			repairAssignments.Add((worker, originalPos));
 
 			Vector3 repairPos = _repairPoints[shuffledRepairIndices[i]].position;
-			worker.LerpToPosition(repairPos, engineRepairDelay - 1, playFootsteps: true);
+			worker.LerpToPosition(repairPos, (engineRepairDelay / 2) - 1, playFootsteps: true);
 		}
 
 		_repairDelayTween.Stop();
 		_repairDelayTween = Tween.Delay(
 			this,
-			engineRepairDelay,
+			engineRepairDelay / 2,
 			_ =>
 			{
 				foreach (var (npc, originalPos) in repairAssignments)
@@ -296,9 +296,6 @@ public class NpcSpawner : MonoBehaviour
 
 	private void HandleGuards(bool skinWalkerAppears)
 	{
-		// Clean up active NPCs before re-initializing from pool
-		ResetNpcs();
-
 		var guards = GameManager.Instance.PeopleOnElevator.Where(npc => npc.Role == NpcRoles.Guard).ToList();
 
 		int guardsCount = Mathf.Clamp(guards.Count, 0, _guardPoints.Count);
@@ -332,7 +329,7 @@ public class NpcSpawner : MonoBehaviour
 			guardAssignments.Add((guardNpc, originalPos));
 
 			Vector3 guardPos = _guardPoints[shuffledGuardIndices[i]].position;
-			float moveDuration = Mathf.Max(0.1f, (guardDelay / 2f) - 1f);
+			float moveDuration = Mathf.Max(0.1f, (guardDelay / 2f) - 2f);
 
 			guardNpc.LerpToPosition(guardPos, moveDuration, playFootsteps: true);
 		}

@@ -246,7 +246,7 @@ public class DynamicLight : MonoBehaviour
 		_lightSequence.Chain(
 			Tween.Custom(
 				target: this,
-				_baseIntensity,
+				_currentIntensity,
 				targetIntensity,
 				duration,
 				(target, val) => target._currentIntensity = val
