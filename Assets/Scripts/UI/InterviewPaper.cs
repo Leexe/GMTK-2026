@@ -9,83 +9,109 @@ using UnityEngine.UI;
 
 public class InterviewPaper : MonoBehaviour
 {
-	[SerializeField] private Sprite WorkerSprite;
-	[SerializeField] private Sprite PsychologistSprite;
-	[SerializeField] private Sprite GuardSprite;
+	[Header("Sprites")]
+	[SerializeField]
+	private Sprite WorkerIconSprite;
 
-    public TMP_Text NameText;
-    public TMP_Text RoleText;
-    public Image RoleImage;
-    public TMP_Text HeightText;
-    public TMP_Text NotesText;
-    public Image Mugshot;
+	[SerializeField]
+	private Sprite PsychologistIconSprite;
 
-    public RectTransform ZonesVisual;
-    public Image ZoneItem; // will be disabled and then cloned.
+	[SerializeField]
+	private Sprite GuardIconSprite;
 
-    private InterviewResponses _storedInfo;
-    public InterviewResponses StoredInfo => _storedInfo;
+	[SerializeField]
+	private Sprite WorkerMugSprite;
 
-    /** Public Methods **/
+	[SerializeField]
+	private Sprite PsychologistMugSprite;
 
-    public void SetInfo(InterviewResponses info)
-    {
-        _storedInfo = info;
+	[SerializeField]
+	private Sprite GuardMugSprite;
 
-        NameText.text = info.Name;
-        RoleText.text = info.Role.ToString();
-        RoleImage.sprite = GetSprite(info.Role);
-        HeightText.text = InchesToString(info.HeightInches);
-        NotesText.text = QuestionsToString(info.QnA);
-        BuildZoneList(info.FloorsTheyveBeen);
-    }
+	[Header("References")]
+	public TMP_Text NameText;
+	public TMP_Text RoleText;
+	public Image RoleImage;
+	public TMP_Text HeightText;
+	public TMP_Text NotesText;
+	public Image Mugshot;
 
-    /** Private Helpers **/
+	public RectTransform ZonesVisual;
+	public Image ZoneItem; // will be disabled and then cloned.
 
-    private Sprite GetSprite(NpcRoles role) => role switch
-    {
-	    NpcRoles.Worker => WorkerSprite,
-	    NpcRoles.Psychologist => PsychologistSprite,
-	    NpcRoles.Guard => GuardSprite,
-	    _ => WorkerSprite
-    };
+	private InterviewResponses _storedInfo;
+	public InterviewResponses StoredInfo => _storedInfo;
 
-    private void BuildZoneList(List<int> visited)
-    {
-        // clear existing gameobjects
-        for (int i = ZonesVisual.childCount - 1; i >= 0; i--)
-        {
-            Transform tr = ZonesVisual.GetChild(i);
-            if (tr != ZoneItem.transform)
-            {
-                Destroy(tr.gameObject);
-            }
-        }
+	/** Public Methods **/
 
-        ZoneItem.gameObject.SetActive(false);
+	public void SetInfo(InterviewResponses info)
+	{
+		_storedInfo = info;
 
-        if (visited != null)
-        {
-            for (int i = 1; i <= 10; i++)
-            {
-                Image img = Instantiate(ZoneItem);
-                if (visited.Contains(i))
-                {
-                    img.color = Color.white;
-                }
-                img.transform.SetParent(ZonesVisual);
-                img.gameObject.SetActive(true);
-            }
-        }
-    }
+		NameText.text = info.Name;
+		RoleText.text = info.Role.ToString();
+		RoleImage.sprite = GetSprite(info.Role);
+		Mugshot.sprite = GetMugSprite(info.Role);
+		HeightText.text = InchesToString(info.HeightInches);
+		NotesText.text = QuestionsToString(info.QnA);
+	}
 
-    private static string InchesToString(int inches)
-    {
-        return $"{inches / 12}' {inches % 12}\"";
-    }
+	/** Private Helpers **/
 
-    private static string QuestionsToString(List<QnA> questions)
-    {
-        return string.Join("\n\n", questions.Select(q => $"Q: {q.Question}\nA: {q.Response}"));
-    }
+	private Sprite GetSprite(NpcRoles role) =>
+		role switch
+		{
+			NpcRoles.Worker => WorkerIconSprite,
+			NpcRoles.Psychologist => PsychologistIconSprite,
+			NpcRoles.Guard => GuardIconSprite,
+			_ => WorkerIconSprite,
+		};
+
+	private Sprite GetMugSprite(NpcRoles role) =>
+		role switch
+		{
+			NpcRoles.Worker => WorkerMugSprite,
+			NpcRoles.Psychologist => PsychologistMugSprite,
+			NpcRoles.Guard => GuardMugSprite,
+			_ => WorkerMugSprite,
+		};
+
+	private void BuildZoneList(List<int> visited)
+	{
+		// clear existing gameobjects
+		for (int i = ZonesVisual.childCount - 1; i >= 0; i--)
+		{
+			Transform tr = ZonesVisual.GetChild(i);
+			if (tr != ZoneItem.transform)
+			{
+				Destroy(tr.gameObject);
+			}
+		}
+
+		ZoneItem.gameObject.SetActive(false);
+
+		if (visited != null)
+		{
+			for (int i = 1; i <= 10; i++)
+			{
+				Image img = Instantiate(ZoneItem);
+				if (visited.Contains(i))
+				{
+					img.color = Color.white;
+				}
+				img.transform.SetParent(ZonesVisual);
+				img.gameObject.SetActive(true);
+			}
+		}
+	}
+
+	private static string InchesToString(int inches)
+	{
+		return $"{inches / 12}' {inches % 12}\"";
+	}
+
+	private static string QuestionsToString(List<QnA> questions)
+	{
+		return string.Join("\n\n", questions.Select(q => $"Q: {q.Question}\nA: {q.Response}"));
+	}
 }
