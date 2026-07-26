@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
   <LevelsList>k__BackingField:
   - OnLoadDialogueKnot: FirstLevel
-    NpcGuaranteedSpawns: 01000000
+    NpcGuaranteedSpawns: 01000000010000000100000000000000
     NpcSpawnRandomRange: {x: 0, y: 0}
   - OnLoadDialogueKnot: 
     NpcGuaranteedSpawns: 00000000

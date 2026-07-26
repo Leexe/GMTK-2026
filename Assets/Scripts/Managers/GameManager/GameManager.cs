@@ -142,6 +142,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		base.OnInitialized();
 		InitializeWorld();
+		GameSetup.SetupSettings();
 
 		PeopleOnElevator = new();
 		EngineIntegrity = _maxEngineIntegrity;
