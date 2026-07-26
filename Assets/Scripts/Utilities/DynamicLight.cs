@@ -65,15 +65,17 @@ public class DynamicLight : MonoBehaviour
 
 	[SerializeField, Range(1f, 20f)]
 	[ShowIf("@_flickerMode == FlickerMode.Random || _flickerMode == FlickerMode.Perlin")]
-	[Tooltip("Lower values are provide smoother transitions, while higher values are more jumpy")]
+	[Tooltip("Lower values provide smoother transitions, while higher values are more jumpy")]
 	private float _smoothing = 5f;
 
-	private float _baseIntensity;
 	private Light _targetLight;
+	private float _baseIntensity;
+	private float _targetIntensity;
 	private Color _baseColor;
+	private Color _targetColor;
+
 	private Sequence _lightSequence;
 	private float _baseRange;
-	private float _currentIntensity;
 	private float _strobeTimer;
 	private bool _strobeOn = true;
 
@@ -85,8 +87,9 @@ public class DynamicLight : MonoBehaviour
 	private void Start()
 	{
 		_baseIntensity = _targetLight.intensity;
+		_targetIntensity = _baseIntensity;
 		_baseColor = _targetLight.color;
-		_currentIntensity = _baseIntensity;
+		_targetColor = _baseColor;
 
 		if (_randomizeOffsetOnStart)
 		{
@@ -108,24 +111,26 @@ public class DynamicLight : MonoBehaviour
 	{
 		float flickerValue = GetFlickerValue();
 
-		float targetIntensity = _baseIntensity + (flickerValue * _intensityAmplitude);
+		float targetIntensity = _targetIntensity + (flickerValue * _intensityAmplitude);
 		targetIntensity = Mathf.Max(targetIntensity, 0f);
 
 		if (_flickerMode == FlickerMode.Random || _flickerMode == FlickerMode.Perlin)
 		{
-			_currentIntensity = Mathf.Lerp(_currentIntensity, targetIntensity, Time.deltaTime * _smoothing);
+			_targetLight.intensity = Mathf.Lerp(_targetLight.intensity, targetIntensity, Time.deltaTime * _smoothing);
 		}
 		else
 		{
-			_currentIntensity = targetIntensity;
+			_targetLight.intensity = targetIntensity;
 		}
-
-		_targetLight.intensity = _currentIntensity;
 
 		if (_flickerColor)
 		{
 			float colorT = Mathf.InverseLerp(-1f, 1f, flickerValue) * _colorBlendStrength;
-			_targetLight.color = Color.Lerp(_baseColor, _alternateColor, colorT);
+			_targetLight.color = Color.Lerp(_targetColor, _alternateColor, colorT);
+		}
+		else if (_targetLight.color != _targetColor)
+		{
+			_targetLight.color = _targetColor;
 		}
 
 		if (_flickerRange)
@@ -187,89 +192,96 @@ public class DynamicLight : MonoBehaviour
 	public void SetBaseIntensity(float intensity)
 	{
 		_baseIntensity = intensity;
+		_targetIntensity = intensity;
 	}
 
 	/// <summary>
 	/// Tweens from the target intensity back to base after a duration
 	/// </summary>
-	/// <param name="targetIntensity">How bright the light is</param>
+	/// <param name="flashIntensity">How bright the light flashes</param>
 	/// <param name="duration">How long before the light returns to base</param>
-	public void FlashIntensity(float targetIntensity, float duration)
+	public void FlashIntensity(float flashIntensity, float duration)
 	{
 		_lightSequence.Stop();
 		_lightSequence = Sequence.Create();
 		_lightSequence.Chain(
 			Tween.Custom(
 				target: this,
-				targetIntensity,
+				flashIntensity,
 				_baseIntensity,
 				duration,
-				(target, val) => target._currentIntensity = val
+				(target, val) => target._targetIntensity = val
 			)
 		);
 	}
 
 	/// <summary>
-	/// Tweens from the target intensity back to base after a duration
+	/// Tweens from the target intensity/color back to base after a duration
 	/// </summary>
-	/// <param name="targetIntensity">How bright the light is</param>
-	/// <param name="targetColor">The color to lerp from</param>
+	/// <param name="flashIntensity">How bright the light flashes</param>
+	/// <param name="flashColor">The color to flash from</param>
 	/// <param name="duration">How long before the light returns to base</param>
-	public void FlashIntensity(float targetIntensity, Color targetColor, float duration)
+	public void FlashIntensity(float flashIntensity, Color flashColor, float duration)
 	{
 		_lightSequence.Stop();
 		_lightSequence = Sequence.Create();
-		_lightSequence.Chain(
+		_lightSequence.Group(
 			Tween.Custom(
 				target: this,
-				targetIntensity,
+				flashIntensity,
 				_baseIntensity,
 				duration,
-				(target, val) => target._currentIntensity = val
+				(target, val) => target._targetIntensity = val
 			)
 		);
-		_lightSequence.Chain(
-			Tween.Custom(target: this, targetColor, _baseColor, duration, (target, val) => target._baseColor = val)
+		_lightSequence.Group(
+			Tween.Custom(target: this, flashColor, _baseColor, duration, (target, val) => target._targetColor = val)
 		);
 	}
 
 	/// <summary>
-	/// Tweens from the current intenstity to the target
+	/// Tweens target intensity and color to target parameters
 	/// </summary>
 	/// <param name="targetIntensity">How bright the light is</param>
-	/// <param name="targetColor">The color to lerp from</param>
-	/// <param name="duration">How long before the light returns to base</param>
+	/// <param name="targetColor">The target color</param>
+	/// <param name="duration">How long the transition takes</param>
 	public void TweenLights(float targetIntensity, Color targetColor, float duration)
 	{
 		_lightSequence.Stop();
 		_lightSequence = Sequence.Create();
-		_lightSequence.Chain(
+		_lightSequence.Group(
 			Tween.Custom(
 				target: this,
-				_currentIntensity,
+				_targetIntensity,
 				targetIntensity,
 				duration,
-				(target, val) => target._currentIntensity = val
+				(target, val) => target._targetIntensity = val
 			)
+		);
+		_lightSequence.Group(
+			Tween.Custom(target: this, _targetColor, targetColor, duration, (target, val) => target._targetColor = val)
 		);
 	}
 
 	/// <summary>
-	/// Resets the lights back to base intensity
+	/// Resets the lights back to base intensity and color
 	/// </summary>
-	/// <param name="duration">How long before the light returns to base</param>
+	/// <param name="duration">How long the transition takes</param>
 	public void ResetLights(float duration)
 	{
 		_lightSequence.Stop();
 		_lightSequence = Sequence.Create();
-		_lightSequence.Chain(
+		_lightSequence.Group(
 			Tween.Custom(
 				target: this,
-				_currentIntensity,
+				_targetIntensity,
 				_baseIntensity,
 				duration,
-				(target, val) => target._currentIntensity = val
+				(target, val) => target._targetIntensity = val
 			)
+		);
+		_lightSequence.Group(
+			Tween.Custom(target: this, _targetColor, _baseColor, duration, (target, val) => target._targetColor = val)
 		);
 	}
 
@@ -282,6 +294,6 @@ public class DynamicLight : MonoBehaviour
 	public void ReenableLight()
 	{
 		enabled = true;
-		_currentIntensity = _baseIntensity;
+		_targetIntensity = _baseIntensity;
 	}
 }

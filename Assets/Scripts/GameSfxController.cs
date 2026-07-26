@@ -11,17 +11,27 @@ public class GameSfxController : MonoBehaviour
 	[SerializeField]
 	private float _elevatorBeepDelay = 0.5f;
 
+	[Header("Creepy Sound Settings")]
+	[SerializeField]
+	private float _minCreepySoundInterval = 10f;
+
+	[SerializeField]
+	private float _maxCreepySoundInterval = 30f;
+
 	private EventInstance _elevatorDescendInstance;
 	private EventInstance _engineRunningInstance;
 	private EventInstance _engineLowInstance;
 	private Tween _elevatorBeepDelayTween;
+	private Tween _creepySoundTween;
 	private Sequence _skinWalkerActSequence;
+	private Sequence _gameLoseSequence;
 
 	private void Start()
 	{
 		AudioManager.Instance.PlayAmbience("Ambience", FMODEvents.Instance.Ambience_Amb);
 		InitLoopInstances();
 		HandleEngineUpdate();
+		ScheduleNextCreepySound();
 	}
 
 	private void OnEnable()
@@ -36,6 +46,7 @@ public class GameSfxController : MonoBehaviour
 		GameManager.Instance.OnEngineDamage += HandleEngineDamage;
 		GameManager.Instance.OnSkinWalkersAct += HandleSkinWalkerAct;
 		GameManager.Instance.OnGameLose += HandleGameLose;
+		GameManager.Instance.OnGameWin += HandleGameWin;
 	}
 
 	private void OnDisable()
@@ -52,8 +63,10 @@ public class GameSfxController : MonoBehaviour
 			GameManager.Instance.OnEngineDamage -= HandleEngineDamage;
 			GameManager.Instance.OnSkinWalkersAct -= HandleSkinWalkerAct;
 			GameManager.Instance.OnGameLose -= HandleGameLose;
+			GameManager.Instance.OnGameWin -= HandleGameWin;
 		}
 
+		_creepySoundTween.Stop();
 		StopLoopInstances();
 	}
 
@@ -118,7 +131,51 @@ public class GameSfxController : MonoBehaviour
 
 	private void HandleGameLose()
 	{
-		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerDeath_Sfx);
+		_skinWalkerActSequence.Stop();
+		_elevatorBeepDelayTween.Stop();
+		_gameLoseSequence.Stop();
+		_creepySoundTween.Stop();
+		StopLoopInstances();
+		AudioManager.Instance.StopAmbience();
+
+		if (GameManager.Instance.EngineIntegrity <= 0)
+		{
+			_gameLoseSequence = Sequence
+				.Create()
+				.ChainCallback(() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorLightsOut_Sfx))
+				.ChainDelay(0.5f)
+				.ChainCallback(() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorFalling_Sfx));
+		}
+		else
+		{
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerDeath_Sfx);
+		}
+	}
+
+	private void HandleGameWin()
+	{
+		_skinWalkerActSequence.Stop();
+		_elevatorBeepDelayTween.Stop();
+		_gameLoseSequence.Stop();
+		_creepySoundTween.Stop();
+		StopLoopInstances();
+		AudioManager.Instance.StopAmbience();
+		AudioManager.Instance.PlayMusic(FMODEvents.Instance.Win_Bgm);
+	}
+
+	private void ScheduleNextCreepySound()
+	{
+		_creepySoundTween.Stop();
+		float delay = Random.Range(_minCreepySoundInterval, _maxCreepySoundInterval);
+		_creepySoundTween = Tween.Delay(
+			this,
+			delay,
+			_ =>
+			{
+				AudioManager.Instance.PlayOneShot(FMODEvents.Instance.CreepySound_Sfx);
+				ScheduleNextCreepySound();
+			}
+		);
 	}
 
 	private void HandleNewFloor()

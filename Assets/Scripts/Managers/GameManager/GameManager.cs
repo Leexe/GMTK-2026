@@ -97,6 +97,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public float GuardDelay => _guardDelay;
 	public float SkinWalkerDelay => _skinWalkerDelay;
 	public bool OpenedDoor => _openedDoor;
+	public bool DescendButtonPressed => _descendButtonPressed;
 
 	private float _runTime;
 	private Sequence _timeSlowSequence;

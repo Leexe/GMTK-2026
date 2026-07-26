@@ -48,6 +48,7 @@ public class SkinWalkerLight : MonoBehaviour
 		if (_skinwalkersAttacked)
 		{
 			_light.ResetLights(_fadeInDuration);
+			_skinwalkersAttacked = false;
 		}
 	}
 }

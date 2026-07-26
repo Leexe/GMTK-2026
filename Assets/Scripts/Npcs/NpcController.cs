@@ -239,7 +239,6 @@ public class NpcController : MonoBehaviour
 
 	public void SayMeetDialogue()
 	{
-		Debug.Log("Meet Dialogue");
 		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcChat_Sfx);
 		ShowDialogue(GameManager.Instance.NpcDialogueData.GetRandomMeetText());
 	}
