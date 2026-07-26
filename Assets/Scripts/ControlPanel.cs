@@ -15,6 +15,7 @@ public class ControlPanel : MonoBehaviour
 		ArrowButton.OnClick += HandleArrowClick;
 		CircleButton.OnClick += HandleCircleClick;
 		GameManager.Instance.OnNpcsArrived += HandleNpcsArrived;
+		GameManager.Instance.OnStartDoorClose += HandleStartDoorClose;
 
 		SetCircleButtonEnabled(false);
 		SetArrowButtonEnabled(false);
@@ -28,12 +29,19 @@ public class ControlPanel : MonoBehaviour
 		}
 		if (CircleButton != null)
 		{
-			CircleButton.OnClick += HandleCircleClick;
+			CircleButton.OnClick -= HandleCircleClick;
 		}
 		if (GameManager.Instance != null)
 		{
 			GameManager.Instance.OnNpcsArrived -= HandleNpcsArrived;
+			GameManager.Instance.OnStartDoorClose -= HandleStartDoorClose;
 		}
+	}
+
+	private void HandleStartDoorClose()
+	{
+		SetCircleButtonEnabled(false);
+		SetArrowButtonEnabled(false);
 	}
 
 	private void HandleCircleClick()
@@ -58,6 +66,11 @@ public class ControlPanel : MonoBehaviour
 
 	private void HandleNpcsArrived()
 	{
+		if (GameManager.Instance.DescendButtonPressed)
+		{
+			return;
+		}
+
 		if (!GameManager.Instance.OpenedDoor)
 		{
 			SetCircleButtonEnabled(true);

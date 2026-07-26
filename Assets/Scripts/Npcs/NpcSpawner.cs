@@ -103,6 +103,12 @@ public class NpcSpawner : MonoBehaviour
 		}
 		List<Person> people = GameManager.Instance.WorldState.Floors[currentFloor].People;
 
+		if (people.Count == 0)
+		{
+			HandleAllNpcsArrived();
+			return;
+		}
+
 		List<int> availableSpawnIndices = GetShuffledIndices(_spawnPoints.Count);
 		List<int> availableRestIndices = GetShuffledIndices(_restPoints.Count);
 
@@ -239,6 +245,10 @@ public class NpcSpawner : MonoBehaviour
 
 	private void HandleGreetingDialogue()
 	{
+		if (_hasGreeted)
+		{
+			return;
+		}
 		TriggerGroupDialogue(n => n.TrySayGreetingDialogue(), n => n.SayMeetDialogue());
 		_hasGreeted = true;
 	}
