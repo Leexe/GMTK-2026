@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4482107213950844488}
   - component: {fileID: 6778777397420229167}
   - component: {fileID: 223138486854398544}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 1071428354981527296}
   - component: {fileID: 5435049772821749543}
   - component: {fileID: 2677993991415964826}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +383,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &1071428354981527296
 MonoBehaviour:
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 2362290191881755071}
   - component: {fileID: 207852857442756536}
   - component: {fileID: 8184074880644505234}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 5560754615535109210}
   - component: {fileID: 121391135729432246}
   - component: {fileID: 6275370049018265123}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

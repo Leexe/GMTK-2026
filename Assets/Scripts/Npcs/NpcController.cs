@@ -84,6 +84,7 @@ public class NpcController : MonoBehaviour
 	public Person Person => _person;
 	public NpcRoles Role => _person.Role;
 	public bool IsActive => _visuals.activeSelf;
+	public bool IsMoving => _isMoving;
 
 	private Person _person;
 	private Sequence _bounceSequence;
