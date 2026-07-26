@@ -204,7 +204,7 @@ public class DynamicLight : MonoBehaviour
 				targetIntensity,
 				_baseIntensity,
 				duration,
-				(target, val) => target._baseIntensity = val
+				(target, val) => target._currentIntensity = val
 			)
 		);
 	}
@@ -225,11 +225,51 @@ public class DynamicLight : MonoBehaviour
 				targetIntensity,
 				_baseIntensity,
 				duration,
-				(target, val) => target._baseIntensity = val
+				(target, val) => target._currentIntensity = val
 			)
 		);
 		_lightSequence.Chain(
 			Tween.Custom(target: this, targetColor, _baseColor, duration, (target, val) => target._baseColor = val)
+		);
+	}
+
+	/// <summary>
+	/// Tweens from the current intenstity to the target
+	/// </summary>
+	/// <param name="targetIntensity">How bright the light is</param>
+	/// <param name="targetColor">The color to lerp from</param>
+	/// <param name="duration">How long before the light returns to base</param>
+	public void TweenLights(float targetIntensity, Color targetColor, float duration)
+	{
+		_lightSequence.Stop();
+		_lightSequence = Sequence.Create();
+		_lightSequence.Chain(
+			Tween.Custom(
+				target: this,
+				_baseIntensity,
+				targetIntensity,
+				duration,
+				(target, val) => target._currentIntensity = val
+			)
+		);
+	}
+
+	/// <summary>
+	/// Resets the lights back to base intensity
+	/// </summary>
+	/// <param name="duration">How long before the light returns to base</param>
+	public void ResetLights(float duration)
+	{
+		_lightSequence.Stop();
+		_lightSequence = Sequence.Create();
+		_lightSequence.Chain(
+			Tween.Custom(
+				target: this,
+				_currentIntensity,
+				_baseIntensity,
+				duration,
+				(target, val) => target._currentIntensity = val
+			)
 		);
 	}
 

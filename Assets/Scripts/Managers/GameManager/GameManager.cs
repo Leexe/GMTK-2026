@@ -92,7 +92,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
 	public float EngineRepairDelay => _engineRepairDelay;
-	public float GuardRepairDelay => _guardDelay;
+	public float GuardDelay => _guardDelay;
 	public float SkinWalkerDelay => _skinWalkerDelay;
 	public bool OpenedDoor => _openedDoor;
 

@@ -1075,6 +1075,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6350337314510489720, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
   m_PrefabInstance: {fileID: 5047201593222398825}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &557313180 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8049225170543505265, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
+  m_PrefabInstance: {fileID: 1093117875850602798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &567047296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1644,6 +1649,7 @@ GameObject:
   - component: {fileID: 801858880}
   - component: {fileID: 801858879}
   - component: {fileID: 801858882}
+  - component: {fileID: 801858883}
   m_Layer: 0
   m_Name: Spot Light (1)
   m_TagString: Untagged
@@ -1754,7 +1760,7 @@ Transform:
   m_GameObject: {fileID: 801858878}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3.497, y: 3.0458024, z: 6.045}
+  m_LocalPosition: {x: -3.516, y: 3.0458024, z: 6.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1785,6 +1791,23 @@ MonoBehaviour:
   _randomizeOffsetOnStart: 1
   _noiseOffset: 0
   _smoothing: 5
+--- !u!114 &801858883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801858878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ce8005ea09849999205da58b359ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkinWalkerLight
+  _light: {fileID: 801858882}
+  _targetLightIntensity: 2
+  _targetColor: {r: 1, g: 0, b: 0, a: 1}
+  _fadeInDuration: 2
+  _fadeOutDuration: 2
 --- !u!114 &855073895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12904,6 +12927,7 @@ GameObject:
   - component: {fileID: 1643711153}
   - component: {fileID: 1643711152}
   - component: {fileID: 1643711155}
+  - component: {fileID: 1643711156}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -13014,7 +13038,7 @@ Transform:
   m_GameObject: {fileID: 1643711151}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.632, y: 3.0521872, z: 6.013}
+  m_LocalPosition: {x: 3.688, y: 3.011, z: 6.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13045,6 +13069,23 @@ MonoBehaviour:
   _randomizeOffsetOnStart: 1
   _noiseOffset: 0
   _smoothing: 5
+--- !u!114 &1643711156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643711151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ce8005ea09849999205da58b359ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _light: {fileID: 1643711155}
+  _targetLightIntensity: 2
+  _targetColor: {r: 1, g: 0, b: 0, a: 1}
+  _fadeInDuration: 2
+  _fadeOutDuration: 2
 --- !u!1 &1655825855
 GameObject:
   m_ObjectHideFlags: 0
@@ -14330,6 +14371,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3048794757363595323, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
+      propertyPath: _guardPoints.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048794757363595323, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
+      propertyPath: '_guardPoints.Array.data[4]'
+      value: 
+      objectReference: {fileID: 557313180}
     - target: {fileID: 4138979929355288392, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -14434,7 +14483,7 @@ PrefabInstance:
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
     - target: {fileID: 6235297930472088742, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: m_Name
       value: Game Manager

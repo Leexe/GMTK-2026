@@ -106,7 +106,6 @@ public class DialogueUIController : MonoBehaviour
 
 	private void PlayContinueSfx(string _, string s1)
 	{
-		Debug.Log("Hello");
 		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ForwardText_Sfx);
 	}
 }
