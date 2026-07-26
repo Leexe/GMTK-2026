@@ -43,7 +43,7 @@ public class NpcSpawner : MonoBehaviour
 
 	private void InitializePool()
 	{
-		for (int i = 0; i < _spawnPoints.Count + 3; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			GameObject npc = Instantiate(_npcPrefab, transform);
 			NpcController controller = npc.GetComponent<NpcController>();
@@ -125,7 +125,8 @@ public class NpcSpawner : MonoBehaviour
 
 	private void ResetNpcs()
 	{
-		_repairDelayTween.Complete();
+		_repairDelayTween.Stop();
+		_guardDelayTween.Stop();
 		UnsubscribeFromActiveNpcs();
 		foreach (NpcController npc in _activeNpcs)
 		{
@@ -295,40 +296,57 @@ public class NpcSpawner : MonoBehaviour
 
 	private void HandleGuards(bool skinWalkerAppears)
 	{
+		// Clean up active NPCs before re-initializing from pool
+		ResetNpcs();
+
 		var guards = GameManager.Instance.PeopleOnElevator.Where(npc => npc.Role == NpcRoles.Guard).ToList();
+
 		int guardsCount = Mathf.Clamp(guards.Count, 0, _guardPoints.Count);
+		if (guardsCount == 0)
+		{
+			return;
+		}
 
 		List<int> availableSpawnIndices = GetShuffledIndices(_goalPoints.Count);
+		List<int> shuffledGuardIndices = GetShuffledIndices(_guardPoints.Count);
+		List<(NpcController npc, Vector3 originalPos)> guardAssignments = new();
+
+		float guardDelay = GameManager.Instance.GuardDelay;
+
 		for (int i = 0; i < guardsCount; i++)
 		{
-			NpcController npc = _npcPool[i];
+			// Get NPC from the end of pool to prevent overlap with standard indices
+			int poolIndex = _npcPool.Count - 1 - i;
+
+			NpcController guardNpc = _npcPool[poolIndex];
+
+			// 1. Spawn at goal point
 			int spawnIndex = availableSpawnIndices[i % availableSpawnIndices.Count];
 			Vector3 spawnPos = _goalPoints[spawnIndex].position;
-			npc.Initialize(guards[i], spawnPos);
+
+			guardNpc.Initialize(guards[i], spawnPos);
+			_activeNpcs.Add(guardNpc);
+
+			// 2. Track original position & send to guard point
+			Vector3 originalPos = guardNpc.transform.position;
+			guardAssignments.Add((guardNpc, originalPos));
+
+			Vector3 guardPos = _guardPoints[shuffledGuardIndices[i]].position;
+			float moveDuration = Mathf.Max(0.1f, (guardDelay / 2f) - 1f);
+
+			guardNpc.LerpToPosition(guardPos, moveDuration, playFootsteps: true);
 		}
 
-		List<int> shuffledRepairIndices = GetShuffledIndices(_guardPoints.Count);
-		List<(NpcController npc, Vector3 originalPos)> guardAssignments = new();
-		float guardDelay = GameManager.Instance.GuardRepairDelay;
-		for (int i = _npcPool.Count - 1; i < guardsCount; i--)
-		{
-			NpcController guard = _npcPool[i];
-			Vector3 originalPos = guard.transform.position;
-			guardAssignments.Add((guard, originalPos));
-
-			Vector3 guardPos = _guardPoints[shuffledRepairIndices[i]].position;
-			guard.LerpToPosition(guardPos, (guardDelay / 2) - 1, playFootsteps: true);
-		}
-
+		// 3. Return to position delay
 		_guardDelayTween.Stop();
 		_guardDelayTween = Tween.Delay(
 			this,
-			guardDelay / 2,
+			guardDelay / 2f,
 			_ =>
 			{
 				foreach (var (npc, originalPos) in guardAssignments)
 				{
-					npc.LerpToPosition(originalPos, guardDelay / 2, playFootsteps: true);
+					npc.LerpToPosition(originalPos, guardDelay / 2f, playFootsteps: true);
 				}
 			}
 		);

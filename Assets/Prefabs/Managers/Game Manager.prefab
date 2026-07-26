@@ -80,7 +80,13 @@ MonoBehaviour:
     - Name: OnEngineUpdate
       Entry: 6
       Data: 
+    - Name: OnGuardsMove
+      Entry: 6
+      Data: 
     - Name: OnSkinWalkersAct
+      Entry: 6
+      Data: 
+    - Name: OnSkinWalkersActEnd
       Entry: 6
       Data: 
     - Name: OnNpcsArrived
@@ -105,8 +111,10 @@ MonoBehaviour:
   _engineDeteriorateVariance: 0.9
   _elevatorOpenDelay: 2
   _elevatorDoorCloseDelay: 1
-  _transitionDelay: 4
+  _transitionDelay: 2
   _engineRepairDelay: 5
+  _guardDelay: 6
+  _skinWalkerDelay: 15
   _grateAnimancer: {fileID: 0}
   _elevatorAnimancer: {fileID: 0}
   _grateOpenAnim: {fileID: 7400000, guid: 132d649ec7c0abb499ff492c23605836, type: 2}

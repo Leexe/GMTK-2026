@@ -35,6 +35,7 @@ public class GameSfxController : MonoBehaviour
 		GameManager.Instance.OnEngineFix += HandleEngineFix;
 		GameManager.Instance.OnEngineDamage += HandleEngineDamage;
 		GameManager.Instance.OnSkinWalkersAct += HandleSkinWalkerAct;
+		GameManager.Instance.OnGameLose += HandleGameLose;
 	}
 
 	private void OnDisable()
@@ -50,6 +51,7 @@ public class GameSfxController : MonoBehaviour
 			GameManager.Instance.OnEngineFix -= HandleEngineFix;
 			GameManager.Instance.OnEngineDamage -= HandleEngineDamage;
 			GameManager.Instance.OnSkinWalkersAct -= HandleSkinWalkerAct;
+			GameManager.Instance.OnGameLose -= HandleGameLose;
 		}
 
 		StopLoopInstances();
@@ -92,26 +94,31 @@ public class GameSfxController : MonoBehaviour
 	private void HandleSkinWalkerAct()
 	{
 		float duration = GameManager.Instance.SkinWalkerDelay;
-		_skinWalkerActSequence = new Sequence();
+		_skinWalkerActSequence = Sequence.Create();
 		_skinWalkerActSequence.ChainCallback(() =>
 			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorLightsOut_Sfx)
 		);
 		_skinWalkerActSequence.ChainCallback(() =>
 			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.CreepySound_Sfx)
 		);
-		_skinWalkerActSequence.ChainDelay(duration / 4);
+		_skinWalkerActSequence.ChainDelay(duration / 4f);
 		_skinWalkerActSequence.ChainCallback(() =>
 			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SkinwalkerEncounter_Sfx)
 		);
-		_skinWalkerActSequence.ChainDelay(duration / 4);
+		_skinWalkerActSequence.ChainDelay(duration / 4f);
 		_skinWalkerActSequence.ChainCallback(() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcDeath_Sfx));
-		_skinWalkerActSequence.ChainDelay(duration / 4);
+		_skinWalkerActSequence.ChainDelay(duration / 4f);
 		if (GameManager.Instance.CountNPCs(NpcRoles.Guard) > 0)
 		{
 			_skinWalkerActSequence.ChainCallback(() =>
 				AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SoldierShot_Sfx)
 			);
 		}
+	}
+
+	private void HandleGameLose()
+	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.PlayerDeath_Sfx);
 	}
 
 	private void HandleNewFloor()
