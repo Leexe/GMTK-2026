@@ -98,6 +98,10 @@ public class SwayingUI : MonoBehaviour
 
 	[FoldoutGroup("General Settings")]
 	[SerializeField]
+	private bool _activateOnStart = true;
+
+	[FoldoutGroup("General Settings")]
+	[SerializeField]
 	private bool _useUnscaledTime;
 
 	private Sequence _positionTween;
@@ -126,7 +130,10 @@ public class SwayingUI : MonoBehaviour
 		_initialRotation = transform.localEulerAngles;
 		_initialScale = transform.localScale;
 
-		StartTween();
+		if (_activateOnStart)
+		{
+			StartTween();
+		}
 	}
 
 	[FoldoutGroup("Debug")]
