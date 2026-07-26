@@ -466,6 +466,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197347633}
   m_CullTransparentMesh: 1
+--- !u!1 &201473756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 201473758}
+  - component: {fileID: 201473757}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &201473757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201473756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
+--- !u!4 &201473758
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201473756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 807.99335, y: 111.17575, z: -73.45978}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &270161805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -621,6 +670,7 @@ GameObject:
   - component: {fileID: 330585548}
   - component: {fileID: 330585549}
   - component: {fileID: 330585550}
+  - component: {fileID: 330585551}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -802,6 +852,41 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &330585551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f21d94e9e44d64682b87e0220e2e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraManager
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  MainCameraGameObject: {fileID: 330585543}
+  _cinemachine: {fileID: 1514091683}
+  _defaultCameraSensitivity: 1.125
+  _playerCamera: {fileID: 1514091688}
+  _panTilt: {fileID: 1514091690}
+  _inputAxisController: {fileID: 0}
+  _focusTweenDuration: 0.5
+  _descentShakeAmplitude: 0.3
+  _descentShakeFrequency: 1
+  _skinwalkerShakeDelay: 4
+  _skinwalkerShakeAmplitude: 1
+  _skinwalkerShakeFrequency: 1.5
+  _skinwalkerShakePositionStrength: {x: 0.25, y: 0.25, z: 0.25}
+  _shakeResetDuration: 0.3
 --- !u!1 &376053425
 GameObject:
   m_ObjectHideFlags: 0
@@ -12598,6 +12683,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1514091689}
   - component: {fileID: 1514091688}
+  - component: {fileID: 1514091690}
   - component: {fileID: 1514091685}
   m_Layer: 0
   m_Name: Cinemachine
@@ -12681,6 +12767,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1514091690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514091683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachinePanTilt
+  ReferenceFrame: 0
+  RecenterTarget: 0
+  PanAxis:
+    Value: 0
+    Center: 0
+    Range: {x: -180, y: 180}
+    Wrap: 1
+    Recentering:
+      Enabled: 0
+      Wait: 1
+      Time: 2
+    Restrictions: 0
+  TiltAxis:
+    Value: 0
+    Center: 0
+    Range: {x: -70, y: 70}
+    Wrap: 0
+    Recentering:
+      Enabled: 0
+      Wait: 1
+      Time: 2
+    Restrictions: 0
 --- !u!1 &1521744952
 GameObject:
   m_ObjectHideFlags: 0
@@ -14149,6 +14269,17 @@ MonoBehaviour:
   Brightness: 1
   OffIntensity: -3
   OnIntensity: 2
+--- !u!114 &2114133888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6732530605248166966, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+  m_PrefabInstance: {fileID: 609830562180598626}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &609830562180598626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14236,6 +14367,34 @@ PrefabInstance:
     - target: {fileID: 1142023956507818686, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _loseImage
+      value: 
+      objectReference: {fileID: 2114133888}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _finalColor.b
+      value: 0.0754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _finalColor.g
+      value: 0.0754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _finalColor.r
+      value: 0.0754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _fadeToFinalDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _intermediateColor.g
+      value: 0.008716989
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858926270368139264, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
+      propertyPath: _fadeToIntermediateDuration
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5199185319163385302, guid: 6ebe7ca942e3d4e24b342c235e2d399a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -14397,29 +14556,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2019615545}
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
+      propertyPath: _transitionDelay
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: _elevatorAnimancer
       value: 
       objectReference: {fileID: 1484553289}
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _forceHovers.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: '_forceHovers.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2089663833}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: '_forceHovers.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2089663830}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: '_forceHovers.Array.data[2]'
-      value: 
-      objectReference: {fileID: 855073899}
+      objectReference: {fileID: 0}
     - target: {fileID: 6235297930472088742, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: m_Name
       value: Game Manager
@@ -14622,6 +14769,7 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 1514091689}
   - {fileID: 410087041}
+  - {fileID: 201473758}
   - {fileID: 376053426}
   - {fileID: 8665822039223237213}
   - {fileID: 4803692045997224450}

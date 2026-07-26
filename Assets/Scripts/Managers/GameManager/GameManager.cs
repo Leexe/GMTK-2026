@@ -279,7 +279,7 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 		else
 		{
-			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorShortBuzz_Sfx);
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorClose_Sfx);
 		}
 
 		_descentSequence.Stop();
@@ -472,6 +472,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		_descentSequence.Stop();
 		_timeSlowSequence.Stop();
+		AudioManager.Instance.StopMusic(false);
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(
 			UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
@@ -529,5 +530,17 @@ public class GameManager : MonoSingleton<GameManager>
 	private void TriggerLose()
 	{
 		OnGameLose?.Invoke();
+	}
+
+	[Button]
+	private void TriggerSkinWalker()
+	{
+		OnSkinWalkersAct?.Invoke();
+	}
+
+	[Button]
+	private void TriggerSkinWalkerEnd()
+	{
+		OnSkinWalkersActEnd?.Invoke();
 	}
 }
