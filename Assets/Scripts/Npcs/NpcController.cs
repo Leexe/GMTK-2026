@@ -160,16 +160,39 @@ public class NpcController : MonoBehaviour
 
 		float delay = Random.Range(0f, _lerpDelay);
 
-		if (playFootsteps)
-		{
-			_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounce());
-		}
-		else
-		{
-			_delayTween = Tween.Delay(this, delay, target => target.StartMoveBounceNoSound());
-		}
+		_delayTween = playFootsteps
+			? Tween.Delay(this, delay, target => target.StartMoveBounce())
+			: Tween.Delay(this, delay, target => target.StartMoveBounceNoSound());
 
 		_lerpTween = Tween.Position(transform, targetPosition, _lerpDuration, _lerpEase, startDelay: delay);
+		_lerpTween.OnComplete(
+			target: this,
+			target =>
+			{
+				target._basePosition = targetPosition;
+				target.StartIdleBounce();
+				target.OnArrivedAtPosition?.Invoke(target);
+				target._isMoving = false;
+				target.UpdateHighlight();
+			}
+		);
+	}
+
+	public void LerpToPosition(Vector3 targetPosition, float duration, bool playFootsteps = false)
+	{
+		StopBounce();
+		_lerpTween.Stop();
+
+		_isMoving = true;
+		UpdateHighlight();
+
+		float delay = Random.Range(0f, _lerpDelay);
+
+		_delayTween = playFootsteps
+			? Tween.Delay(this, delay, target => target.StartMoveBounce())
+			: Tween.Delay(this, delay, target => target.StartMoveBounceNoSound());
+
+		_lerpTween = Tween.Position(transform, targetPosition, duration, _lerpEase, startDelay: delay);
 		_lerpTween.OnComplete(
 			target: this,
 			target =>

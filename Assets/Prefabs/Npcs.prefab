@@ -64,7 +64,7 @@ MonoBehaviour:
   _idleBounceHeight: 0.05
   _idleBounceDuration: 1.6
   _idleBounceEase: 4
-  _lerpDuration: 3
+  _lerpDuration: 2.5
   _lerpDelay: 2
   _lerpEase: 7
   _stepInterval: 0.4

@@ -48,6 +48,9 @@ public class GameManager : MonoSingleton<GameManager>
 	[SerializeField]
 	private float _transitionDelay = 1f;
 
+	[SerializeField]
+	private float _engineRepairDelay = 5f;
+
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
@@ -61,6 +64,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
+	public float EngineRepairDelay => _engineRepairDelay;
 	public bool OpenedDoor => _openedDoor;
 
 	private float _runTime;
@@ -232,7 +236,7 @@ public class GameManager : MonoSingleton<GameManager>
 		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
 		if (workerCount > 0)
 		{
-			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => HandleWorkers()));
+			_descentSequence.Chain(Tween.Delay(_engineRepairDelay, () => HandleWorkers()));
 		}
 
 		// Engine Deteriorates

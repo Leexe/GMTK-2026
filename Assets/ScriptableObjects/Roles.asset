@@ -18,6 +18,6 @@ MonoBehaviour:
   - Role: 1
     SpawnWeight: 15
   - Role: 2
-    SpawnWeight: 25
+    SpawnWeight: 10
   - Role: 3
     SpawnWeight: 20
