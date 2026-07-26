@@ -3,39 +3,33 @@ INCLUDE testing.ink
 === FirstLevel ===
 
 #d_console 
-Hello Operator...
+Operator, do you copy? 
+
+#d_console
+Congratulations on reaching the surface.
 
 #d_console 
-Great job on your first trip to the surface.
+Now comes the descent.
 
 #d_console 
-But the true test begins now.
+Your objective: Transport surviving personnel from Floor 9 down to Vespera at Floor 1.
 
 #d_console 
-Prepare yourself for the return trip.
+<shake a=0.3>Do NOT open the doors blindly.</shake>
 
 #d_console 
-To reiterate your mission...
+Entities in the deep can mimic human appearance and forged credentials.
 
 #d_console 
-Your job is to pick up the people on each floor and-
+Click on passengers to inspect their documents. 
+
+#d_console
+Psychologists in your crew can assist with interrogation.
 
 #d_console 
-bring them back to Vespera.
+Consult your reference sheet, trust your instincts, and keep the engine running.
 
 #d_console 
-Located on floor zero.
-
-#d_console 
-Don't just open the doors for anyone though.
-
-#d_console 
-There are things in the mine that can take over your identity.
-
-#d_console 
-Reference your issued cheat sheet and follow your training.
-
-#d_console 
-Good luck.
+Good luck, Operator.
 
 -> END
