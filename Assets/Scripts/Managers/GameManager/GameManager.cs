@@ -291,6 +291,11 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private void ArriveAtNextFloor()
 	{
+		if (CheckLoseCondition())
+		{
+			return;
+		}
+
 		_currentFloor++;
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
@@ -371,7 +376,7 @@ public class GameManager : MonoSingleton<GameManager>
 		OnSkinWalkersAct?.Invoke();
 	}
 
-	private bool EngineDeteriorate()
+	private void EngineDeteriorate()
 	{
 		float maxDeterioration = _engineMinDeterioration + (_currentFloor * _engineDeteriorateScaling);
 		float minDeterioration = maxDeterioration * _engineDeteriorateVariance;
@@ -380,11 +385,6 @@ public class GameManager : MonoSingleton<GameManager>
 		EngineIntegrity = Mathf.Clamp(EngineIntegrity - deteriorateAmount, 0, _maxEngineIntegrity);
 		OnEngineDamage?.Invoke();
 		OnEngineUpdate?.Invoke();
-		if (CheckLoseCondition())
-		{
-			return true;
-		}
-		return false;
 	}
 
 	private void CheckWinCondition()
@@ -399,11 +399,14 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private bool CheckLoseCondition()
 	{
+		Debug.Log(EngineIntegrity);
+		Debug.Log(_gameOver);
 		if (EngineIntegrity <= 0 && !_gameOver)
 		{
 			_gameOver = true;
 			_descentSequence.Stop();
 			OnGameLose?.Invoke();
+			Debug.Log("Lost");
 			return true;
 		}
 
