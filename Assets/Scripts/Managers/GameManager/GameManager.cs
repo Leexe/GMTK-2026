@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using PrimeTween;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -514,5 +515,19 @@ public class GameManager : MonoSingleton<GameManager>
 	private static void ApplyTime()
 	{
 		Time.timeScale = IsPaused ? 0f : BaseTimeScale * SimulationTimeScale * _effectTimeScale;
+	}
+
+	// Debug
+
+	[Button]
+	private void TriggerWin()
+	{
+		OnGameWin?.Invoke();
+	}
+
+	[Button]
+	private void TriggerLose()
+	{
+		OnGameLose?.Invoke();
 	}
 }
