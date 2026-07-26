@@ -1226,8 +1226,8 @@ CanvasGroup:
   m_GameObject: {fileID: 3909990029513357534}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &2815539225920882051
 MonoBehaviour:
@@ -1241,8 +1241,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74cdc33b49c176b48856c7195a2029a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersonInfoPaper
+  WorkerSprite: {fileID: 0}
+  PsychologistSprite: {fileID: 0}
+  GuardSprite: {fileID: 0}
   NameText: {fileID: 1102820428896338072}
   RoleText: {fileID: 266556614256355088}
+  RoleImage: {fileID: 0}
   HeightText: {fileID: 9109268908042129847}
   NotesText: {fileID: 6622202260400140291}
   Mugshot: {fileID: 5242625623138195066}
