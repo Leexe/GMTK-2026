@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcController
   _visuals: {fileID: 4455350293904537853}
+  _meshGameObject: {fileID: 4455350293904537853}
   _hoverTarget: {fileID: 3353710241338067789}
   _dialogueText: {fileID: 4482107213950844488}
   _dialogueCanvasGroup: {fileID: 2677993991415964826}
@@ -87,9 +88,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.1891781
-  m_Height: 5.471223
+  m_Height: 6.5214024
   m_Direction: 1
-  m_Center: {x: 0, y: 2.2356095, z: -0.6891794}
+  m_Center: {x: 0, y: 2.7606986, z: -0.6891794}
 --- !u!114 &3353710241338067789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 0
+  OutlineTarget: {fileID: 0}
 --- !u!1 &512866569072819034
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +535,7 @@ Transform:
   m_GameObject: {fileID: 4426496437310338612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 3.2233338, z: 0}
+  m_LocalPosition: {x: 0.14, y: 2.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -550,7 +553,7 @@ GameObject:
   - component: {fileID: 7006486541146270171}
   - component: {fileID: 4175443512234257235}
   - component: {fileID: 9187582862484565301}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +571,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.000000059604645, y: 0, z: -0.00000005538342}
   m_LocalScale: {x: 6, y: 6, z: 6}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3854316992164479126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

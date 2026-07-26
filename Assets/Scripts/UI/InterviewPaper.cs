@@ -86,6 +86,6 @@ public class InterviewPaper : MonoBehaviour
 
     private static string QuestionsToString(List<QnA> questions)
     {
-        return string.Join("\n\n\n", questions.Select(q => $"Q: {q.Question}\n\nA: {q.Response}"));
+        return string.Join("\n\n", questions.Select(q => $"Q: {q.Question}\nA: {q.Response}"));
     }
 }

@@ -9,6 +9,9 @@ public class NpcController : MonoBehaviour
 	private GameObject _visuals;
 
 	[SerializeField]
+	private GameObject _meshGameObject;
+
+	[SerializeField]
 	private HoverTarget _hoverTarget;
 
 	[SerializeField]
@@ -83,6 +86,8 @@ public class NpcController : MonoBehaviour
 	private Vector3 _basePosition;
 
 	private bool _hasClickListener = false;
+	private bool _isSelected = false;
+	private bool _isMoving = false;
 
 	private void OnEnable()
 	{
@@ -98,12 +103,26 @@ public class NpcController : MonoBehaviour
 
 	public void Initialize(Person person, Vector3 position)
 	{
-		Debug.Log($"{person.Name} ({person.Role}) Initializing!");
+		string warningText = person.IsSkinwalker ? " (SKINWALKER!)" : "";
+		Debug.Log($"{person.Name} ({person.Role}) Initializing!" + warningText);
 		_person = person;
 		transform.position = position;
 		_basePosition = position;
 		HideDialogue();
 		EnableVisuals();
+		SetSelected(false);
+	}
+
+	public void SetSelected(bool selected)
+	{
+		_isSelected = selected;
+		UpdateHighlight();
+	}
+
+	private void UpdateHighlight()
+	{
+		bool shouldHighlight = (_isSelected || _hoverTarget.Hovered) && !_isMoving;
+		_meshGameObject.layer = shouldHighlight ? LayerMask.NameToLayer("Outlined") : LayerMask.NameToLayer("Default");
 	}
 
 	private void HandleClick()
@@ -120,6 +139,9 @@ public class NpcController : MonoBehaviour
 	{
 		StopBounce();
 		_lerpTween.Stop();
+
+		_isMoving = true;
+		UpdateHighlight();
 
 		float delay = Random.Range(0f, _lerpDelay);
 
@@ -140,6 +162,8 @@ public class NpcController : MonoBehaviour
 				target._basePosition = targetPosition;
 				target.StartIdleBounce();
 				target.OnArrivedAtPosition?.Invoke(target);
+				target._isMoving = false;
+				target.UpdateHighlight();
 			}
 		);
 	}
@@ -256,6 +280,8 @@ public class NpcController : MonoBehaviour
 		if (!_hasClickListener)
 		{
 			_hoverTarget.OnClick += HandleClick;
+			_hoverTarget.OnHover += UpdateHighlight;
+			_hoverTarget.OnUnhover += UpdateHighlight;
 			_hasClickListener = true;
 		}
 		StartIdleBounce();
@@ -271,6 +297,8 @@ public class NpcController : MonoBehaviour
 		if (_hasClickListener)
 		{
 			_hoverTarget.OnClick -= HandleClick;
+			_hoverTarget.OnHover -= UpdateHighlight;
+			_hoverTarget.OnUnhover -= UpdateHighlight;
 			_hasClickListener = false;
 		}
 	}
