@@ -97,7 +97,7 @@ public class InterviewPaper : MonoBehaviour
 			for (int i = 1; i <= 10; i++)
 			{
 				Image img = Instantiate(ZoneItem);
-				if (visited.Contains(i))
+				if (visited.Contains(11 - i))
 				{
 					img.color = Color.white;
 				}

@@ -59,6 +59,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private float _skinWalkerDelay = 5f;
 
 	[Header("Elevator")]
+
 	[SerializeField]
 	private AnimancerComponent _grateAnimancer;
 
