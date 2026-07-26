@@ -1,8 +1,10 @@
+using PrimeTween;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Light))]
-public class LightFlicker : MonoBehaviour
+public class DynamicLight : MonoBehaviour
 {
 	public enum FlickerMode
 	{
@@ -69,6 +71,7 @@ public class LightFlicker : MonoBehaviour
 	private float _baseIntensity;
 	private Light _targetLight;
 	private Color _baseColor;
+	private Sequence _lightSequence;
 	private float _baseRange;
 	private float _currentIntensity;
 	private float _strobeTimer;
@@ -91,7 +94,17 @@ public class LightFlicker : MonoBehaviour
 		}
 	}
 
+	private void OnDisable()
+	{
+		_lightSequence.Stop();
+	}
+
 	private void Update()
+	{
+		HandleFlicker();
+	}
+
+	private void HandleFlicker()
 	{
 		float flickerValue = GetFlickerValue();
 
@@ -174,6 +187,50 @@ public class LightFlicker : MonoBehaviour
 	public void SetBaseIntensity(float intensity)
 	{
 		_baseIntensity = intensity;
+	}
+
+	/// <summary>
+	/// Tweens from the target intensity back to base after a duration
+	/// </summary>
+	/// <param name="targetIntensity">How bright the light is</param>
+	/// <param name="duration">How long before the light returns to base</param>
+	public void FlashIntensity(float targetIntensity, float duration)
+	{
+		_lightSequence.Stop();
+		_lightSequence = Sequence.Create();
+		_lightSequence.Chain(
+			Tween.Custom(
+				target: this,
+				targetIntensity,
+				_baseIntensity,
+				duration,
+				(target, val) => target._baseIntensity = val
+			)
+		);
+	}
+
+	/// <summary>
+	/// Tweens from the target intensity back to base after a duration
+	/// </summary>
+	/// <param name="targetIntensity">How bright the light is</param>
+	/// <param name="targetColor">The color to lerp from</param>
+	/// <param name="duration">How long before the light returns to base</param>
+	public void FlashIntensity(float targetIntensity, Color targetColor, float duration)
+	{
+		_lightSequence.Stop();
+		_lightSequence = Sequence.Create();
+		_lightSequence.Chain(
+			Tween.Custom(
+				target: this,
+				targetIntensity,
+				_baseIntensity,
+				duration,
+				(target, val) => target._baseIntensity = val
+			)
+		);
+		_lightSequence.Chain(
+			Tween.Custom(target: this, targetColor, _baseColor, duration, (target, val) => target._baseColor = val)
+		);
 	}
 
 	public void KillLight()

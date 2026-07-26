@@ -56,6 +56,7 @@ public class GameSfxController : MonoBehaviour
 	{
 		_elevatorDescendInstance = AudioManager.Instance.CreateInstance(FMODEvents.Instance.ElevatorDescend_LoopSfx);
 		_engineRunningInstance = AudioManager.Instance.CreateInstance(FMODEvents.Instance.EngineRunning_LoopSfx);
+		_engineRunningInstance.setVolume(0.2f);
 		_engineLowInstance = AudioManager.Instance.CreateInstance(FMODEvents.Instance.EngineLow_LoopSfx);
 	}
 
@@ -66,12 +67,12 @@ public class GameSfxController : MonoBehaviour
 		if (health <= _engineLowThreshold && health > 0f)
 		{
 			AudioManager.Instance.PlayInstance(_engineLowInstance);
-			// AudioManager.Instance.StopInstance(_engineRunningInstance);
+			AudioManager.Instance.StopInstance(_engineRunningInstance);
 		}
 		else
 		{
 			AudioManager.Instance.StopInstance(_engineLowInstance);
-			// AudioManager.Instance.PlayInstance(_engineRunningInstance);
+			AudioManager.Instance.PlayInstance(_engineRunningInstance);
 		}
 	}
 

@@ -228,16 +228,6 @@ public class GameManager : MonoSingleton<GameManager>
 		// Trigger Start Descent Event
 		_descentSequence.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()));
 
-		// Skinwalker Acts
-		if (DoesSkinWalkerAct())
-		{
-			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => SkinWalkersActs()));
-		}
-		if (_gameOver)
-		{
-			return;
-		}
-
 		// Workers Repair Engine
 		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
 		if (workerCount > 0)
@@ -247,6 +237,16 @@ public class GameManager : MonoSingleton<GameManager>
 
 		// Engine Deteriorates
 		_descentSequence.Chain(Tween.Delay(_transitionDelay, () => EngineDeteriorate()));
+		if (_gameOver)
+		{
+			return;
+		}
+
+		// Skinwalker Acts
+		if (DoesSkinWalkerAct())
+		{
+			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => SkinWalkersActs()));
+		}
 		if (_gameOver)
 		{
 			return;
