@@ -52,6 +52,12 @@ public class GameManager : MonoSingleton<GameManager>
 	[SerializeField]
 	private float _engineRepairDelay = 5f;
 
+	[SerializeField]
+	private float _guardDelay = 5f;
+
+	[SerializeField]
+	private float _skinWalkerDelay = 5f;
+
 	[Header("Elevator")]
 	[SerializeField]
 	private AnimancerComponent _grateAnimancer;
@@ -85,6 +91,8 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
 	public float EngineRepairDelay => _engineRepairDelay;
+	public float GuardRepairDelay => _guardDelay;
+	public float SkinWalkerDelay => _skinWalkerDelay;
 	public bool OpenedDoor => _openedDoor;
 
 	private float _runTime;
@@ -125,7 +133,13 @@ public class GameManager : MonoSingleton<GameManager>
 	public Action OnEngineUpdate;
 
 	[HideInInspector]
+	public Action<bool> OnGuardsMove;
+
+	[HideInInspector]
 	public Action OnSkinWalkersAct;
+
+	[HideInInspector]
+	public Action OnSkinWalkersActEnd;
 
 	[HideInInspector]
 	public Action OnNpcsArrived;
@@ -247,6 +261,10 @@ public class GameManager : MonoSingleton<GameManager>
 			closeDelay = _elevatorDoorCloseDelay;
 			OnStartDoorClose?.Invoke();
 		}
+		else
+		{
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorShortBuzz_Sfx);
+		}
 
 		_descentSequence.Stop();
 		_descentSequence = Sequence.Create();
@@ -276,10 +294,23 @@ public class GameManager : MonoSingleton<GameManager>
 			_descentSequence.Chain(Tween.Delay(_engineRepairDelay, () => HandleWorkers()));
 		}
 
-		// Skinwalker Acts
-		if (DoesSkinWalkerAct())
+		// Guards Move
+		bool doesSkinWalkerAct = DoesSkinWalkerAct();
+		int guardCount = CountNPCs(NpcRoles.Guard, includeSkinwalkers: false);
+		if (guardCount > 0 && doesSkinWalkerAct)
 		{
-			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => SkinWalkersActs()));
+			_descentSequence.Chain(Tween.Delay(_guardDelay / 2, () => HandleGuards(true)));
+		}
+		else if (guardCount > 0 && !doesSkinWalkerAct)
+		{
+			_descentSequence.Chain(Tween.Delay(_guardDelay, () => HandleGuards(false)));
+		}
+
+		// Skinwalker Acts
+		if (doesSkinWalkerAct)
+		{
+			_descentSequence.ChainCallback(() => OnSkinWalkersAct?.Invoke());
+			_descentSequence.Chain(Tween.Delay(_skinWalkerDelay, () => SkinWalkersActs()));
 		}
 		if (_gameOver)
 		{
@@ -329,6 +360,11 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 	}
 
+	private void HandleGuards(bool doesSkinWalkerAct)
+	{
+		OnGuardsMove?.Invoke(doesSkinWalkerAct);
+	}
+
 	private void HandleWorkers()
 	{
 		int realWorkerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
@@ -374,7 +410,7 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 
 		OnNpcUpdate?.Invoke();
-		OnSkinWalkersAct?.Invoke();
+		OnSkinWalkersActEnd?.Invoke();
 	}
 
 	private void EngineDeteriorate()

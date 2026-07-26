@@ -15,6 +15,7 @@ public class GameSfxController : MonoBehaviour
 	private EventInstance _engineRunningInstance;
 	private EventInstance _engineLowInstance;
 	private Tween _elevatorBeepDelayTween;
+	private Sequence _skinWalkerActSequence;
 
 	private void Start()
 	{
@@ -30,9 +31,10 @@ public class GameSfxController : MonoBehaviour
 		GameManager.Instance.OnStartDoorOpen += HandleStartDoorOpen;
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
 		GameManager.Instance.OnEngineUpdate += HandleEngineUpdate;
-		GameManager.Instance.OnSkinWalkersAct += HandleSkinWalkersAct;
+		GameManager.Instance.OnSkinWalkersActEnd += HandleSkinWalkersAct;
 		GameManager.Instance.OnEngineFix += HandleEngineFix;
 		GameManager.Instance.OnEngineDamage += HandleEngineDamage;
+		GameManager.Instance.OnSkinWalkersAct += HandleSkinWalkerAct;
 	}
 
 	private void OnDisable()
@@ -44,9 +46,10 @@ public class GameSfxController : MonoBehaviour
 			GameManager.Instance.OnStartDoorOpen -= HandleStartDoorOpen;
 			GameManager.Instance.OnNewFloor -= HandleNewFloor;
 			GameManager.Instance.OnEngineUpdate -= HandleEngineUpdate;
-			GameManager.Instance.OnSkinWalkersAct -= HandleSkinWalkersAct;
+			GameManager.Instance.OnSkinWalkersActEnd -= HandleSkinWalkersAct;
 			GameManager.Instance.OnEngineFix -= HandleEngineFix;
 			GameManager.Instance.OnEngineDamage -= HandleEngineDamage;
+			GameManager.Instance.OnSkinWalkersAct -= HandleSkinWalkerAct;
 		}
 
 		StopLoopInstances();
@@ -84,6 +87,31 @@ public class GameSfxController : MonoBehaviour
 	private void HandleStartDescent()
 	{
 		AudioManager.Instance.PlayInstance(_elevatorDescendInstance);
+	}
+
+	private void HandleSkinWalkerAct()
+	{
+		float duration = GameManager.Instance.SkinWalkerDelay;
+		_skinWalkerActSequence = new Sequence();
+		_skinWalkerActSequence.ChainCallback(() =>
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ElevatorLightsOut_Sfx)
+		);
+		_skinWalkerActSequence.ChainCallback(() =>
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.CreepySound_Sfx)
+		);
+		_skinWalkerActSequence.ChainDelay(duration / 4);
+		_skinWalkerActSequence.ChainCallback(() =>
+			AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SkinwalkerEncounter_Sfx)
+		);
+		_skinWalkerActSequence.ChainDelay(duration / 4);
+		_skinWalkerActSequence.ChainCallback(() => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcDeath_Sfx));
+		_skinWalkerActSequence.ChainDelay(duration / 4);
+		if (GameManager.Instance.CountNPCs(NpcRoles.Guard) > 0)
+		{
+			_skinWalkerActSequence.ChainCallback(() =>
+				AudioManager.Instance.PlayOneShot(FMODEvents.Instance.SoldierShot_Sfx)
+			);
+		}
 	}
 
 	private void HandleNewFloor()

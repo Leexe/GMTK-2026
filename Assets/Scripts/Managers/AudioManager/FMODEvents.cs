@@ -63,6 +63,10 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	public EventReference ElevatorOpen_Sfx { get; private set; }
 
 	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Buzz", expanded: true)]
+	public EventReference ElevatorShortBuzz_Sfx { get; private set; }
+
+	[field: SerializeField]
 	[field: FoldoutGroup("Generator", expanded: true)]
 	public EventReference EngineDamage_Sfx { get; private set; }
 
@@ -111,12 +115,9 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	public EventReference Tablet_Sfx { get; private set; }
 
 	[field: SerializeField]
-	[field: FoldoutGroup("UI", expanded: true)]
-	public EventReference TabletText_Sfx { get; private set; }
-
-	[field: SerializeField]
 	[field: FoldoutGroup("Misc", expanded: true)]
 	public EventReference PlayerDeath_Sfx { get; private set; }
+
 	#endregion
 
 	#region Loop Sfx

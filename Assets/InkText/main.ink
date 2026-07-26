@@ -24,13 +24,13 @@ Your job is to pick up the people on each floor and-
 bring them back to Vespera.
 
 #d_console 
-Located on the 0th floor.
+Located on floor zero.
 
 #d_console 
 Don't just open the doors for anyone though.
 
 #d_console 
-There are monsters in the mine that can take over your identity.
+There are things in the mine that can take over your identity.
 
 #d_console 
 Reference your issued cheat sheet and follow your training.
