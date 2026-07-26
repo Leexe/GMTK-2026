@@ -26,12 +26,13 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 712950cbb7cdf48eab5e1a436e9e1769, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0, y: -1}
     m_Ints:
     - _Columns: 2
     - _Rows: 2
     - _TotalFrames: 4
     m_Floats:
+    - _Cutoff: 0.5
     - _ObjectRotation: 180
     m_Colors: []
   m_BuildTextureStacks: []

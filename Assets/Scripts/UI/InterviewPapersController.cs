@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using PrimeTween;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 // handles showing/hiding of interview paper
@@ -81,17 +80,19 @@ public class InterviewPapersController : MonoBehaviour
 	{
 		if (!_interviewResponses.ContainsKey(npc.Person))
 		{
-			int numPsychologists = GameManager.Instance.NpcCount[NpcRoles.Psychologist];
+			int numPsychologists = GameManager.Instance.CountNPCs(NpcRoles.Psychologist, includeSkinwalkers: false);
 			_interviewResponses[npc.Person] = InterviewResponses.FromPerson(npc.Person, numPsychologists);
 		}
 
 		if (_interviewResponses[npc.Person] != _currentShownInfo)
 		{
 			ShowInfo(_interviewResponses[npc.Person]);
+			NpcSpawner.SetSelectedNpc(npc);
 		}
 		else
 		{
 			HideInfo();
+			NpcSpawner.SetSelectedNpc(null);
 		}
 	}
 

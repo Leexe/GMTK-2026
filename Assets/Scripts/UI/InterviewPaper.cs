@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,8 +9,13 @@ using UnityEngine.UI;
 
 public class InterviewPaper : MonoBehaviour
 {
+	[SerializeField] private Sprite WorkerSprite;
+	[SerializeField] private Sprite PsychologistSprite;
+	[SerializeField] private Sprite GuardSprite;
+
     public TMP_Text NameText;
     public TMP_Text RoleText;
+    public Image RoleImage;
     public TMP_Text HeightText;
     public TMP_Text NotesText;
     public Image Mugshot;
@@ -28,12 +34,21 @@ public class InterviewPaper : MonoBehaviour
 
         NameText.text = info.Name;
         RoleText.text = info.Role.ToString();
+        RoleImage.sprite = GetSprite(info.Role);
         HeightText.text = InchesToString(info.HeightInches);
         NotesText.text = QuestionsToString(info.QnA);
         BuildZoneList(info.FloorsTheyveBeen);
     }
 
     /** Private Helpers **/
+
+    private Sprite GetSprite(NpcRoles role) => role switch
+    {
+	    NpcRoles.Worker => WorkerSprite,
+	    NpcRoles.Psychologist => PsychologistSprite,
+	    NpcRoles.Guard => GuardSprite,
+	    _ => WorkerSprite
+    };
 
     private void BuildZoneList(List<int> visited)
     {
@@ -56,10 +71,9 @@ public class InterviewPaper : MonoBehaviour
                 Image img = Instantiate(ZoneItem);
                 if (visited.Contains(i))
                 {
-                    img.color = Color.red;
+                    img.color = Color.white;
                 }
                 img.transform.SetParent(ZonesVisual);
-                img.transform.GetChild(0).GetComponent<TMP_Text>().text = i.ToString();
                 img.gameObject.SetActive(true);
             }
         }
@@ -72,6 +86,6 @@ public class InterviewPaper : MonoBehaviour
 
     private static string QuestionsToString(List<QnA> questions)
     {
-        return string.Join("\n\n\n", questions.Select(q => $"Q: {q.Question}\n\nA: {q.Response}"));
+        return string.Join("\n\n", questions.Select(q => $"Q: {q.Question}\nA: {q.Response}"));
     }
 }

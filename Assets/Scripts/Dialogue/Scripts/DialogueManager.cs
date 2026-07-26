@@ -31,13 +31,6 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 
 	private bool ChoicesAvailable => _story.currentChoices.Count > 0;
 
-	#region Events
-
-	public event Action<string> OnDialogueStarted;
-	public event Action OnDialogueEnded;
-
-	#endregion
-
 	#region Unity Functions
 
 	protected override void OnInitialized()
@@ -178,7 +171,6 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 		}
 
 		_storyPlaying = true;
-		OnDialogueStarted?.Invoke(knotName);
 
 		if (knotName == "")
 		{
@@ -195,7 +187,7 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 	/// <summary>
 	///     Advances the story to the next line or handles player interaction.
 	/// </summary>
-	private void ContinueStory()
+	public void ContinueStory()
 	{
 		// Check global blocking conditions (Pause, Backlog, etc.)
 		if (!DialogueState.CanAdvanceStory)
@@ -264,7 +256,6 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 		_typewriterPlaying = false;
 
 		DialogueState.EndStory();
-		OnDialogueEnded?.Invoke();
 	}
 
 	#endregion

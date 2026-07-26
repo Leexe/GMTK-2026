@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
+using System.Linq;
 using PrimeTween;
 using UnityEngine;
 
@@ -9,6 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
 	[Header("References")]
 	public LevelSO LevelsData;
 	public RolesSO RolesData;
+	public NpcDialogueSO NpcDialogueData;
 	public PersonGenInfoSO PersonData;
 
 	[Header("Worker Data")]
@@ -18,6 +19,10 @@ public class GameManager : MonoSingleton<GameManager>
 	[Header("SkinWalker Data")]
 	[SerializeField]
 	private int _skinWalkerKillCount = 2;
+
+	[SerializeField]
+	[Range(0f, 1f)]
+	private float _skinWalkerActChance = 0.5f;
 
 	[Header("Engine Data")]
 	[SerializeField]
@@ -41,26 +46,24 @@ public class GameManager : MonoSingleton<GameManager>
 	private float _elevatorDoorCloseDelay = 1f;
 
 	[SerializeField]
-	private float _elevatorDescendDelay = 3f;
+	private float _transitionDelay = 1f;
 
 	private static float _effectTimeScale = 1f; // temp effects
 
 	public static float BaseTimeScale { get; private set; } = 1f;
-
 	public static float SimulationTimeScale { get; private set; } = 1f;
-
 	public static bool IsPaused { get; private set; }
 
-	public Dictionary<NpcRoles, int> NpcCount { private set; get; }
-	// public List<LevelInstance> LevelInstances { private set; get; }
-	public World WorldState {get; private set;} = new();
+	public List<Person> PeopleOnElevator { get; private set; } = new();
+	public World WorldState { get; private set; } = new();
 
 	public bool NpcsFinishedMoving { get; private set; } = true;
 	public float EngineIntegrity { private set; get; }
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
+	public bool OpenedDoor => _openedDoor;
 
-	private float RunTime;
+	private float _runTime;
 	private Sequence _timeSlowSequence;
 	private Sequence _descentSequence;
 	private int _currentFloor;
@@ -96,23 +99,27 @@ public class GameManager : MonoSingleton<GameManager>
 	[HideInInspector]
 	public Action OnEngineUpdate;
 
+	[HideInInspector]
+	public Action OnSkinWalkersAct;
+
+	[HideInInspector]
+	public Action OnNpcsArrived;
+
 	// Unity Events
 
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
 		InitializeWorld();
-		
-		NpcCount = new();
-		foreach (NpcRoles role in Enum.GetValues(typeof(NpcRoles)))
-		{
-			NpcCount[role] = 0;
-		}
+
+		PeopleOnElevator = new();
+		EngineIntegrity = _maxEngineIntegrity;
+		PrimeTweenConfig.warnEndValueEqualsCurrent = false;
 	}
 
 	private void Start()
 	{
-		EngineIntegrity = _maxEngineIntegrity;
+		PrimeTweenConfig.warnZeroDuration = false;
 		OnNewFloor?.Invoke();
 	}
 
@@ -121,11 +128,54 @@ public class GameManager : MonoSingleton<GameManager>
 		WorldState.Generate(LevelsData, PersonData, RolesData);
 	}
 
-	private void OnEnable() { }
+	private void OnEnable()
+	{
+		OnNewFloor += CheckWinCondition;
+	}
 
 	private void OnDisable()
 	{
 		_descentSequence.Stop();
+	}
+
+	public int CountNPCs(NpcRoles? role = null, bool includeSkinwalkers = true)
+	{
+		if (role == NpcRoles.Skinwalker)
+		{
+			return PeopleOnElevator.Count(p => p.IsSkinwalker && includeSkinwalkers);
+		}
+		return PeopleOnElevator.Count(p =>
+			(!p.IsSkinwalker || includeSkinwalkers) && (!role.HasValue || p.Role == role.Value)
+		);
+	}
+
+	public int KillRandomNpcs(int amount, NpcRoles? role = null, bool includeSkinwalkers = true)
+	{
+		List<Person> pool;
+
+		if (role == NpcRoles.Skinwalker)
+		{
+			pool = PeopleOnElevator.Where(p => p.IsSkinwalker && includeSkinwalkers).ToList();
+		}
+		else
+		{
+			pool = PeopleOnElevator
+				.Where(p => (!p.IsSkinwalker || includeSkinwalkers) && (!role.HasValue || p.Role == role.Value))
+				.ToList();
+		}
+
+		for (int i = 0; i < amount; i++)
+		{
+			if (pool.Count == 0)
+			{
+				return i;
+			}
+			Person selection = pool[UnityEngine.Random.Range(0, pool.Count)];
+			pool.Remove(selection);
+			PeopleOnElevator.Remove(selection);
+		}
+
+		return amount;
 	}
 
 	// Game Logic
@@ -133,6 +183,10 @@ public class GameManager : MonoSingleton<GameManager>
 	public void SetNpcsFinishedMoving(bool value)
 	{
 		NpcsFinishedMoving = value;
+		if (value)
+		{
+			OnNpcsArrived?.Invoke();
+		}
 	}
 
 	public void ContinueToNextFloor()
@@ -156,10 +210,37 @@ public class GameManager : MonoSingleton<GameManager>
 		}
 
 		_descentSequence.Stop();
-		_descentSequence = Sequence
-			.Create()
-			.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()))
-			.Chain(Tween.Delay(_elevatorDescendDelay, () => ArriveAtNextFloor()));
+		_descentSequence = Sequence.Create();
+
+		// Door close Sfx
+		_descentSequence.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()));
+
+		// Skinwalker Acts
+		if (DoesSkinWalkerAct())
+		{
+			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => SkinWalkersActs()));
+		}
+		if (_gameOver)
+		{
+			return;
+		}
+
+		// Workers Repair Engine
+		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
+		if (workerCount > 0)
+		{
+			_descentSequence.Chain(Tween.Delay(_transitionDelay, () => HandleWorkers()));
+		}
+
+		// Engine Deteriorates
+		_descentSequence.Chain(Tween.Delay(_transitionDelay, () => EngineDeteriorate()));
+		if (_gameOver)
+		{
+			return;
+		}
+
+		// Arrive At Next Floor
+		_descentSequence.Chain(Tween.Delay(_transitionDelay, () => ArriveAtNextFloor()));
 	}
 
 	private void ArriveAtNextFloor()
@@ -168,15 +249,6 @@ public class GameManager : MonoSingleton<GameManager>
 		_openedDoor = false;
 		NpcsFinishedMoving = true;
 		OnNewFloor?.Invoke();
-		if (CheckWinCondition())
-		{
-			return;
-		}
-		HandleWorkers();
-		if (EngineDeteriorate())
-		{
-			return;
-		}
 	}
 
 	public void AcceptNpcs()
@@ -186,86 +258,66 @@ public class GameManager : MonoSingleton<GameManager>
 			_openedDoor = true;
 			NpcsFinishedMoving = false;
 
-			foreach(Person p in WorldState.Floors[_currentFloor].People)
-			{
-				if (p.IsSkinwalker)
-				{
-					NpcCount[NpcRoles.Skinwalker] ++;	
-				}
-				else
-				{
-					NpcCount[p.Role] ++;
-				}
-			}
+			PeopleOnElevator.AddRange(WorldState.Floors[_currentFloor].People);
 
-			HandleSkinWalkers();
 			OnStartDoorOpen?.Invoke();
 
-			Tween.Delay(_elevatorOpenDelay, () =>
-			{
-				OnFinishedDoorOpen?.Invoke();
-				OnNpcUpdate?.Invoke();
-			});
+			Tween.Delay(
+				_elevatorOpenDelay,
+				() =>
+				{
+					OnFinishedDoorOpen?.Invoke();
+					OnNpcUpdate?.Invoke();
+				}
+			);
 		}
 	}
 
-
 	private void HandleWorkers()
 	{
-		float workerGain = NpcCount[NpcRoles.Worker] * _workerEngineMult;
+		int realWorkerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
+		float workerGain = realWorkerCount * _workerEngineMult;
 		Debug.Log($"Engine Repaired +{workerGain}");
 		EngineIntegrity = Mathf.Clamp(EngineIntegrity + workerGain, 0, _maxEngineIntegrity);
 		OnEngineUpdate?.Invoke();
 	}
 
-	private void HandleSkinWalkers()
+	private bool DoesSkinWalkerAct()
 	{
-		int skinWalkerCount = NpcCount[NpcRoles.Skinwalker];
-		if (skinWalkerCount <= 0)
+		int skinWalkerCount = CountNPCs(NpcRoles.Skinwalker);
+		float actChance = _skinWalkerActChance * skinWalkerCount;
+		return UnityEngine.Random.value <= actChance;
+	}
+
+	private void SkinWalkersActs()
+	{
+		if (CountNPCs(NpcRoles.Skinwalker) <= 0)
 		{
 			return;
 		}
 
-		// Kill Guards If Any
-		if (NpcCount[NpcRoles.Guard] > 0)
+		// skinwalkers kill one guard if there is one
+		int guardsKilled = KillRandomNpcs(1, NpcRoles.Guard, includeSkinwalkers: false);
+
+		// if there was no guard, a lot of people die...
+		if (guardsKilled == 0)
 		{
-			NpcCount[NpcRoles.Guard]--;
-		}
-		// Kill Other Npcs, If No Guard
-		else
-		{
-			int totalKillsNeeded = skinWalkerCount * _skinWalkerKillCount;
-			while (totalKillsNeeded > 0)
+			int skinWalkers = KillRandomNpcs(67, NpcRoles.Skinwalker); // remove all skinwalkers
+			int peopleKills = skinWalkers * _skinWalkerKillCount;
+
+			KillRandomNpcs(peopleKills);
+
+			if (PeopleOnElevator.Count == 0)
 			{
-				var availableVictims = new List<NpcRoles>();
-				foreach (KeyValuePair<NpcRoles, int> kvp in NpcCount)
-				{
-					if (kvp.Key != NpcRoles.Skinwalker && kvp.Value > 0)
-					{
-						for (int i = 0; i < kvp.Value; i++)
-						{
-							availableVictims.Add(kvp.Key);
-						}
-					}
-				}
-
-				if (availableVictims.Count == 0)
-				{
-					OnGameLose?.Invoke();
-					Debug.Log("Game Lose");
-					_gameOver = true;
-					return;
-				}
-
-				int randomIndex = UnityEngine.Random.Range(0, availableVictims.Count);
-				NpcRoles victimRole = availableVictims[randomIndex];
-				NpcCount[victimRole]--;
-				totalKillsNeeded--;
+				OnGameLose?.Invoke();
+				Debug.Log("Game Lose");
+				_gameOver = true;
+				return;
 			}
 		}
 
-		// Clear Skin Walkers
-		NpcCount[NpcRoles.Skinwalker] = 0;
+		OnNpcUpdate?.Invoke();
+		OnSkinWalkersAct?.Invoke();
 	}
 
 	private bool EngineDeteriorate()
@@ -283,30 +335,37 @@ public class GameManager : MonoSingleton<GameManager>
 		return false;
 	}
 
-	private bool CheckWinCondition()
+	private void CheckWinCondition()
 	{
-		if (_currentFloor == LevelsData.LevelsList.Count && !_gameOver)
+		if (_currentFloor >= LevelsData.LevelsList.Count && !_gameOver)
 		{
-			Debug.Log("Won Game");
-			OnGameWin?.Invoke();
 			_gameOver = true;
-			return true;
+			_descentSequence.Stop();
+			OnGameWin?.Invoke();
 		}
-
-		return false;
 	}
 
 	private bool CheckLoseCondition()
 	{
 		if (EngineIntegrity <= 0 && !_gameOver)
 		{
-			Debug.Log("Lost Game");
-			OnGameLose?.Invoke();
 			_gameOver = true;
+			_descentSequence.Stop();
+			OnGameLose?.Invoke();
 			return true;
 		}
 
 		return false;
+	}
+
+	public void RestartGame()
+	{
+		_descentSequence.Stop();
+		_timeSlowSequence.Stop();
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene(
+			UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+		);
 	}
 
 	// Cursor

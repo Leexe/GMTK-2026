@@ -1,0 +1,190 @@
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+[RequireComponent(typeof(Light))]
+public class LightFlicker : MonoBehaviour
+{
+	public enum FlickerMode
+	{
+		SineWave,
+		Random,
+		Perlin,
+		Strobe,
+		Pulse,
+	}
+
+	[Header("Flicker Mode")]
+	[SerializeField]
+	private FlickerMode _flickerMode = FlickerMode.Perlin;
+
+	[Header("Intensity")]
+	[SerializeField, Range(0f, 10f)]
+	private float _intensityAmplitude = 1f;
+
+	[SerializeField, Range(0.1f, 50f)]
+	private float _intensitySpeed = 5f;
+
+	[Header("Color")]
+	[SerializeField]
+	private bool _flickerColor;
+
+	[SerializeField]
+	[ShowIf("@_flickerColor")]
+	private Color _alternateColor = new(1f, 0.5f, 0f);
+
+	[SerializeField, Range(0f, 1f)]
+	[ShowIf("@_flickerColor")]
+	private float _colorBlendStrength = 0.3f;
+
+	[Header("Range")]
+	[SerializeField]
+	private bool _flickerRange;
+
+	[SerializeField, Range(0f, 20f)]
+	[ShowIf("@_flickerRange")]
+	private float _rangeAmplitude = 2f;
+
+	[Header("Strobe Settings")]
+	[SerializeField, Range(0.01f, 2f)]
+	[ShowIf("@_flickerMode == FlickerMode.Strobe")]
+	private float _strobeOnDuration = 0.05f;
+
+	[SerializeField, Range(0.01f, 2f)]
+	[ShowIf("@_flickerMode == FlickerMode.Strobe")]
+	private float _strobeOffDuration = 0.1f;
+
+	[Header("Advanced")]
+	[SerializeField]
+	private bool _randomizeOffsetOnStart = true;
+
+	[SerializeField]
+	[HideIf("@_randomizeOffsetOnStart")]
+	private float _noiseOffset;
+
+	[SerializeField, Range(1f, 20f)]
+	[ShowIf("@_flickerMode == FlickerMode.Random || _flickerMode == FlickerMode.Perlin")]
+	[Tooltip("Lower values are provide smoother transitions, while higher values are more jumpy")]
+	private float _smoothing = 5f;
+
+	private float _baseIntensity;
+	private Light _targetLight;
+	private Color _baseColor;
+	private float _baseRange;
+	private float _currentIntensity;
+	private float _strobeTimer;
+	private bool _strobeOn = true;
+
+	private void Awake()
+	{
+		_targetLight = GetComponent<Light>();
+	}
+
+	private void Start()
+	{
+		_baseIntensity = _targetLight.intensity;
+		_baseColor = _targetLight.color;
+		_currentIntensity = _baseIntensity;
+
+		if (_randomizeOffsetOnStart)
+		{
+			_noiseOffset = Random.Range(0f, 1000f);
+		}
+	}
+
+	private void Update()
+	{
+		float flickerValue = GetFlickerValue();
+
+		float targetIntensity = _baseIntensity + (flickerValue * _intensityAmplitude);
+		targetIntensity = Mathf.Max(targetIntensity, 0f);
+
+		if (_flickerMode == FlickerMode.Random || _flickerMode == FlickerMode.Perlin)
+		{
+			_currentIntensity = Mathf.Lerp(_currentIntensity, targetIntensity, Time.deltaTime * _smoothing);
+		}
+		else
+		{
+			_currentIntensity = targetIntensity;
+		}
+
+		_targetLight.intensity = _currentIntensity;
+
+		if (_flickerColor)
+		{
+			float colorT = Mathf.InverseLerp(-1f, 1f, flickerValue) * _colorBlendStrength;
+			_targetLight.color = Color.Lerp(_baseColor, _alternateColor, colorT);
+		}
+
+		if (_flickerRange)
+		{
+			float rangeValue = _baseRange + (flickerValue * _rangeAmplitude);
+			_targetLight.range = Mathf.Max(rangeValue, 0.1f);
+		}
+	}
+
+	private float GetFlickerValue()
+	{
+		float t = (Time.time * _intensitySpeed) + _noiseOffset;
+
+		switch (_flickerMode)
+		{
+			case FlickerMode.SineWave:
+				return Mathf.Sin(t);
+
+			case FlickerMode.Random:
+				return Random.Range(-1f, 1f);
+
+			case FlickerMode.Perlin:
+				float noise = (Mathf.PerlinNoise(t, _noiseOffset + 100f) * 2f) - 1f;
+				float noise2 = (Mathf.PerlinNoise(t * 2.7f, _noiseOffset + 200f) * 2f) - 1f;
+				return (noise * 0.7f) + (noise2 * 0.3f);
+
+			case FlickerMode.Strobe:
+				return GetStrobeValue();
+
+			case FlickerMode.Pulse:
+				float saw = Mathf.Repeat(t, 1f);
+				return (saw * 2f) - 1f;
+
+			default:
+				return 0f;
+		}
+	}
+
+	private float GetStrobeValue()
+	{
+		_strobeTimer -= Time.deltaTime;
+
+		if (_strobeTimer <= 0f)
+		{
+			_strobeOn = !_strobeOn;
+			_strobeTimer = _strobeOn ? _strobeOnDuration : _strobeOffDuration;
+		}
+
+		return _strobeOn ? 1f : -1f;
+	}
+
+	// Public Methods
+
+	public void SetFlickerMode(FlickerMode mode)
+	{
+		_flickerMode = mode;
+	}
+
+	public void SetBaseIntensity(float intensity)
+	{
+		_baseIntensity = intensity;
+	}
+
+	public void KillLight()
+	{
+		enabled = false;
+		_targetLight.intensity = 0f;
+	}
+
+	public void ReenableLight()
+	{
+		enabled = true;
+		_currentIntensity = _baseIntensity;
+	}
+}
