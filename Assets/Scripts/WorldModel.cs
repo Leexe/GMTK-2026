@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class World
 {
@@ -93,6 +94,34 @@ public class Skinwalker : Person
 			? (NpcRoles)Random.Range(0, 3)
 			: person.Role;
 
+		// skinwalkers are GUARANTEED to mess something up:
+		// - height, with 25% chance
+		// - assigned floor, with 25% chance
+		// - qna, with 50% chance. note that a skinwalker may be undetectable if you don't have 4 psychologists.
+
+		// - if not guaranteed, still a 20% chance per category.
+
+		int messup = Random.Range(0, 4);
+		bool mangleHeight = messup == 0 || Random.value < 0.2f;
+		bool mangleFloors = messup == 1 || Random.value < 0.2f;
+		bool mangleQNA = messup > 1 || Random.value < 0.2f;
+
+		int mangledFloor = person.AssignedFloors[0];
+		if (mangleFloors)
+		{
+			mangledFloor = ((mangledFloor + Random.Range(0, 9)) % 10) + 1;
+		}
+
+		// if mangleQNA, guarantee mangle first question in pool. other questions still have 20% mangle chance.
+		List<QnA> mangledQNA = new()
+		{
+			mangleQNA ? person.PossibleQNAResponses[0].Mangled(0f, 0f) : person.PossibleQNAResponses[0].Mangled()
+		};
+		for (int i = 1; i < person.PossibleQNAResponses.Count; i++)
+		{
+			mangledQNA.Add(person.PossibleQNAResponses[i].Mangled());
+		}
+
 		return new()
 		{
 			// TODO: mangle
@@ -101,12 +130,11 @@ public class Skinwalker : Person
 			Role = fakeRole,
 			FakeRole = fakeRole,
 			// skinwalkers are always a bit taller than their victims
-			HeightInches = person.HeightInches + Random.Range(1, 4),
+			HeightInches = person.HeightInches + (mangleHeight ? Random.Range(6, 11) : Random.Range(1, 3)),
 			// sometimes skinwalkers say a random floor
-			AssignedFloors =
-				Random.value < 0.2f ? new() { UnityEngine.Random.Range(1, 10) } : new(person.AssignedFloors),
+			AssignedFloors = new() {mangledFloor},
 			// some qna responses are mangled
-			PossibleQNAResponses = person.PossibleQNAResponses.Select(qna => qna.Mangled()).ToList(),
+			PossibleQNAResponses = mangledQNA,
 		};
 	}
 }

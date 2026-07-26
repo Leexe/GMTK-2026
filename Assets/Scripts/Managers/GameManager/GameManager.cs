@@ -169,6 +169,7 @@ public class GameManager : MonoSingleton<GameManager>
 		PrimeTweenConfig.warnZeroDuration = false;
 		OnNewFloor?.Invoke();
 		_elevatorAnimancer.Play(_doorOpenAnim);
+
 	}
 
 	private void InitializeWorld()
