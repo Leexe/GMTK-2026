@@ -30,11 +30,11 @@ public class FloorDisplay : MonoBehaviour
 
     public void ChangeToFloor(int i)
     {
-        if (i is < 0 or >= 10)
+        if (i is < 0 or >= 9)
         {
             return;
         }
-        FloorMeshRenderer.material = Materials[9 - i];
+        FloorMeshRenderer.material = Materials[8 - i];
     }
 
     public void Blink()
