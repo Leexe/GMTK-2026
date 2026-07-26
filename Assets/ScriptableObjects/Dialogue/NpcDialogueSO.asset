@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NpcDialogueSO
   _meetText:
   - Shift's over. Got my ore quota. Let me return home.
-  - It's freezing up here. My lamp burned out a few hours ago...
+  - It's freezing out here. My lamp burned out a few hours ago...
   - I finished my haul. My... family is waiting for me in the lower bunker.
   - Don't just stand there staring! Open the elevator.
   - Greetings, operator. I have completed the assigned surface mining duties.
   - We got separated in Shaft B. The others... didn't make it. Just open up.
   - Check my identification if you want, just pull the lever! Something was following
     me.
+  - Let me in NOW!
   _acceptText:
   - Thank God... I thought I was going to freeze out here.
   - Appreciate it. I need some rest.
@@ -28,6 +29,7 @@ MonoBehaviour:
   - Safe at last.
   - Thank you.
   - 'You made the right choice. '
+  - THANK YOU. THANK YOU. THANK YOU.
   _rejectText:
   - I have a family, you can't leave me here!
   - No! Wait! Check my ID again! That scratch on my pants isn't from them!
