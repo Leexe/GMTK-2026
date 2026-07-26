@@ -1,0 +1,49 @@
+All
+Q: What day is it today?
+A: July 25|July 25
+B: July 20|July 20|July 21|July 22|July 23|June 25|June 19|July 13|March 19
+
+All
+Q: Whats your favorite food?|Favorite Food?
+A: Ice Cream|No favorite|Spaghetti|Sushi|Pizza|Shrimp fried rice
+B: Rocks|Vulture|Granola Bars/granola stew|High pressure water|Light
+
+All
+Q: What is 87 plus 33?
+A: 120|120|120|120|120|110. *120|11..120|110
+B: 79|?|Requested clarification|53|100|113|125|121|117|Understood "87 and 33"
+
+All
+Q: Favorite color
+A: Red|Teal|Blue|Black|White|Yellow|N/A
+B: Water|Bright|Yellow ("like stone")|Dark
+
+All
+Q: Birthday
+A: Jul 22|Jul 10|June 1|Feb 13|Nov 19|Apr 8|Apr 1|Dec 19|Dec 10|Mar 30|Mar 14|Mar 7
+B: Feb 40|Jul 32|Feb 30|N/A|Declined to answer|?
+
+All
+Q: What is 14 times negative 6?
+A: -84|-84|-84|-84|-84|-64|-84|-82
+B: 79|32|113|-146|121|-6|Declined to answer|Repeated "times"
+
+All
+Q: Where are we headed
+A: Vespera|Vespera|Back to Vespera|Back to city
+B: To lower level|Sector 2 for further mining|Home|To lower level|Into "this room"
+
+W
+Q: What did you do today?
+A: Equipment Repairs|Heavy drilling|Oversaw drilling
+B: Guarded Quadrant A|Patrols|Interrogations|Questioning|"Most of them"
+
+P
+Q: What did you do today?
+A: Interrogations|Questioning
+B: Guarded Quadrant A|Escorted drilling team|Patrols|Equipment Repairs|Heavy drilling|Oversaw drilling|Examined Rocks
+
+G
+Q: What did you do today?
+A: Guarded Quadrant A|Escorted drilling team|Patrols
+B: Equipment Repairs|Heavy drilling|Oversaw drilling|Interrogations|Questioning

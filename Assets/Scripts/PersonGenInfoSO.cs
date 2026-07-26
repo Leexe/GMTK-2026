@@ -5,23 +5,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PersonGenInfoSO", menuName = "ScriptableObjects/PersonGenInfoSO", order = 0)]
 public class PersonGenInfoSO : ScriptableObject
 {
-    [TextArea, Tooltip("Space-separated")]
+    [TextArea(20, 40), Tooltip("Space-separated")]
     public string FirstNameSourceList;
 
-    [TextArea, Tooltip("Space-separated")]
+    [TextArea(20, 40), Tooltip("Space-separated")]
     public string LastNameSourceList;
 
     public float HeightAverage = 70f;
     public float HeightDeviation = 3f;
 
-    [TextArea]
+    [TextArea(40, 300)]
     public string QNASourceList;
 
     // 
 
     private List<string> _firstNames = null;
     private List<string> _lastNames = null;
-    private List<QnA> _qnas;
+    private List<QnAOption> _qnas;
 
     //
 
@@ -43,19 +43,20 @@ public class PersonGenInfoSO : ScriptableObject
         return _lastNames;
     }
 
-    public List<QnA> GetQNAs()
+    public List<QnAOption> GetQNAs()
     {
         if (_qnas == null)
         {
             _qnas = new();
             var allLines = QNASourceList.Split('\n').Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
-            for (int i = 0; i < allLines.Count; i += 3)
+            for (int i = 0; i < allLines.Count; i += 4)
             {
                 _qnas.Add(new()
                 {
-                    Question = ParseQNAEntry(allLines[i]),
-                    Response = ParseQNAEntry(allLines[i+1]),
-                    BadResponse = ParseQNAEntry(allLines[i+2])
+                    Role = ParseFilter(allLines[i]),
+                    Questions = ParseQNAEntry(allLines[i+1]),
+                    Responses = ParseQNAEntry(allLines[i+2]),
+                    BadResponses = ParseQNAEntry(allLines[i+3])
                 });
             }
         }
@@ -67,11 +68,21 @@ public class PersonGenInfoSO : ScriptableObject
     // q: option1|option2|option3...
     // n: option1|option2|option3...
     // a: option1|option2|option3...
-    private string ParseQNAEntry(string line)
+    private string[] ParseQNAEntry(string line)
     {
-        string afterColon = line.Split(':')[1];
-        string[] options = afterColon.Split('|');
-        return options[Random.Range(0, options.Length)];
+        return line.Split(':')[1].Split('|');
+    }
+
+    private NpcRoles? ParseFilter(string line)
+    {
+        Debug.Log(line);
+        return line switch
+        {
+            "W" => NpcRoles.Worker,
+            "P" => NpcRoles.Psychologist,
+            "G" => NpcRoles.Guard,
+            _ => null
+        };
     }
 
     //
@@ -107,23 +118,37 @@ public class PersonGenInfoSO : ScriptableObject
         return Mathf.RoundToInt(randNormal); 
     }
 
-    public List<QnA> RandomQnA(int count)
+    public List<QnA> RandomQnA(int count, NpcRoles? role)
     {
-        List<QnA> qnas = GetQNAs();
+        List<QnAOption> qnas = GetQNAs();
+        var relevantQNAs = qnas.Where(q => !q.Role.HasValue || !role.HasValue || q.Role.Value == role.Value).ToList();
         count = Mathf.Min(count, qnas.Count());
 
-        List<QnA> picks = new();
+        List<QnAOption> picks = new();
 
         for (int i = 0; i < count; i ++)
         {
-            int idx  = Random.Range(0, qnas.Count());
-            while (picks.Contains(qnas[idx]))
+            int idx  = Random.Range(0, relevantQNAs.Count());
+            while (picks.Contains(relevantQNAs[idx]))
             {
-                idx = Random.Range(0, qnas.Count());
+                idx = Random.Range(0, relevantQNAs.Count());
             }
-            picks.Add(qnas[idx]);
+            picks.Add(relevantQNAs[idx]);
         }
 
-        return picks;
+        return picks.Select(p => new QnA()
+        {
+            Question = p.Questions[Random.Range(0, p.Questions.Length)],
+            Response = p.Responses[Random.Range(0, p.Responses.Length)],
+            BadResponse = p.BadResponses[Random.Range(0, p.BadResponses.Length)],
+        }).ToList();
+    }
+
+    public struct QnAOption
+    {
+        public NpcRoles? Role;
+        public string[] Questions;
+        public string[] Responses;
+        public string[] BadResponses;
     }
 }

@@ -71,7 +71,7 @@ public class Person
 			HeightInches = genInfo.RandomHeight(),
 
 			AssignedFloors = new() { floor },
-			PossibleQNAResponses = genInfo.RandomQnA(3),
+			PossibleQNAResponses = genInfo.RandomQnA(3, role),
 		};
 	}
 }
