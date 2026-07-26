@@ -365,7 +365,6 @@ GameObject:
   - component: {fileID: 3323494491714702792}
   - component: {fileID: 5377945376645850903}
   - component: {fileID: 8855045124149514172}
-  - component: {fileID: 447556396483374257}
   m_Layer: 0
   m_Name: Continue Text
   m_TagString: Untagged
@@ -541,35 +540,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &447556396483374257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472388496276147487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f34f8490a314df5848a4d866a50374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwayingUI
-  _positionTweenType: 1
-  _positionStrength: {x: 0, y: 3, z: 0}
-  _positionFrequency: 2
-  _positionEase: 1
-  _positionDuration: 1
-  _rotationTweenEnable: 0
-  _rotationStrength: {x: 0, y: 0, z: 5}
-  _rotationEase: 4
-  _rotationRandomStart: 0
-  _rotationDuration: 5
-  _scaleTweenEnable: 0
-  _scaleStrength: 1.1
-  _scaleEase: 4
-  _scaleRandomStart: 0
-  _scaleDuration: 5
-  _activateOnStart: 1
-  _useUnscaledTime: 0
 --- !u!1 &1524269320724226470
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,7 +1240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.00012207031, y: -0.000061035156}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0}
   m_SizeDelta: {x: 1764, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2100494636160947691
@@ -1433,8 +1403,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3903222472590938324}
   m_HandleRect: {fileID: 6149015882407524222}
   m_Direction: 2
-  m_Value: 0.00000007222951
-  m_Size: 0.5266993
+  m_Value: -0.000000072229525
+  m_Size: 0.52669936
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

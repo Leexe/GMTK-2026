@@ -80,8 +80,10 @@ public class DialogueUIController : MonoBehaviour
 	private void OnUIOpen()
 	{
 		_isActive = true;
-		Vector2 targetPos = _hoverTarget.Hovered ? _startPosition + new Vector2(0, _activeYOffset) : _startPosition;
-		AnimateTo(targetPos, _startRotation);
+		bool isHovered = _hoverTarget.Hovered;
+		Vector2 targetPos = isHovered ? _startPosition + new Vector2(0, _activeYOffset) : _startPosition;
+		Quaternion targetRot = isHovered ? _endRotation : _startRotation;
+		AnimateTo(targetPos, targetRot);
 	}
 
 	private void OnUIClose()
