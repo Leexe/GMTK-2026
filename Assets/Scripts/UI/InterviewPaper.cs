@@ -54,6 +54,8 @@ public class InterviewPaper : MonoBehaviour
 		Mugshot.sprite = GetMugSprite(info.Role);
 		HeightText.text = InchesToString(info.HeightInches);
 		NotesText.text = QuestionsToString(info.QnA);
+
+        BuildZoneList(info.FloorsTheyveBeen);
 	}
 
 	/** Private Helpers **/
