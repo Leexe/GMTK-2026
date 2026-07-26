@@ -130,6 +130,13 @@ MonoBehaviour:
       Data3: -1463713139
       Data4: -230906607
     Path: event:/SFX/Elevator Noises/Open
+  <ElevatorShortBuzz_Sfx>k__BackingField:
+    Guid:
+      Data1: 1851290278
+      Data2: 1196798746
+      Data3: -1771266686
+      Data4: -1232196442
+    Path: event:/SFX/Elevator Noises/Short Buzz
   <EngineDamage_Sfx>k__BackingField:
     Guid:
       Data1: -2071472512

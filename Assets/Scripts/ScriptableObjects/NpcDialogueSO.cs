@@ -24,7 +24,12 @@ public class NpcDialogueSO : ScriptableObject
 
 	public string GetRandomAcceptText() => GetRandom(_acceptText);
 
-	public string GetRandomRejectText() => GetRandom(_rejectText);
+	public string GetRandomRejectText()
+	{
+		string rejectText = GetRandom(_rejectText);
+		string modifiedRejectText = "<shake>" + rejectText;
+		return modifiedRejectText;
+	}
 
 	private string GetRandom(List<string> list)
 	{

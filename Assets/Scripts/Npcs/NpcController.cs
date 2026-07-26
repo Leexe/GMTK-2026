@@ -239,16 +239,19 @@ public class NpcController : MonoBehaviour
 
 	public void SayMeetDialogue()
 	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcChat_Sfx);
 		ShowDialogue(GameManager.Instance.NpcDialogueData.GetRandomMeetText());
 	}
 
 	public void SayAcceptDialogue()
 	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcChat_Sfx);
 		ShowDialogue(GameManager.Instance.NpcDialogueData.GetRandomAcceptText());
 	}
 
 	public void SayRejectDialogue()
 	{
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.NpcSad_Sfx);
 		ShowDialogue(GameManager.Instance.NpcDialogueData.GetRandomRejectText());
 	}
 
