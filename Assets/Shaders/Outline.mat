@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Float: 11.4
-    - _Step: 0.09
+    - _Step: 1.03
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
