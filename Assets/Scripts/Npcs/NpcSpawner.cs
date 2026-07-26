@@ -39,7 +39,7 @@ public class NpcSpawner : MonoBehaviour
 
 	private void InitializePool()
 	{
-		for (int i = 0; i < _spawnPoints.Count; i++)
+		for (int i = 0; i < _spawnPoints.Count + 3; i++)
 		{
 			GameObject npc = Instantiate(_npcPrefab, transform);
 			NpcController controller = npc.GetComponent<NpcController>();

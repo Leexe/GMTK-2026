@@ -59,7 +59,21 @@ MonoBehaviour:
       Data2: 1105652169
       Data3: -212682604
       Data4: -676787614
-    Path: event:/AMB/Ambience
+    Path: event:/AMB/Elevator Stuff/Ambience
+  <CreepySound_Sfx>k__BackingField:
+    Guid:
+      Data1: -886786798
+      Data2: 1206019990
+      Data3: 2060305059
+      Data4: -434263790
+    Path: event:/AMB/Creepy Stuff/Creepy Sound
+  <Win_Bgm>k__BackingField:
+    Guid:
+      Data1: -1648154787
+      Data2: 1295259667
+      Data3: 1063093687
+      Data4: 159743988
+    Path: event:/BGM/Win
   <Lose_Bgm>k__BackingField:
     Guid:
       Data1: 362284433
@@ -158,6 +172,20 @@ MonoBehaviour:
       Data3: -1960233816
       Data4: 1932915896
     Path: event:/SFX/NPCs/Soldier Shot
+  <NpcChat_Sfx>k__BackingField:
+    Guid:
+      Data1: -33565692
+      Data2: 1157043296
+      Data3: -2081550676
+      Data4: -1810317381
+    Path: event:/SFX/NPCs/NPC Chat
+  <NpcSad_Sfx>k__BackingField:
+    Guid:
+      Data1: -1499969539
+      Data2: 1137466725
+      Data3: 1406480573
+      Data4: 256168304
+    Path: event:/SFX/NPCs/NPC Sad
   <Clipboard_Sfx>k__BackingField:
     Guid:
       Data1: -2027182024
@@ -165,13 +193,6 @@ MonoBehaviour:
       Data3: -1726554185
       Data4: 1112198593
     Path: event:/SFX/UI_Player/Clipboard
-  <Death_Sfx>k__BackingField:
-    Guid:
-      Data1: -1027355736
-      Data2: 1095464102
-      Data3: 167890315
-      Data4: 362582704
-    Path: event:/SFX/UI_Player/Death
   <Documents_Sfx>k__BackingField:
     Guid:
       Data1: -408153239
@@ -179,6 +200,34 @@ MonoBehaviour:
       Data3: 1996926399
       Data4: 8658484
     Path: event:/SFX/UI_Player/Documents
+  <ForwardText_Sfx>k__BackingField:
+    Guid:
+      Data1: -148341493
+      Data2: 1191283635
+      Data3: 1245277346
+      Data4: 1360599287
+    Path: event:/SFX/UI_Player/Forward Text
+  <Tablet_Sfx>k__BackingField:
+    Guid:
+      Data1: 414366031
+      Data2: 1298786000
+      Data3: -560509049
+      Data4: 578327110
+    Path: event:/SFX/UI_Player/Tablet
+  <TabletText_Sfx>k__BackingField:
+    Guid:
+      Data1: 126762558
+      Data2: 1304697685
+      Data3: -1240111960
+      Data4: -35905723
+    Path: event:/SFX/UI_Player/Text
+  <PlayerDeath_Sfx>k__BackingField:
+    Guid:
+      Data1: -1027355736
+      Data2: 1095464102
+      Data3: 167890315
+      Data4: 362582704
+    Path: event:/SFX/UI_Player/Death
   <ElevatorDescend_LoopSfx>k__BackingField:
     Guid:
       Data1: -2078798034
@@ -269,4 +318,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _engineLowThreshold: 0.25
-  _elevatorBeepDelay: 2
+  _elevatorBeepDelay: 1
