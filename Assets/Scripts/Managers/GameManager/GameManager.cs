@@ -85,14 +85,14 @@ public class GameManager : MonoSingleton<GameManager>
 	public float EngineIntegrityNormalized => EngineIntegrity / _maxEngineIntegrity;
 	public int CurrentFloor => _currentFloor;
 	public float EngineRepairDelay => _engineRepairDelay;
-	public bool OpenedGrate => _openedGrate;
+	public bool OpenedDoor => _openedDoor;
 
 	private float _runTime;
 	private Sequence _timeSlowSequence;
 	private Sequence _descentSequence;
 	private int _currentFloor;
 	private bool _gameOver;
-	private bool _openedGrate;
+	private bool _openedDoor;
 	private bool _descendButtonPressed;
 
 	// Events
@@ -228,7 +228,7 @@ public class GameManager : MonoSingleton<GameManager>
 			return;
 		}
 
-		if (_openedGrate && !NpcsFinishedMoving && !_descendButtonPressed)
+		if (_openedDoor && !NpcsFinishedMoving && !_descendButtonPressed)
 		{
 			Debug.Log("Cannot descend: NPCs are still moving into position.");
 			return;
@@ -241,7 +241,7 @@ public class GameManager : MonoSingleton<GameManager>
 
 		float closeDelay = 0f;
 		_descendButtonPressed = true;
-		if (_openedGrate)
+		if (_openedDoor)
 		{
 			closeDelay = _elevatorDoorCloseDelay;
 			OnStartDoorClose?.Invoke();
@@ -251,7 +251,7 @@ public class GameManager : MonoSingleton<GameManager>
 		_descentSequence = Sequence.Create();
 
 		// Trigger Start Descent Event
-		if (_openedGrate)
+		if (_openedDoor)
 		{
 			_descentSequence.ChainCallback(() => _grateAnimancer.Play(_grateCloseAnim));
 			// _descentSequence.ChainDelay(_grateCloseAnim.length + 0.2f);
@@ -261,18 +261,18 @@ public class GameManager : MonoSingleton<GameManager>
 		_descentSequence.ChainDelay(_doorCloseAnim.length + 0.2f);
 		_descentSequence.Chain(Tween.Delay(closeDelay, () => OnStartDescent?.Invoke()));
 
-		// Workers Repair Engine
-		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
-		if (workerCount > 0)
-		{
-			_descentSequence.Chain(Tween.Delay(_engineRepairDelay, () => HandleWorkers()));
-		}
-
 		// Engine Deteriorates
 		_descentSequence.Chain(Tween.Delay(_transitionDelay, () => EngineDeteriorate()));
 		if (_gameOver)
 		{
 			return;
+		}
+
+		// Workers Repair Engine
+		int workerCount = CountNPCs(NpcRoles.Worker, includeSkinwalkers: false);
+		if (workerCount > 0)
+		{
+			_descentSequence.Chain(Tween.Delay(_engineRepairDelay, () => HandleWorkers()));
 		}
 
 		// Skinwalker Acts
@@ -292,7 +292,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private void ArriveAtNextFloor()
 	{
 		_currentFloor++;
-		_openedGrate = false;
+		_openedDoor = false;
 		NpcsFinishedMoving = true;
 		OnNewFloor?.Invoke();
 		_descendButtonPressed = false;
@@ -302,9 +302,9 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public void AcceptNpcs()
 	{
-		if (_currentFloor < LevelsData.LevelsList.Count && !_openedGrate)
+		if (_currentFloor < LevelsData.LevelsList.Count && !_openedDoor)
 		{
-			_openedGrate = true;
+			_openedDoor = true;
 			NpcsFinishedMoving = false;
 
 			PeopleOnElevator.AddRange(WorldState.Floors[_currentFloor].People);

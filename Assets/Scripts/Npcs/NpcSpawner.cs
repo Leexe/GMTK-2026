@@ -54,6 +54,7 @@ public class NpcSpawner : MonoBehaviour
 		GameManager.Instance.OnNewFloor += HandleNewFloor;
 		GameManager.Instance.OnStartDoorOpen += HandleDoorOpenDialogue;
 		GameManager.Instance.OnStartDescent += HandleStartDescent;
+		GameManager.Instance.OnEngineDamage += HandleWorkerRepair;
 		GameManager.Instance.OnEngineFix += HandleEngineRepair;
 		OnAllNpcsArrived += HandleGreetingDialogue;
 	}
@@ -67,6 +68,7 @@ public class NpcSpawner : MonoBehaviour
 			GameManager.Instance.OnStartDoorOpen -= HandleDoorOpenDialogue;
 			GameManager.Instance.OnEngineFix -= HandleEngineRepair;
 			GameManager.Instance.OnStartDescent -= HandleStartDescent;
+			GameManager.Instance.OnEngineDamage -= HandleWorkerRepair;
 		}
 		OnAllNpcsArrived -= HandleGreetingDialogue;
 		_repairDelayTween.Stop();
@@ -240,7 +242,10 @@ public class NpcSpawner : MonoBehaviour
 	private void HandleStartDescent()
 	{
 		HandleDescentDialogue();
+	}
 
+	private void HandleWorkerRepair()
+	{
 		ResetNpcs();
 
 		var workers = GameManager.Instance.PeopleOnElevator.Where(npc => npc.Role == NpcRoles.Worker).ToList();
