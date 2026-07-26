@@ -127,7 +127,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private void Start()
 	{
 		PrimeTweenConfig.warnZeroDuration = false;
-		ArriveAtNextFloor();
+		OnNewFloor?.Invoke();
 	}
 
 	private void InitializeWorld()

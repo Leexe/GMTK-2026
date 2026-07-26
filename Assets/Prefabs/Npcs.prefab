@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1588700897442230823}
   - component: {fileID: 3353710241338067789}
   m_Layer: 9
-  m_Name: Dude
+  m_Name: Npcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,6 +68,8 @@ MonoBehaviour:
   _lerpDelay: 2
   _lerpEase: 7
   _stepInterval: 0.4
+  _materialMap: {fileID: 11400000, guid: 2d163381e15ba4d23ba4322a9261a5aa, type: 2}
+  _walkMaterialInterval: 0.15
 --- !u!136 &1588700897442230823
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -608,7 +610,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 18e94f384de28b04f999a861bdd814e6, type: 2}
+  - {fileID: 2100000, guid: 691084d43afb19c4daa86f9a6696f3e2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
