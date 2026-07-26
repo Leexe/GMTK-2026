@@ -111,10 +111,11 @@ MonoBehaviour:
   _engineDeteriorateVariance: 0.9
   _elevatorOpenDelay: 2
   _elevatorDoorCloseDelay: 1
-  _transitionDelay: 2
+  _transitionDelay: 3.5
   _engineRepairDelay: 5
   _guardDelay: 6
   _skinWalkerDelay: 15
+  _forceHovers: []
   _grateAnimancer: {fileID: 0}
   _elevatorAnimancer: {fileID: 0}
   _grateOpenAnim: {fileID: 7400000, guid: 132d649ec7c0abb499ff492c23605836, type: 2}

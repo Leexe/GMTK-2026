@@ -472,6 +472,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		_descentSequence.Stop();
 		_timeSlowSequence.Stop();
+		AudioManager.Instance.StopMusic(false);
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(
 			UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex

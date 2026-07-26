@@ -28,6 +28,7 @@ public class GameSfxController : MonoBehaviour
 
 	private void Start()
 	{
+		AudioManager.Instance.StopMusic(false);
 		AudioManager.Instance.PlayAmbience("Ambience", FMODEvents.Instance.Ambience_Amb);
 		InitLoopInstances();
 		HandleEngineUpdate();
@@ -137,6 +138,7 @@ public class GameSfxController : MonoBehaviour
 		_creepySoundTween.Stop();
 		StopLoopInstances();
 		AudioManager.Instance.StopAmbience();
+		AudioManager.Instance.PlayMusic(FMODEvents.Instance.Lose_Bgm);
 
 		if (GameManager.Instance.EngineIntegrity <= 0)
 		{
