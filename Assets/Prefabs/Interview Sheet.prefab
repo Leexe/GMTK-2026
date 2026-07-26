@@ -765,7 +765,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sickass Questionnaire
+  m_text: Questionnaire
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa88754d46b854817815de65517e5a68, type: 2}
   m_sharedMaterial: {fileID: -5588105148639704165, guid: fa88754d46b854817815de65517e5a68, type: 2}
