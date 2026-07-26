@@ -23,10 +23,10 @@ MonoBehaviour:
     SerializationNodes: []
   Sounds:
   - Guid:
-      Data1: -2027182024
-      Data2: 1121936554
-      Data3: -1726554185
-      Data4: 1112198593
-    Path: event:/SFX/UI_Player/Clipboard
-  Frequency: 3
-  PitchVariation: {x: 1.7, y: 2}
+      Data1: 126762558
+      Data2: 1304697685
+      Data3: -1240111960
+      Data4: -35905723
+    Path: event:/SFX/UI_Player/Text
+  Frequency: 2
+  PitchVariation: {x: 0.92715234, y: 1.254967}

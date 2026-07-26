@@ -40,6 +40,7 @@ public class DialogueUIController : MonoBehaviour
 	{
 		DialogueManager.Instance.DialogueState.OnStartDialogue += OnUIOpen;
 		DialogueManager.Instance.DialogueState.OnEndStory += OnUIClose;
+		DialogueManager.Instance.DialogueState.OnDisplayDialogue += PlayContinueSfx;
 		_hoverTarget.OnHover += OnHover;
 		_hoverTarget.OnUnhover += OnUnhover;
 	}
@@ -50,6 +51,7 @@ public class DialogueUIController : MonoBehaviour
 		{
 			DialogueManager.Instance.DialogueState.OnStartDialogue -= OnUIOpen;
 			DialogueManager.Instance.DialogueState.OnEndStory -= OnUIClose;
+			DialogueManager.Instance.DialogueState.OnDisplayDialogue -= PlayContinueSfx;
 		}
 
 		_hoverTarget.OnHover -= OnHover;
@@ -99,5 +101,11 @@ public class DialogueUIController : MonoBehaviour
 			.Create()
 			.Chain(Tween.UIAnchoredPosition(_dialogueBoxTransform, targetPosition, _tweenDuration))
 			.Group(Tween.Rotation(_dialogueBoxTransform, targetRotation, _tweenDuration));
+	}
+
+	private void PlayContinueSfx(string _, string s1)
+	{
+		Debug.Log("Hello");
+		AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ForwardText_Sfx);
 	}
 }

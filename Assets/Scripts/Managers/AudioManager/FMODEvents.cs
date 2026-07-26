@@ -13,9 +13,17 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	[field: FoldoutGroup("Ambience", expanded: true)]
 	public EventReference Ambience_Amb { get; private set; }
 
+	[field: SerializeField]
+	[field: FoldoutGroup("Ambience", expanded: true)]
+	public EventReference CreepySound_Sfx { get; private set; }
+
 	#endregion
 
 	#region Music
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Music", expanded: true)]
+	public EventReference Win_Bgm { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Music", expanded: true)]
@@ -24,6 +32,7 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	#endregion
 
 	#region Sfx
+
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
@@ -78,17 +87,36 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 	public EventReference SoldierShot_Sfx { get; private set; }
 
 	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
+	public EventReference NpcChat_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
+	public EventReference NpcSad_Sfx { get; private set; }
+
+	[field: SerializeField]
 	[field: FoldoutGroup("UI", expanded: true)]
 	public EventReference Clipboard_Sfx { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("UI", expanded: true)]
-	public EventReference Death_Sfx { get; private set; }
+	public EventReference Documents_Sfx { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("UI", expanded: true)]
-	public EventReference Documents_Sfx { get; private set; }
+	public EventReference ForwardText_Sfx { get; private set; }
 
+	[field: SerializeField]
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Tablet_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference TabletText_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Misc", expanded: true)]
+	public EventReference PlayerDeath_Sfx { get; private set; }
 	#endregion
 
 	#region Loop Sfx
