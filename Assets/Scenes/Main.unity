@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &45283800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2908295519213467939, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+  m_PrefabInstance: {fileID: 2083370930}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &128293666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4007545580617975413, guid: ae91ebf63bdc749ef8a30cd968a432e7, type: 3}
@@ -189,7 +194,7 @@ GameObject:
   - component: {fileID: 198690984}
   - component: {fileID: 198690986}
   - component: {fileID: 198690985}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1035,7 +1040,7 @@ GameObject:
   - component: {fileID: 670836732}
   - component: {fileID: 670836734}
   - component: {fileID: 670836733}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Line Thingy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1331,6 +1336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 0
+  OutlineTarget: {fileID: 0}
 --- !u!114 &921290309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,6 +1444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 1
+  OutlineTarget: {fileID: 1049364215}
 --- !u!65 &1049364220
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6962,6 +6971,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 1
+  OutlineTarget: {fileID: 45283800}
 --- !u!1 &1629430683
 GameObject:
   m_ObjectHideFlags: 0
@@ -7237,7 +7248,7 @@ GameObject:
   - component: {fileID: 1742583534}
   - component: {fileID: 1742583533}
   - component: {fileID: 1742583531}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7344,6 +7355,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d679c83d9ba8b484a98cfbe96d3a764d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoverTarget
+  OutlineOnHover: 1
+  OutlineTarget: {fileID: 1826360576}
 --- !u!65 &1826360581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7770,6 +7783,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Indicator4
       objectReference: {fileID: 0}
+    - target: {fileID: -3818055003863388893, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -3415516188153245690, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_Name
       value: Health Indicator5
@@ -7786,9 +7803,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: bf637aa961107574c906e6660dcd929f, type: 2}
+    - target: {fileID: -2528577872740736716, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1805491191946365307, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_Name
       value: Arrow Button
+      objectReference: {fileID: 0}
+    - target: {fileID: -1805491191946365307, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -697876009969975700, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7809,6 +7834,10 @@ PrefabInstance:
     - target: {fileID: 55963034753199745, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.048
+      objectReference: {fileID: 0}
+    - target: {fileID: 156223536987004999, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_Name
@@ -7850,6 +7879,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c6d0aa6dd00adf046ad29d6af019d27d, type: 2}
+    - target: {fileID: 2908295519213467939, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3904027749007671168, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -7861,6 +7894,10 @@ PrefabInstance:
     - target: {fileID: 4358378476640196497, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.048
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440136938205496092, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4806518476934354688, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -7886,9 +7923,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0032501
       objectReference: {fileID: 0}
+    - target: {fileID: 5972075659866864634, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6153554810222829992, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_Name
       value: Circle Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153554810222829992, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6162033192022610097, guid: 87b4fe0975a250e4caa3c923a69a02c1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8119,7 +8164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1421844136410576700, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.158
+      value: 6.131
       objectReference: {fileID: 0}
     - target: {fileID: 1445720519645375717, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8203,7 +8248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7524341220692974587, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.158
+      value: 6.12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

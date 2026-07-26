@@ -64,6 +64,14 @@ public class NpcSpawner : MonoBehaviour
 		UnsubscribeFromActiveNpcs();
 	}
 
+	public void SetSelectedNpc(NpcController npc)
+	{
+		foreach (NpcController n in _activeNpcs)
+		{
+			n.SetSelected(n == npc);
+		}
+	}
+
 	// Called when OnNewFloor fires: spawns current floor's NPCs at spawn points and immediately moves them to rest points
 	private void HandleNewFloor()
 	{

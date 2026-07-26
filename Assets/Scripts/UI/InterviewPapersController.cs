@@ -87,10 +87,12 @@ public class InterviewPapersController : MonoBehaviour
 		if (_interviewResponses[npc.Person] != _currentShownInfo)
 		{
 			ShowInfo(_interviewResponses[npc.Person]);
+			NpcSpawner.SetSelectedNpc(npc);
 		}
 		else
 		{
 			HideInfo();
+			NpcSpawner.SetSelectedNpc(null);
 		}
 	}
 
