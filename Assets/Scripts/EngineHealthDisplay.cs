@@ -1,26 +1,15 @@
 using System.Collections.Generic;
-using PrimeTween;
+using TMPro;
 using UnityEngine;
 
 public class EngineHealthDisplay : MonoBehaviour
 {
 	public List<EmissiveLight> Lights;
-	public CanvasGroup CanvasGroup;
-	public HoverTarget HoverTarget;
-
-	[Header("Options")]
-	public float FadeDuration = 0.3f;
-	public float ShownAlpha = 0.4f;
-
-	private Tween _alphaTween;
+    public TMP_Text PercentText;
 
 	private void OnEnable()
 	{
 		GameManager.Instance.OnEngineUpdate += HandleEngineUpdate;
-		HoverTarget.OnHover += OnHover;
-		HoverTarget.OnUnhover += OnUnhover;
-
-		CanvasGroup.alpha = 0f;
 		HandleEngineUpdate();
 	}
 
@@ -30,28 +19,12 @@ public class EngineHealthDisplay : MonoBehaviour
 		{
 			GameManager.Instance.OnEngineUpdate -= HandleEngineUpdate;
 		}
-		if (HoverTarget != null)
-		{
-			HoverTarget.OnHover -= OnHover;
-			HoverTarget.OnUnhover -= OnUnhover;
-		}
-	}
-
-	private void OnHover()
-	{
-		_alphaTween.Stop();
-		_alphaTween = Tween.Alpha(CanvasGroup, ShownAlpha, FadeDuration);
-	}
-
-	private void OnUnhover()
-	{
-		_alphaTween.Stop();
-		_alphaTween = Tween.Alpha(CanvasGroup, 0f, FadeDuration);
 	}
 
 	private void HandleEngineUpdate()
 	{
 		UpdateLights(GameManager.Instance.EngineIntegrityNormalized);
+        PercentText.text = $"{Mathf.FloorToInt(GameManager.Instance.EngineIntegrityNormalized * 100f)}%";
 	}
 
 	private void UpdateLights(float normalizedHealth)
