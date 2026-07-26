@@ -1327,7 +1327,7 @@ Transform:
   m_GameObject: {fileID: 801858878}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3.589, y: 3.0458024, z: 6.141415}
+  m_LocalPosition: {x: -3.497, y: 3.0458024, z: 6.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12391,7 +12391,7 @@ Transform:
   m_GameObject: {fileID: 1643711151}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.77, y: 3.0521872, z: 6.13722}
+  m_LocalPosition: {x: 3.632, y: 3.0521872, z: 6.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13703,10 +13703,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC Spawner
       objectReference: {fileID: 0}
-    - target: {fileID: 330285912255634860, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4138979929355288392, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -13745,10 +13741,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4138979929355288392, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5588074635217351608, guid: c6cc96b9e334b4370a9bba81e6503b45, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -13805,37 +13797,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _doorOpenAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: bc982b3256f5b0c4eb53620177c1190e, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _doorCloseAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: e2bce531202d53c49a86a31e0fa47c5f, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _grateOpenAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 132d649ec7c0abb499ff492c23605836, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _grateAnimancer
-      value: 
-      objectReference: {fileID: 2019615545}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _grateCloseAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 5c0099e36e36bf54fbe5be3bb009bd7f, type: 2}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _transitionDelay
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
-      propertyPath: _elevatorAnimancer
-      value: 
-      objectReference: {fileID: 1484553289}
-    - target: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4283861355044775848, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
     - target: {fileID: 6235297930472088742, guid: 07a80ba2e1bd24e4ab5fbf24bd867ab8, type: 3}
       propertyPath: m_Name
       value: Game Manager
@@ -13900,11 +13864,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1182734216, guid: 61f60e70e2f23844ebebee96dd15fb7b, type: 3}
     - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: GuardMugSprite
+      value: 
+      objectReference: {fileID: 1656251719, guid: 7314c371b466ff14397773725894806c, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: GuardIconSprite
+      value: 
+      objectReference: {fileID: 1717221693, guid: 61f60e70e2f23844ebebee96dd15fb7b, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: WorkerMugSprite
+      value: 
+      objectReference: {fileID: 1301654019, guid: 7314c371b466ff14397773725894806c, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: SkinwalkerSprite
       value: 
       objectReference: {fileID: -1073804998, guid: f2492e2b5e4d4c84a87cad396fb829b2, type: 3}
     - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: WorkerIconSprite
+      value: 
+      objectReference: {fileID: 1182734216, guid: 61f60e70e2f23844ebebee96dd15fb7b, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
       propertyPath: PsychologistSprite
+      value: 
+      objectReference: {fileID: -651578549, guid: 61f60e70e2f23844ebebee96dd15fb7b, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: PsychologistMugSprite
+      value: 
+      objectReference: {fileID: 718764290, guid: 7314c371b466ff14397773725894806c, type: 3}
+    - target: {fileID: 2815539225920882051, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
+      propertyPath: PsychologistIconSprite
       value: 
       objectReference: {fileID: -651578549, guid: 61f60e70e2f23844ebebee96dd15fb7b, type: 3}
     - target: {fileID: 3909990029513357534, guid: 58e6dd301447fcc48b898ccd5b2f4853, type: 3}
