@@ -27,7 +27,11 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
-	public EventReference ElevatorOpen_Sfx { get; private set; }
+	public EventReference ElevatorArrive_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorBeep_Sfx { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
@@ -35,11 +39,43 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 
 	[field: SerializeField]
 	[field: FoldoutGroup("Elevator Noises", expanded: true)]
-	public EventReference ElevatorDescend_Sfx { get; private set; }
+	public EventReference SkinwalkerEncounter_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorFalling_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorLightsOut_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorOpen_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Generator", expanded: true)]
+	public EventReference EngineDamage_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Generator", expanded: true)]
+	public EventReference EngineExplode_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Generator", expanded: true)]
+	public EventReference EngineFix_Sfx { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("NPCs", expanded: true)]
 	public EventReference Footsteps_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
+	public EventReference NpcDeath_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("NPCs", expanded: true)]
+	public EventReference SoldierShot_Sfx { get; private set; }
 
 	[field: SerializeField]
 	[field: FoldoutGroup("UI", expanded: true)]
@@ -47,7 +83,27 @@ public class FMODEvents : MonoSingleton<FMODEvents>
 
 	[field: SerializeField]
 	[field: FoldoutGroup("UI", expanded: true)]
+	public EventReference Death_Sfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("UI", expanded: true)]
 	public EventReference Documents_Sfx { get; private set; }
+
+	#endregion
+
+	#region Loop Sfx
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Elevator Noises", expanded: true)]
+	public EventReference ElevatorDescend_LoopSfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Generator", expanded: true)]
+	public EventReference EngineLow_LoopSfx { get; private set; }
+
+	[field: SerializeField]
+	[field: FoldoutGroup("Generator", expanded: true)]
+	public EventReference EngineRunning_LoopSfx { get; private set; }
 
 	#endregion
 }
